@@ -25,8 +25,7 @@ public class testRPG{
         static private int camera_x,camera_y,camera_w,camera_h;
         static final int WORLD_W,WORLD_H;
         private float gunRotation = 0;
-        private Box box;
-        private int maxSpeed = 20,speed = 0;
+        private int maxSpeed = 20,speed = 2;
         private boolean keyControlRelease;
        
         
@@ -61,12 +60,8 @@ public class testRPG{
             
             //initial texture
             map = new Map();
-            sprite = loadTexture("gun.png");
-            player = new Entity(sprite, map, 81f, 81f);
-           
-            //initial box
-            //box = new Box(0,0,100,50);
-            //box = new Box(0,0,sprite.getImageWidth(),sprite.getImageHeight());
+            player = new Entity(map, 81f, 81f);
+            player.setPositionToMap(2,3);
                    
             //initialization opengl code
             glMatrixMode(GL_PROJECTION);
@@ -82,7 +77,6 @@ public class testRPG{
             while(!Display.isCloseRequested()){
             	//clear screen
                 glClear(GL_COLOR_BUFFER_BIT);
-                Display.setTitle(String.valueOf(Mouse.getX())+"\n");
                
                 input();
                
@@ -100,8 +94,6 @@ public class testRPG{
                 
                 //draw
                 map.draw();
-                
-                sprite.bind();
                 player.draw();
                
                 //set camera
@@ -117,6 +109,11 @@ public class testRPG{
         }
        
         private void input() {
+        	boolean KEY_W = Keyboard.isKeyDown(Keyboard.KEY_W);
+        	boolean KEY_S = Keyboard.isKeyDown(Keyboard.KEY_S);
+        	boolean KEY_D = Keyboard.isKeyDown(Keyboard.KEY_D);
+        	boolean KEY_A = Keyboard.isKeyDown(Keyboard.KEY_A);
+        	
             if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
             	Display.destroy();
                 System.exit(0);
@@ -168,32 +165,55 @@ public class testRPG{
                     }
                 }
             }*/
-            
-            //control
-            if(Keyboard.isKeyDown(Keyboard.KEY_W)){
-            	player.move(0, -5);
+            float tmpAng = 0;
+            if(KEY_W){
+            	tmpAng = 90;
+            	if(KEY_A)
+            		tmpAng = 45;
+            	if(KEY_D)
+            		tmpAng = 135;
+            	player.move(0, -speed,tmpAng);
                 camera_y -= 5; 
             }
-            if(Keyboard.isKeyDown(Keyboard.KEY_S)){
-            	player.move(0, 5);
+            if(KEY_S){
+            	tmpAng = 270;
+            	if(KEY_A)
+            		tmpAng = 315;
+            	if(KEY_D)
+            		tmpAng = 225;
+            	player.move(0, speed,tmpAng);
                 camera_y += 5;
             }
-            if(Keyboard.isKeyDown(Keyboard.KEY_D)){
-            	player.move(5, 0);
+            if(KEY_D){
+            	tmpAng = 180;
+            	if(KEY_W)
+            		tmpAng = 135;
+            	if(KEY_S)
+            		tmpAng = 225;
+            	player.move(speed, 0,tmpAng);
                 camera_x += 5;
             }
-            if(Keyboard.isKeyDown(Keyboard.KEY_A)){
-            	player.move(-5, 0);
+            if(KEY_A){
+            	tmpAng = 0;
+            	if(KEY_W)
+            		tmpAng = 45;
+            	if(KEY_S)
+            		tmpAng = 315;
+            	player.move(-speed, 0,tmpAng);
                 camera_x -= 5;
             }
-            //System.out.println("camera at "+camera_x+","+camera_y);
 		}
         
         private void setCamera(){
+        	// mouse position (0,0) at center screen
         	float mouseX = (Mouse.getX() - camera_w/2)*0.5f;
         	float mouseY = (Mouse.getY() - camera_h/2)*0.5f;
         	
-        	//Display.setTitle(String.valueOf(gunRotation));
+        	String str = String.valueOf(gunRotation);
+        	
+        	// Mouse.getX(),Mouse.getY() position (0,0) at bottom left
+        	//Display.setTitle(str);
+        	//gunRotation = 57.2957795f*(float)Math.atan2(camera_h/2 - Mouse.getY(),Mouse.getX() - camera_w/2);
         	gunRotation = 57.2957795f*(float)Math.atan2(camera_h/2 - Mouse.getY(),Mouse.getX() - camera_w/2);
         	gunRotation += 180;
         	player.setGunAngle(gunRotation);
@@ -202,17 +222,6 @@ public class testRPG{
         	camera_y = -(int)mouseY + (player.get_centerY() - camera_h/2);
         }
 
-		private Texture loadTexture(String key){
-        	try {
-                return TextureLoader.getTexture("JPG", new FileInputStream(new File("res/"+key)));
-        	} catch (FileNotFoundException e) {
-                e.printStackTrace();
-        	} catch (IOException e) {
-                e.printStackTrace();
-        	}
-        	return null;
-        }
-		
 		private ByteBuffer loadIcon(URL url) throws IOException {
             InputStream is = url.openStream();
             try {
@@ -223,66 +232,6 @@ public class testRPG{
                 return bb;
             } finally {
                 is.close();
-            }
-        }
-       
-        private static class Box{
-        	private int x,y;
-            private int width,height;
-           
-            public Box(int x ,int y,int width ,int height){
-            	this.x = x;
-                this.y = y;
-                this.width = width;
-                this.height = height;
-            }
-           
-            public void draw(){
-            	glBegin(GL_QUADS);
-                	glTexCoord2f(0,0);
-                	glVertex2f(x ,y );//upper left
-                	glTexCoord2f(1,0);
-                	glVertex2f(x+width ,y);//upper right
-                	glTexCoord2f(1,1);
-                	glVertex2f(x+width ,y+height);//bottom right
-                	glTexCoord2f(0,1);
-                	glVertex2f(x ,y+height);//bottom left
-                glEnd();
-                //apply_surface( box.x - camera.x ,box.y - camera.y ,sprite ,screen);
-            }
-           
-            public void move(int getX ,int getY){
-            	x += getX;
-                if(x<0){
-                	x=0;
-                }
-                if(x>WORLD_W-width){
-                	x=WORLD_W-width;
-                }
-                y += getY;
-                if(y<0){
-                	y=0;
-                }
-                if(y>WORLD_H-height){
-                	y=WORLD_H-height;
-                }
-                //System.out.println(x +" "+y);
-            }
-           
-            public int get_centerX(){
-                    return x+width/2;
-            }
-           
-            public int get_centerY(){
-                    return y+height/2;
-            }
-           
-            public int get_w(){
-                    return width;
-            }
-           
-            public int get_h(){
-                    return height;
             }
         }
        

@@ -13,57 +13,61 @@ import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Random;
 
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
 public class Map {
-	private static final int NULL = 0;
-	private static final int CLEAR = 1;
-	private static final int BLOCKED = 2;
-	private static final int WIDTH = 30;
-	private static final int HEIGHT = 30;
-	public static final int TILE_SIZE = 64;
-	private int[][] mapData = new int[WIDTH][HEIGHT];
-	
-	private Texture tileNULL;
-	private Texture tileCLEAR;
-	private Texture tileBLOCK;
+	private HashMap<String, Texture> textureTable = new HashMap<String, Texture>();
+	private static final int GROUND = 0;
+	private static final int BLOCKED = 1;
+	private static final int NULL = 2;
+	private int[][] mapData;
+	private static int WIDTH;
+	private static int HEIGHT;
+	public static int TILE_SIZE = 50;
 
-	public Map() {
+	// flip bottom left to top right
+	private int[][] convertArrayAndRandomTilePic(int[][] mapData){
+		int WIDTH = mapData.length;
+		int HEIGHT = mapData[0].length;
+		int[][] tmp = new int[HEIGHT][WIDTH];
 		for (int x=0;x<WIDTH;x++) {
 			for (int y=0;y<HEIGHT;y++) {
-				mapData[x][y] = CLEAR;
+				if(mapData[x][y] == GROUND)
+					tmp[y][x] = mapData[x][y]*10+(new Random().nextInt(5) +1);	// random 1-5
+				if(mapData[x][y] == BLOCKED)
+					tmp[y][x] = mapData[x][y]*10+(new Random().nextInt(9) +1);	// random 1-9
+				if(mapData[x][y] == NULL)
+					tmp[y][x] = mapData[x][y]*10;
 			}
 		}
-		for (int y=0;y<HEIGHT;y++) {
-			mapData[0][y] = BLOCKED;
-			mapData[2][y] = BLOCKED;
-			mapData[7][y] = BLOCKED;
-			mapData[11][y] = BLOCKED;
-			mapData[WIDTH-1][y] = BLOCKED;
-		}
-		for (int x=0;x<WIDTH;x++) {
-			if ((x > 0) && (x < WIDTH-1)) {
-				mapData[x][10] = CLEAR;
-			}
-			
-			if (x > 2) {
-				mapData[x][9] = BLOCKED;
-			}
-			mapData[x][0] = BLOCKED;
-			mapData[x][HEIGHT-1] = BLOCKED;
-		}
-		mapData[0][0] = NULL;
-		mapData[4][9] = CLEAR;
-		mapData[7][5] = CLEAR;
-		mapData[7][4] = CLEAR;
-		mapData[11][7] = CLEAR;
-		
+		return tmp;
+	}
+	
+	private Texture loadTexture(String name) throws FileNotFoundException, IOException{
+		return TextureLoader.getTexture("JPG", new FileInputStream(new File("D://JavaGameWorkspace//testRPG//res//"+name+".jpg")));
+	}
+	
+	public Map() {
+		mapData = new int[][]{
+		        { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 },
+		        { 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		        { 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		        { 1, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1 },
+		        { 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1 }
+		};
+		mapData = convertArrayAndRandomTilePic(mapData);
 		try {
-			tileNULL = TextureLoader.getTexture("JPG", new FileInputStream(new File("D://JavaGameWorkspace//testRPG//res//null.jpg")));
-			tileCLEAR = TextureLoader.getTexture("JPG", new FileInputStream(new File("D://JavaGameWorkspace//testRPG//res//clear.jpg")));
-			tileBLOCK = TextureLoader.getTexture("JPG", new FileInputStream(new File("D://JavaGameWorkspace//testRPG//res//block.jpg")));
+			textureTable.put(String.valueOf(NULL),loadTexture("null"));
+			for(int i = 1;i <= 5;i++)
+				textureTable.put(String.valueOf(i),loadTexture("ground"+i));
+			for(int i = 1;i <= 9;i++)
+				textureTable.put(String.valueOf(BLOCKED)+String.valueOf(i),loadTexture("block"+i));
 	    } catch (FileNotFoundException e) { 
 	        e.printStackTrace();
 	    } catch (IOException e) {
@@ -72,30 +76,16 @@ public class Map {
 	}
 	
 	public void draw() {
-		
+		Texture tex;
+		WIDTH = mapData.length;
+		HEIGHT = mapData[0].length;
 		for (int x=0;x<WIDTH;x++) {
 			for (int y=0;y<HEIGHT;y++) {
-				if (mapData[x][y] == NULL) {
-					tileNULL.bind();
-				}
-				if (mapData[x][y] == CLEAR) {
-					tileCLEAR.bind();
-				}
-				if (mapData[x][y] == BLOCKED) {
-					tileBLOCK.bind();
-				}
+				tex = textureTable.get(String.valueOf(mapData[x][y]));
+				tex.bind();
 				glPushMatrix();
 				glTranslatef(x*TILE_SIZE, y*TILE_SIZE, 0);
-				glBegin(GL_QUADS);
-            		/*glTexCoord2f(0,0);
-            		glVertex2f(x ,y );//upper left
-            		glTexCoord2f(1,0);
-            		glVertex2f(x*TILE_SIZE ,y);//upper right
-            		glTexCoord2f(1,1);
-            		glVertex2f(x*TILE_SIZE ,y*TILE_SIZE);//bottom right
-            		glTexCoord2f(0,1);
-            		glVertex2f(x ,y*TILE_SIZE);//bottom left*/
-				
+				glBegin(GL_QUADS);				
 					glTexCoord2f(0, 0);
 					glVertex2f(0, 0);
 					glTexCoord2f(1, 0);
@@ -106,18 +96,12 @@ public class Map {
 					glVertex2f(0, TILE_SIZE);
 				glEnd();
             	glPopMatrix();
-                
-				// draw the rectangle with a dark outline
-				/*g.fillRect(x*TILE_SIZE,y*TILE_SIZE,TILE_SIZE,TILE_SIZE);
-				if(g.getColor() != Color.black)
-					g.setColor(Color.darkGray.darker());
-				g.drawRect(x*TILE_SIZE,y*TILE_SIZE,TILE_SIZE,TILE_SIZE);*/
 			}
 		}
 	}
 	
 	/** True if the location is blocked */
 	public boolean blocked(int x, int y) {
-		return mapData[(int) x][(int) y] == BLOCKED;
+		return mapData[(int) x][(int) y] > 10;
 	}
 }

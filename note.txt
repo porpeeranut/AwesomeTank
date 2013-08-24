@@ -1,0 +1,18 @@
+
+body anima
+fire anima
+bullet anima
+block anima
+bot (tank,Turrets)
+HP
+fire delay
+
+#feature
+fog
+freeze
+
+gold
+speed up
+turret
+armor
+gun
