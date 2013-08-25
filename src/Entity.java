@@ -6,14 +6,11 @@ import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
-import java.awt.Graphics2D;
-import java.awt.Image;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
-import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
@@ -28,9 +25,9 @@ public class Entity {
 	private float gunAngle;
 	private int bodyAngle = 0;
 	private int deltaAng = 3;
-	private float size;
+	private float halfSize;
 
-	public Entity(Map map, float x, float y) {
+	public Entity(Map map) {
 		this.gun = loadTexture("gun.png");
 		this.body = loadTexture("body.png");
 		this.map = map;
@@ -38,7 +35,7 @@ public class Entity {
         this.height = 40;
         this.x = (int)x;
 		this.y = (int)y;
-		this.size = width/2;
+		this.halfSize = width/2;
 	}
 	
 	public void move(float dx, float dy,float setAng){
@@ -59,8 +56,8 @@ public class Entity {
 		
 		if(bodyAngle == 360)
 			bodyAngle = 0;
-		if(bodyAngle == -3)
-			bodyAngle = 357;
+		if(bodyAngle == -deltaAng)
+			bodyAngle = 360-deltaAng;
 		
 		if (validLocation(nx, ny)) {
 			x = (int)nx;
@@ -73,10 +70,10 @@ public class Entity {
 	}
 	
 	public boolean validLocation(float nx, float ny) {
-		int nxN = (int)(nx-size)/map.TILE_SIZE;
-		int nyN = (int)(ny-size)/map.TILE_SIZE;
-		int nxP = (int)(nx+size)/map.TILE_SIZE;
-		int nyP = (int)(ny+size)/map.TILE_SIZE;
+		int nxN = (int)(nx-halfSize)/map.TILE_SIZE;
+		int nyN = (int)(ny-halfSize)/map.TILE_SIZE;
+		int nxP = (int)(nx+halfSize)/map.TILE_SIZE;
+		int nyP = (int)(ny+halfSize)/map.TILE_SIZE;
 		
 		if (map.blocked(nxN, nyN)) {
 			return false;

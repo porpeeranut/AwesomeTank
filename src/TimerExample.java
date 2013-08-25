@@ -8,7 +8,9 @@ import org.lwjgl.opengl.GL11;
 public class TimerExample {
 
 	float x = 400, y = 300;
+	float a = 600, b = 500;
 	float rotation = 0;
+	float rotationT = 0;
 	long lastFrame;
 	int fps;
 	long lastFPS;
@@ -39,15 +41,34 @@ public class TimerExample {
 		Display.destroy();
 	}
 	
+	public void initGL() {
+		GL11.glMatrixMode(GL11.GL_PROJECTION);
+		GL11.glLoadIdentity();
+		GL11.glOrtho(0, 800, 0, 600, 1, -1);
+		GL11.glMatrixMode(GL11.GL_MODELVIEW);
+	}
+	
 	public void update(int delta) {
 		// rotate quad
-		rotation += 0.15f * delta;
+		rotation += 0.55f * delta;
+		rotationT += 7;
 		
-		if (Keyboard.isKeyDown(Keyboard.KEY_LEFT)) x -= 0.35f * delta;
-		if (Keyboard.isKeyDown(Keyboard.KEY_RIGHT)) x += 0.35f * delta;
+		if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+        	Display.destroy();
+            System.exit(0);
+        }
 		
-		if (Keyboard.isKeyDown(Keyboard.KEY_UP)) y -= 0.35f * delta;
-		if (Keyboard.isKeyDown(Keyboard.KEY_DOWN)) y += 0.35f * delta;
+		if (Keyboard.isKeyDown(Keyboard.KEY_A)) x -= 0.35f * delta;
+		if (Keyboard.isKeyDown(Keyboard.KEY_D)) x += 0.35f * delta;
+		
+		if (Keyboard.isKeyDown(Keyboard.KEY_W)) y += 0.35f * delta;
+		if (Keyboard.isKeyDown(Keyboard.KEY_S)) y -= 0.35f * delta;
+		
+		if (Keyboard.isKeyDown(Keyboard.KEY_A)) a -= 3;
+		if (Keyboard.isKeyDown(Keyboard.KEY_D)) a += 3;
+		
+		if (Keyboard.isKeyDown(Keyboard.KEY_W)) b += 3;
+		if (Keyboard.isKeyDown(Keyboard.KEY_S)) b -= 3;
 		
 		// keep quad on the screen
 		if (x < 0) x = 0;
@@ -92,13 +113,6 @@ public class TimerExample {
 		}
 		fps++;
 	}
-	
-	public void initGL() {
-		GL11.glMatrixMode(GL11.GL_PROJECTION);
-		GL11.glLoadIdentity();
-		GL11.glOrtho(0, 800, 0, 600, 1, -1);
-		GL11.glMatrixMode(GL11.GL_MODELVIEW);
-	}
 
 	public void renderGL() {
 		// Clear The Screen And The Depth Buffer
@@ -109,16 +123,30 @@ public class TimerExample {
 
 		// draw quad
 		GL11.glPushMatrix();
-			GL11.glTranslatef(x, y, 0);
-			GL11.glRotatef(rotation, 0f, 0f, 1f);
-			GL11.glTranslatef(-x, -y, 0);
-			
+			GL11.glTranslatef(a, b, 0);
+			GL11.glRotatef(rotationT, 0f, 0f, 1f);
+			GL11.glTranslatef(-a, -b, 0);
+	
+			GL11.glBegin(GL11.GL_QUADS);
+				GL11.glVertex2f(a - 50, b - 50);
+				GL11.glVertex2f(a + 50, b - 50);
+				GL11.glVertex2f(a + 50, b + 50);
+				GL11.glVertex2f(a - 50, b + 50);
+			GL11.glEnd();
+		GL11.glPopMatrix();
+		
+		GL11.glPushMatrix();
+		GL11.glTranslatef(x, y, 0);
+		GL11.glRotatef(rotation, 0f, 0f, 1f);
+		GL11.glTranslatef(-x, -y, 0);
+		
 			GL11.glBegin(GL11.GL_QUADS);
 				GL11.glVertex2f(x - 50, y - 50);
 				GL11.glVertex2f(x + 50, y - 50);
 				GL11.glVertex2f(x + 50, y + 50);
 				GL11.glVertex2f(x - 50, y + 50);
 			GL11.glEnd();
+			
 		GL11.glPopMatrix();
 	}
 	

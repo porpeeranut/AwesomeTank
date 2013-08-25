@@ -36,13 +36,19 @@ public class Map {
 		int[][] tmp = new int[HEIGHT][WIDTH];
 		for (int x=0;x<WIDTH;x++) {
 			for (int y=0;y<HEIGHT;y++) {
+				/** GROUND  1-14
+				 *  BLOCKED 101-109
+				 *  NULL    200
+				 * */
 				if(mapData[x][y] == GROUND)
-					tmp[y][x] = mapData[x][y]*10+(new Random().nextInt(5) +1);	// random 1-5
+					tmp[y][x] = new Random().nextInt(14) +1;	// random 1-14
 				if(mapData[x][y] == BLOCKED)
-					tmp[y][x] = mapData[x][y]*10+(new Random().nextInt(9) +1);	// random 1-9
+					tmp[y][x] = 100+(new Random().nextInt(9) +1);	// random 1-9
 				if(mapData[x][y] == NULL)
-					tmp[y][x] = mapData[x][y]*10;
+					tmp[y][x] = mapData[x][y]*100;
+				System.out.println(tmp[y][x]+"\n");
 			}
+			System.out.println("\n");
 		}
 		return tmp;
 	}
@@ -63,11 +69,11 @@ public class Map {
 		};
 		mapData = convertArrayAndRandomTilePic(mapData);
 		try {
-			textureTable.put(String.valueOf(NULL),loadTexture("null"));
-			for(int i = 1;i <= 5;i++)
+			textureTable.put(String.valueOf(100*(int)NULL),loadTexture("null"));
+			for(int i = 1;i <= 14;i++)
 				textureTable.put(String.valueOf(i),loadTexture("ground"+i));
 			for(int i = 1;i <= 9;i++)
-				textureTable.put(String.valueOf(BLOCKED)+String.valueOf(i),loadTexture("block"+i));
+				textureTable.put(String.valueOf(i+100),loadTexture("block"+i));
 	    } catch (FileNotFoundException e) { 
 	        e.printStackTrace();
 	    } catch (IOException e) {
@@ -102,6 +108,6 @@ public class Map {
 	
 	/** True if the location is blocked */
 	public boolean blocked(int x, int y) {
-		return mapData[(int) x][(int) y] > 10;
+		return mapData[(int) x][(int) y] > 100 && mapData[(int) x][(int) y] < 200;
 	}
 }

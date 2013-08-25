@@ -19,7 +19,6 @@ import org.newdawn.slick.opengl.TextureLoader;
 import de.matthiasmann.twl.utils.PNGDecoder;
  
 public class testRPG{
-        private Texture sprite;
         private Map map;
         private Entity player;
         static private int camera_x,camera_y,camera_w,camera_h;
@@ -48,6 +47,7 @@ public class testRPG{
 			} catch (IOException e1) {
 				e1.printStackTrace();
 			}
+            Mouse.setGrabbed(true);
 
             //initial display
             try {
@@ -60,7 +60,7 @@ public class testRPG{
             
             //initial texture
             map = new Map();
-            player = new Entity(map, 81f, 81f);
+            player = new Entity(map);
             player.setPositionToMap(2,3);
                    
             //initialization opengl code

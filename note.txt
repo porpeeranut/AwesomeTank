@@ -1,11 +1,13 @@
 
-body anima
 fire anima
-bullet anima
-block anima
-bot (tank,Turrets)
 HP
 fire delay
+bot (tank,Turrets)
+body anima
+bullet anima
+block anima
+esc pause
+next level
 
 #feature
 fog
@@ -16,3 +18,119 @@ speed up
 turret
 armor
 gun
+
+--------------
+##entity
+Entity(map)
+x,y
+dx,dy
+width,height
+hp
+map
+me,him
+collidedWith(other)
+draw()
+setPositionToMap(x,y)
+loadTexture(key)
+--------------
+## mytank
+x,y
+dx,dy
+width,height
+texture body+ang
+	shot
+	gun+ang
+	bomb
+hp
+map
+collidedWith(other)
+move(dx,dy,setAng)
+
+## bullet
+x,y
+dx,dy
+Range
+speed
+width,height
+texture body
+	collide
+collidedWith(other)
+move(dx,dy,setAng)
+
+## enemytank
+x,y
+dx,dy
+width,height
+texture body+ang
+	shot
+	gun+ang
+	bomb
+	hp bar
+hp
+collidedWith(other)
+
+## enemyturret
+x,y
+width,height
+texture body+ang
+	shot
+	gun+ang
+	bomb
+	hp bar
+hp
+collidedWith(other)
+
+## brick
+x,y
+width,height
+texture body
+	shot
+	bomb
+	hp bar
+hp
+collidedWith(other)
+
+## box
+x,y
+width,height
+texture body
+	shot
+	bomb
+	hp bar
+hp
+collidedWith(other)
+
+## wallbomb
+x,y
+width,height
+texture body
+	shot
+	bomb
+	hp bar
+hp
+bomb()
+collidedWith(other)
+
+## oiltank
+x,y
+width,height
+texture body
+	shot
+	bomb
+	hp bar
+hp
+bomb()
+collidedWith(other)
+
+
+
+
+
+
+
+
+
+
+
+
+
