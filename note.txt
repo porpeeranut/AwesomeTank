@@ -1,3 +1,7 @@
+0.4 restruct all class
+
+-move(delta)
+-check validLocation
 
 fire anima
 HP
@@ -9,7 +13,7 @@ block anima
 esc pause
 next level
 
-#feature
+## feature
 fog
 freeze
 
@@ -19,7 +23,7 @@ turret
 armor
 gun
 
---------------
+--------------------------------------------------
 ##entity
 Entity(map)
 x,y
@@ -32,105 +36,111 @@ collidedWith(other)
 draw()
 setPositionToMap(x,y)
 loadTexture(key)
---------------
+--------------------------------------------------
 ## mytank
 x,y
 dx,dy
 width,height
+hp
+map
+collidedWith(other)
+
 texture body+ang
 	shot
 	gun+ang
 	bomb
-hp
-map
-collidedWith(other)
+bullet
 move(dx,dy,setAng)
-
+--------------------------------------------------
 ## bullet
 x,y
 dx,dy
+width,height
+map
+collidedWith(other)
+
 Range
 speed
-width,height
 texture body
 	collide
-collidedWith(other)
 move(dx,dy,setAng)
-
+--------------------------------------------------
 ## enemytank
 x,y
 dx,dy
 width,height
+hp
+map
+collidedWith(other)
+
 texture body+ang
 	shot
 	gun+ang
 	bomb
 	hp bar
-hp
-collidedWith(other)
-
+bullet
+move(dx,dy,setAng)
+--------------------------------------------------
 ## enemyturret
 x,y
 width,height
+hp
+map
+collidedWith(other)
+
 texture body+ang
 	shot
 	gun+ang
 	bomb
 	hp bar
-hp
-collidedWith(other)
-
+bullet
+--------------------------------------------------
 ## brick
 x,y
 width,height
+hp
+map
+collidedWith(other)
+
 texture body
 	shot
 	bomb
 	hp bar
-hp
-collidedWith(other)
-
+--------------------------------------------------
 ## box
 x,y
 width,height
+hp
+map
+collidedWith(other)
+
 texture body
 	shot
 	bomb
 	hp bar
-hp
-collidedWith(other)
-
+--------------------------------------------------
 ## wallbomb
 x,y
 width,height
+hp
+map
+collidedWith(other)
+
 texture body
 	shot
 	bomb
 	hp bar
-hp
 bomb()
-collidedWith(other)
-
+--------------------------------------------------
 ## oiltank
 x,y
 width,height
+hp
+map
+collidedWith(other)
+
 texture body
 	shot
 	bomb
 	hp bar
-hp
 bomb()
-collidedWith(other)
-
-
-
-
-
-
-
-
-
-
-
-
-

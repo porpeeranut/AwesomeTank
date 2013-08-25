@@ -20,7 +20,7 @@ import de.matthiasmann.twl.utils.PNGDecoder;
  
 public class testRPG{
         private Map map;
-        private Entity player;
+        private MyTank player;
         static private int camera_x,camera_y,camera_w,camera_h;
         static final int WORLD_W,WORLD_H;
         private float gunRotation = 0;
@@ -51,7 +51,7 @@ public class testRPG{
 
             //initial display
             try {
-            	Display.setTitle("scrolling");
+            	Display.setTitle("Awesome Tank");
                 Display.setDisplayMode(new DisplayMode(camera_w, camera_h));
                 Display.create();
             } catch (LWJGLException e) {
@@ -60,7 +60,7 @@ public class testRPG{
             
             //initial texture
             map = new Map();
-            player = new Entity(map);
+            player = new MyTank(map);
             player.setPositionToMap(2,3);
                    
             //initialization opengl code
@@ -218,8 +218,8 @@ public class testRPG{
         	gunRotation += 180;
         	player.setGunAngle(gunRotation);
 
-        	camera_x = (int)mouseX + (player.get_centerX() - camera_w/2);
-        	camera_y = -(int)mouseY + (player.get_centerY() - camera_h/2);
+        	camera_x = (int)mouseX + (int)(player.get_centerX() - camera_w/2);
+        	camera_y = -(int)mouseY + (int)(player.get_centerY() - camera_h/2);
         }
 
 		private ByteBuffer loadIcon(URL url) throws IOException {
