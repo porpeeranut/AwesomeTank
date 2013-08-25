@@ -24,9 +24,13 @@ public class testRPG{
         static private int camera_x,camera_y,camera_w,camera_h;
         static final int WORLD_W,WORLD_H;
         private float gunRotation = 0;
+        float bodyAng = 0;
         private int maxSpeed = 20,speed = 2;
         private boolean keyControlRelease;
-       
+        private static long timerTicksPerSecond = Sys.getTimerResolution();
+        private long lastLoopTime = getTime();
+        private long lastFpsTime;
+        private int fps;
         
         static{
         	//initial world size
@@ -51,7 +55,6 @@ public class testRPG{
 
             //initial display
             try {
-            	Display.setTitle("Awesome Tank");
                 Display.setDisplayMode(new DisplayMode(camera_w, camera_h));
                 Display.create();
             } catch (LWJGLException e) {
@@ -77,8 +80,18 @@ public class testRPG{
             while(!Display.isCloseRequested()){
             	//clear screen
                 glClear(GL_COLOR_BUFFER_BIT);
-               
-                input();
+                
+                long delta = getTime() - lastLoopTime;
+        		lastLoopTime = getTime();
+        		lastFpsTime += delta;
+        		fps++;
+
+        		// update our FPS
+        		if (lastFpsTime >= 1000) {
+        			Display.setTitle("Awesome Tank (FPS: " + fps + ")");
+        			lastFpsTime = 0;
+        			fps = 0;
+        		}
                
                 /*sky.bind();
                 glBegin(GL_QUADS);
@@ -91,6 +104,9 @@ public class testRPG{
                 	glTexCoord2f(0,1);
                 	glVertex2f(0 ,WORLD_H);//bottom left
                 glEnd();*/
+                
+                input();
+                player.move(delta, bodyAng);
                 
                 //draw
                 map.draw();
@@ -165,41 +181,43 @@ public class testRPG{
                     }
                 }
             }*/
-            float tmpAng = 0;
+            
+            player.setDX(0);
+            player.setDY(0);
             if(KEY_W){
-            	tmpAng = 90;
+            	bodyAng = 90;
             	if(KEY_A)
-            		tmpAng = 45;
+            		bodyAng = 45;
             	if(KEY_D)
-            		tmpAng = 135;
-            	player.move(0, -speed,tmpAng);
+            		bodyAng = 135;
+            	player.setDY(-speed);
                 camera_y -= 5; 
             }
             if(KEY_S){
-            	tmpAng = 270;
+            	bodyAng = 270;
             	if(KEY_A)
-            		tmpAng = 315;
+            		bodyAng = 315;
             	if(KEY_D)
-            		tmpAng = 225;
-            	player.move(0, speed,tmpAng);
+            		bodyAng = 225;
+            	player.setDY(speed);
                 camera_y += 5;
             }
             if(KEY_D){
-            	tmpAng = 180;
+            	bodyAng = 180;
             	if(KEY_W)
-            		tmpAng = 135;
+            		bodyAng = 135;
             	if(KEY_S)
-            		tmpAng = 225;
-            	player.move(speed, 0,tmpAng);
+            		bodyAng = 225;
+            	player.setDX(speed);
                 camera_x += 5;
             }
             if(KEY_A){
-            	tmpAng = 0;
+            	bodyAng = 0;
             	if(KEY_W)
-            		tmpAng = 45;
+            		bodyAng = 45;
             	if(KEY_S)
-            		tmpAng = 315;
-            	player.move(-speed, 0,tmpAng);
+            		bodyAng = 315;
+            	player.setDX(-speed);
                 camera_x -= 5;
             }
 		}
@@ -221,6 +239,10 @@ public class testRPG{
         	camera_x = (int)mouseX + (int)(player.get_centerX() - camera_w/2);
         	camera_y = -(int)mouseY + (int)(player.get_centerY() - camera_h/2);
         }
+        
+        public static long getTime() {
+    		return (Sys.getTime() * 1000) / timerTicksPerSecond;
+    	}
 
 		private ByteBuffer loadIcon(URL url) throws IOException {
             InputStream is = url.openStream();

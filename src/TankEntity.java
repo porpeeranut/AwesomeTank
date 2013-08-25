@@ -8,7 +8,7 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
 
 import org.newdawn.slick.opengl.Texture;
 
-public abstract class TankEntity extends Entity{
+public abstract class TankEntity extends Entity {
 	
 	protected Texture gun;
 	protected Texture body;
@@ -20,27 +20,31 @@ public abstract class TankEntity extends Entity{
 	public TankEntity() {
 	}
 	
-	public void move(float dx, float dy,float setAng){
-		float nx = x + dx;
-		float ny = y + dy;
-		if(bodyAngle > setAng){
-			if(bodyAngle-setAng <= 180)
-				bodyAngle -= deltaAng;
-			else if(bodyAngle-setAng > 180)
-				bodyAngle += deltaAng;
-		}
-		if(bodyAngle < setAng){
-			if(setAng - bodyAngle <= 180)
-				bodyAngle += deltaAng;
-			else if(setAng - bodyAngle > 180)
-				bodyAngle -= deltaAng;
-		}
+	public void move(long delta,float setAng){
+		float nx = x + (delta * dx) / 10;
+		float ny = y + (delta * dy) / 10;
 		
-		if(bodyAngle == 360)
-			bodyAngle = 0;
-		if(bodyAngle == -deltaAng)
-			bodyAngle = 360-deltaAng;
-		
+		if(dx != 0 || dy != 0){
+			/** add anima here */
+			
+			if(bodyAngle > setAng){
+				if(bodyAngle-setAng <= 180)
+					bodyAngle -= deltaAng;
+				else if(bodyAngle-setAng > 180)
+					bodyAngle += deltaAng;
+			}
+			if(bodyAngle < setAng){
+				if(setAng - bodyAngle <= 180)
+					bodyAngle += deltaAng;
+				else if(setAng - bodyAngle > 180)
+					bodyAngle -= deltaAng;
+			}
+			
+			if(bodyAngle == 360)
+				bodyAngle = 0;
+			if(bodyAngle == -deltaAng)
+				bodyAngle = 360-deltaAng;
+		}
 		if (validLocation(nx, ny)) {
 			x = (int)nx;
 			y = (int)ny;

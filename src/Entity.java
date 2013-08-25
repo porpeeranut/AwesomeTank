@@ -22,10 +22,11 @@ public abstract class Entity {
 	public Entity() {
 	}
 
-	public void move(long delta) {
-		// update the location of the entity based on move speeds
-		x += (delta * dx) / 1000;
-		y += (delta * dy) / 1000;
+	public void move() {
+	}
+	
+	public void setHP(int HP) {
+		this.HP = HP;
 	}
 
 	public void setDX(float dx) {
@@ -57,6 +58,7 @@ public abstract class Entity {
         return y+height/2;
 	}
 
+	/** (0,0) to (mapWIDTH, mapHEIGHT)*/
 	public void setPositionToMap(int x,int y){
         this.x = x*map.TILE_SIZE + map.TILE_SIZE/2;
         this.y = y*map.TILE_SIZE + map.TILE_SIZE/2;

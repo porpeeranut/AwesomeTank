@@ -1,7 +1,7 @@
-0.4 restruct all class
 
 -move(delta)
 -check validLocation
+-ลอง camera_x,speed ต่างกันเยอะๆ
 
 fire anima
 HP
