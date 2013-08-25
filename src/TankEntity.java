@@ -16,6 +16,8 @@ public abstract class TankEntity extends Entity {
 	protected float gunAngle;
 	protected int bodyAngle = 0;
 	protected int deltaAng = 3;
+	protected long firingInterval = 100;	// ms
+	protected long lastFire;
 
 	public TankEntity() {
 	}
@@ -53,6 +55,19 @@ public abstract class TankEntity extends Entity {
 		} else if(validLocation(nx, y)){
 			x = (int)nx;
 		}
+	}
+	
+	public void Fire() {
+		if (System.currentTimeMillis() - lastFire < firingInterval) {
+			return;
+		}
+
+		lastFire = System.currentTimeMillis();
+		/*ShotEntity shot = shots[shotIndex++ % shots.length];
+		shot.reinitialize(ship.getX() + 10, ship.getY() - 30);
+		entities.add(shot);*/
+
+		//soundManager.playEffect(SOUND_SHOT);
 	}
 	
 	public boolean validLocation(float nx, float ny) {

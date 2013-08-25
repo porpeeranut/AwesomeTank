@@ -108,16 +108,16 @@ public class testRPG{
                 input();
                 player.move(delta, bodyAng);
                 
-                //draw
-                map.draw();
-                player.draw();
-               
                 //set camera
                 setCamera();
                 glMatrixMode(GL_PROJECTION);
                 glLoadIdentity();
                 glOrtho(camera_x ,640+camera_x ,480+camera_y ,camera_y ,-1 , 1);
-                //glOrtho(0-camera_x ,640+camera_x ,480+camera_y ,0-camera_y ,-1 , 1);
+                
+                //draw
+                map.draw();
+                player.draw();
+                
                 Display.update();
                 Display.sync(60);
             }
@@ -184,7 +184,7 @@ public class testRPG{
             
             player.setDX(0);
             player.setDY(0);
-            if(KEY_W){
+            if(KEY_W && !KEY_S){
             	bodyAng = 90;
             	if(KEY_A)
             		bodyAng = 45;
@@ -193,7 +193,7 @@ public class testRPG{
             	player.setDY(-speed);
                 camera_y -= 5; 
             }
-            if(KEY_S){
+            if(KEY_S && !KEY_W){
             	bodyAng = 270;
             	if(KEY_A)
             		bodyAng = 315;
@@ -202,7 +202,7 @@ public class testRPG{
             	player.setDY(speed);
                 camera_y += 5;
             }
-            if(KEY_D){
+            if(KEY_D && !KEY_A){
             	bodyAng = 180;
             	if(KEY_W)
             		bodyAng = 135;
@@ -211,7 +211,7 @@ public class testRPG{
             	player.setDX(speed);
                 camera_x += 5;
             }
-            if(KEY_A){
+            if(KEY_A && !KEY_D){
             	bodyAng = 0;
             	if(KEY_W)
             		bodyAng = 45;
