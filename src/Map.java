@@ -25,10 +25,10 @@ public class Map {
 	private static final int BLOCKED = 1;
 	private static final int NULL = 2;
 	//private int[][] mapData;
-	public int[][] mapData;
+	private int[][] mapData;
 	private static int WIDTH;
 	private static int HEIGHT;
-	public static int TILE_SIZE = 55;
+	public static int TILE_SIZE = 64;
 
 	// flip bottom left to top right
 	private int[][] convertArrayAndRandomTilePic(int[][] mapData){

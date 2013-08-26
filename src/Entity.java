@@ -1,3 +1,11 @@
+import static org.lwjgl.opengl.GL11.GL_QUADS;
+import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
+import static org.lwjgl.opengl.GL11.glTexCoord2f;
+import static org.lwjgl.opengl.GL11.glVertex2f;
+
 import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileInputStream;
@@ -60,6 +68,10 @@ public abstract class Entity {
 		this.dy = dy;
 	}
 	
+	public int getHP() {
+		return this.HP;
+	}
+	
 	public float getDX() {
 		return dx;
 	}
@@ -69,6 +81,18 @@ public abstract class Entity {
 	}
 
 	public void draw() {
+		glPushMatrix();
+	    glBegin(GL_QUADS);
+			glTexCoord2f(0,0);
+			glVertex2f(x-halfSize ,y-halfSize);//upper left
+			glTexCoord2f(1,0);
+			glVertex2f(x+halfSize ,y-halfSize);//upper right
+			glTexCoord2f(1,1);
+			glVertex2f(x+halfSize ,y+halfSize);//bottom right
+			glTexCoord2f(0,1);
+			glVertex2f(x-halfSize ,y+halfSize);//bottom left
+		glEnd();
+		glPopMatrix();
 	}
 
 	public void doLogic() {
@@ -81,7 +105,7 @@ public abstract class Entity {
         return y+height/2;
 	}
 
-	/** (0,0) to (mapWIDTH, mapHEIGHT)*/
+	/** (1,1) to (mapWIDTH, mapHEIGHT)*/
 	public void setPositionToMap(int x,int y){
         this.x = x*game.map.TILE_SIZE + game.map.TILE_SIZE/2;
         this.y = y*game.map.TILE_SIZE + game.map.TILE_SIZE/2;

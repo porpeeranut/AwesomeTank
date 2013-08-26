@@ -1,11 +1,12 @@
- fire!!!
+add brick class
 
+-fix gun angle
 -rectangle intersect
 -check validLocation
 -ลอง camera_x,speed ต่างกันเยอะๆ
 
-fire anima
-HP
+fire effect
+HP bar
 fire delay
 bot (tank,Turrets)
 body anima

@@ -31,7 +31,7 @@ public abstract class TankEntity extends Entity {
 		entities.clear();
 		bullets = new Bullet[20];
 		for (int i = 0; i < bullets.length; i++) {
-			bullets[i] = new Bullet(this.game,0,0);
+			bullets[i] = new Bullet(this.game);
 		}
 	}
 	
@@ -108,16 +108,7 @@ public abstract class TankEntity extends Entity {
         glTranslatef(-x, -y, 0);
         
         body.bind();
-        glBegin(GL_QUADS);
-    		glTexCoord2f(0,0);
-    		glVertex2f(x-width/2 ,y-height/2);//upper left
-    		glTexCoord2f(1,0);
-    		glVertex2f(x+width/2 ,y-height/2);//upper right
-    		glTexCoord2f(1,1);
-    		glVertex2f(x+width/2 ,y+height/2);//bottom right
-    		glTexCoord2f(0,1);
-    		glVertex2f(x-width/2 ,y+height/2);//bottom left
-    	glEnd();
+        super.draw();
     	
 		glTranslatef(x, y, 0);
         glRotatef(gunAngle - bodyAngle, 0f, 0f, 1f);
@@ -126,16 +117,7 @@ public abstract class TankEntity extends Entity {
         width += 8;
         height += 8;
         gun.bind();
-        glBegin(GL_QUADS);
-    		glTexCoord2f(0,0);
-    		glVertex2f(x-width/2 ,y-height/2);//upper left
-    		glTexCoord2f(1,0);
-    		glVertex2f(x+width/2 ,y-height/2);//upper right
-    		glTexCoord2f(1,1);
-    		glVertex2f(x+width/2 ,y+height/2);//bottom right
-    		glTexCoord2f(0,1);
-    		glVertex2f(x-width/2 ,y+height/2);//bottom left
-    	glEnd();
+        super.draw();
     	glPopMatrix();
     	width -= 8;
         height -= 8;

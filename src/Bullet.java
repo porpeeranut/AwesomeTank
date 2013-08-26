@@ -16,7 +16,7 @@ public class Bullet extends Entity {
 	private Texture bull;
 	private boolean used;
 
-	public Bullet(Game ingame,float x, float y) {
+	public Bullet(Game ingame) {
 		game = ingame;
 		bull = loadTexture("bullet.png");
 		this.dx = moveSpeed;
@@ -44,19 +44,8 @@ public class Bullet extends Entity {
 	}
 	
 	public void draw() {
-		glPushMatrix();
 		bull.bind();
-	    glBegin(GL_QUADS);
-			glTexCoord2f(0,0);
-			glVertex2f(x-width/2 ,y-height/2);//upper left
-			glTexCoord2f(1,0);
-			glVertex2f(x+width/2 ,y-height/2);//upper right
-			glTexCoord2f(1,1);
-			glVertex2f(x+width/2 ,y+height/2);//bottom right
-			glTexCoord2f(0,1);
-			glVertex2f(x-width/2 ,y+height/2);//bottom left
-		glEnd();
-		glPopMatrix();
+		super.draw();
 	}
 
 	@Override

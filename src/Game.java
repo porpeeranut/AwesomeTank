@@ -65,10 +65,17 @@ public class Game{
         	e.printStackTrace();
         }
         entities.clear();
-        //initial texture
+        
+        // set game
         map = new Map();
         player = new MyTank(this);
         player.setPositionToMap(2,3);
+        Brick[] brick = new Brick[11];
+        for(int i = 0;i < brick.length;i++){
+        	brick[i] = new Brick(this);
+        	brick[i].setPositionToMap(i+3, 3);
+        	entities.add(brick[i]);
+        }
         entities.add(player);
                
         //initialization opengl code
@@ -132,6 +139,19 @@ public class Game{
             	else
             		entity.draw();
 			}
+            
+            // check collisions
+    		for (int p = 0; p < entities.size(); p++) {
+    			for (int s = p + 1; s < entities.size(); s++) {
+    				Entity me = entities.get(p);
+    				Entity him = entities.get(s);
+
+    				if (me.collidesWith(him)) {
+    					me.collidedWith(him);
+    					him.collidedWith(me);
+    				}
+    			}
+    		}
             
             entities.removeAll(removeList);
     		removeList.clear();
