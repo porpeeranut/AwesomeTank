@@ -1,10 +1,14 @@
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.glBegin;
 import static org.lwjgl.opengl.GL11.glEnd;
+import static org.lwjgl.opengl.GL11.glPopMatrix;
+import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glRotatef;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex2f;
+
+import java.util.ArrayList;
 
 import org.newdawn.slick.opengl.Texture;
 
@@ -18,8 +22,17 @@ public abstract class TankEntity extends Entity {
 	protected int deltaAng = 3;
 	protected long firingInterval = 100;	// ms
 	protected long lastFire;
+	private int bulletIndex = 0;
+	private Bullet[]	bullets;
+	private ArrayList<Bullet> entities = new ArrayList<Bullet>();
+	private ArrayList<Bullet> removeList = new ArrayList<Bullet>();
 
 	public TankEntity() {
+		entities.clear();
+		bullets = new Bullet[20];
+		for (int i = 0; i < bullets.length; i++) {
+			bullets[i] = new Bullet(this.game,0,0);
+		}
 	}
 	
 	public void move(long delta,float setAng){
@@ -55,6 +68,15 @@ public abstract class TankEntity extends Entity {
 		} else if(validLocation(nx, y)){
 			x = (int)nx;
 		}
+		
+		for ( Bullet entity : entities ) {
+			entity.move(delta);
+			if(this.game.map.blocked((int)entity.x/game.map.TILE_SIZE, (int)entity.y/game.map.TILE_SIZE)){
+				removeList.add(entity);
+				entity.setDX(entity.getMoveSpeed());
+				entity.setDY(entity.getMoveSpeed());
+			}
+		}
 	}
 	
 	public void Fire() {
@@ -62,33 +84,13 @@ public abstract class TankEntity extends Entity {
 			return;
 		}
 
+		System.out.println(bulletIndex+"\n");
 		lastFire = System.currentTimeMillis();
-		/*ShotEntity shot = shots[shotIndex++ % shots.length];
-		shot.reinitialize(ship.getX() + 10, ship.getY() - 30);
-		entities.add(shot);*/
+		Bullet bullet = bullets[bulletIndex ++ % bullets.length];
+		bullet.reinitialize((float)(x-Math.cos(0.0174532925*gunAngle)*width/1.5), (float)(y-Math.sin(0.0174532925*gunAngle)*height/1.5),(float)-Math.cos(0.0174532925*gunAngle)*bullet.dx, (float)-Math.sin(0.0174532925*gunAngle)*bullet.dy);
+		entities.add(bullet);
 
 		//soundManager.playEffect(SOUND_SHOT);
-	}
-	
-	public boolean validLocation(float nx, float ny) {
-		int nxN = (int)(nx-halfSize)/map.TILE_SIZE;
-		int nyN = (int)(ny-halfSize)/map.TILE_SIZE;
-		int nxP = (int)(nx+halfSize)/map.TILE_SIZE;
-		int nyP = (int)(ny+halfSize)/map.TILE_SIZE;
-		
-		if (map.blocked(nxN, nyN)) {
-			return false;
-		}
-		if (map.blocked(nxP, nyN)) {
-			return false;
-		}
-		if (map.blocked(nxN, nyP)) {
-			return false;
-		}
-		if (map.blocked(nxP, nyP)) {
-			return false;
-		}
-		return true;
 	}
 	
 	public void setGunAngle(float gunAngle) {
@@ -100,6 +102,7 @@ public abstract class TankEntity extends Entity {
 	}
 	
 	public void draw() {
+		glPushMatrix();
 		glTranslatef(x, y, 0);
         glRotatef(bodyAngle, 0f, 0f, 1f);
         glTranslatef(-x, -y, 0);
@@ -133,8 +136,15 @@ public abstract class TankEntity extends Entity {
     		glTexCoord2f(0,1);
     		glVertex2f(x-width/2 ,y+height/2);//bottom left
     	glEnd();
+    	glPopMatrix();
     	width -= 8;
         height -= 8;
+        
+        for ( Entity entity : entities ) {
+        	entity.draw();
+		}
+        entities.removeAll(removeList);
+		removeList.clear();
 	}
 	
 	public abstract void collidedWith(Entity other);

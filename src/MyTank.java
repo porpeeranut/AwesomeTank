@@ -1,8 +1,8 @@
 
 public class MyTank extends TankEntity {
 
-	public MyTank(Map gamemap) {
-		map = gamemap;
+	public MyTank(Game ingame) {
+		game = ingame;
 		gun = loadTexture("gun.png");
 		body = loadTexture("body.png");
 		width = 40;

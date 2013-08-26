@@ -1,5 +1,6 @@
-0.5 fire+fix-->move left-right same time,camera
+ fire!!!
 
+-rectangle intersect
 -check validLocation
 -ลอง camera_x,speed ต่างกันเยอะๆ
 

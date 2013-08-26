@@ -15,14 +15,37 @@ public abstract class Entity {
 	protected int width,height;
 	protected float halfSize;
 	protected int HP;
-	protected Map map;
+	protected Game game;
 	private Rectangle	me	= new Rectangle();
 	private Rectangle	him	= new Rectangle();
 	
 	public Entity() {
 	}
 
-	public void move() {
+	public void move(long delta) {
+		x += (delta * dx) / 10;
+		y += (delta * dy) / 10;
+	}
+	
+	public boolean validLocation(float nx, float ny) {
+		int nxN = (int)(nx-halfSize)/game.map.TILE_SIZE;
+		int nyN = (int)(ny-halfSize)/game.map.TILE_SIZE;
+		int nxP = (int)(nx+halfSize)/game.map.TILE_SIZE;
+		int nyP = (int)(ny+halfSize)/game.map.TILE_SIZE;
+		
+		if (game.map.blocked(nxN, nyN)) {
+			return false;
+		}
+		if (game.map.blocked(nxP, nyN)) {
+			return false;
+		}
+		if (game.map.blocked(nxN, nyP)) {
+			return false;
+		}
+		if (game.map.blocked(nxP, nyP)) {
+			return false;
+		}
+		return true;
 	}
 	
 	public void setHP(int HP) {
@@ -60,8 +83,8 @@ public abstract class Entity {
 
 	/** (0,0) to (mapWIDTH, mapHEIGHT)*/
 	public void setPositionToMap(int x,int y){
-        this.x = x*map.TILE_SIZE + map.TILE_SIZE/2;
-        this.y = y*map.TILE_SIZE + map.TILE_SIZE/2;
+        this.x = x*game.map.TILE_SIZE + game.map.TILE_SIZE/2;
+        this.y = y*game.map.TILE_SIZE + game.map.TILE_SIZE/2;
 	}
 	
 	protected Texture loadTexture(String key){
