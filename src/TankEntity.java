@@ -60,6 +60,8 @@ public abstract class TankEntity extends Entity {
 			if(bodyAngle == -deltaAng)
 				bodyAngle = 360-deltaAng;
 		}
+		xPreMove = x;
+		yPreMove = y;
 		if (validLocation(nx, ny)) {
 			x = (int)nx;
 			y = (int)ny;
@@ -69,18 +71,23 @@ public abstract class TankEntity extends Entity {
 			x = (int)nx;
 		}
 		
-		for ( Bullet entity : entities ) {
+		/*for ( Bullet entity : entities ) {
 			entity.move(delta);
 			if(this.game.map.blocked((int)entity.x/game.map.TILE_SIZE, (int)entity.y/game.map.TILE_SIZE)){
 				removeList.add(entity);
 				entity.setDX(entity.getMoveSpeed());
 				entity.setDY(entity.getMoveSpeed());
 			}
-		}
+		}*/
+	}
+	
+	public void moveBack() {
+		x = xPreMove;
+		y = yPreMove;
 	}
 	
 	public void Fire() {
-		if (System.currentTimeMillis() - lastFire < firingInterval) {
+		/*if (System.currentTimeMillis() - lastFire < firingInterval) {
 			return;
 		}
 
@@ -88,7 +95,7 @@ public abstract class TankEntity extends Entity {
 		lastFire = System.currentTimeMillis();
 		Bullet bullet = bullets[bulletIndex ++ % bullets.length];
 		bullet.reinitialize((float)(x-Math.cos(0.0174532925*gunAngle)*width/1.5), (float)(y-Math.sin(0.0174532925*gunAngle)*height/1.5),(float)-Math.cos(0.0174532925*gunAngle)*bullet.dx, (float)-Math.sin(0.0174532925*gunAngle)*bullet.dy);
-		entities.add(bullet);
+		entities.add(bullet);*/
 
 		//soundManager.playEffect(SOUND_SHOT);
 	}

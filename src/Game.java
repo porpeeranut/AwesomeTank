@@ -35,6 +35,11 @@ public class Game{
     private long lastFpsTime;
     private int fps;
     
+    protected long firingInterval = 100;	// ms
+	protected long lastFire;
+	private int bulletIndex = 0;
+	private Bullet[]	bullets;
+    
     static{
     	//initial world size
         WORLD_W = 1920;
@@ -77,6 +82,10 @@ public class Game{
         	entities.add(brick[i]);
         }
         entities.add(player);
+        bullets = new Bullet[20];
+		for (int i = 0; i < bullets.length; i++) {
+			bullets[i] = new Bullet(this);
+		}
                
         //initialization opengl code
         glMatrixMode(GL_PROJECTION);
@@ -123,7 +132,28 @@ public class Game{
             		player.move(delta, bodyAng);
             	else
             		entity.move(delta);
+            	if(entity instanceof Bullet){
+					if(map.blocked((int)entity.x/map.TILE_SIZE, (int)entity.y/map.TILE_SIZE)){
+						((Bullet) entity).reinitialize((float)(player.x-Math.cos(0.0174532925*gunRotation)*player.width/1.5), (float)(player.y-Math.sin(0.0174532925*gunRotation)*player.height/1.5),((Bullet)entity).getMoveSpeed(), ((Bullet)entity).getMoveSpeed());
+						removeList.add(entity);
+					}
+				}
 			}
+            
+            // check collisions and move
+    		for (int p = 0; p < entities.size(); p++) {
+    			for (int s = p + 1; s < entities.size(); s++) {
+    				Entity me = entities.get(p);
+    				Entity him = entities.get(s);
+    				if (me.collidesWith(him)) {
+    					me.collidedWith(him);
+    					him.collidedWith(me);
+    					if(me.getClass() == MyTank.class){
+    						((MyTank)me).moveBack();
+    					}
+    				}
+    			}
+    		}
             
             //set camera
             setCamera();
@@ -131,6 +161,9 @@ public class Game{
             glLoadIdentity();
             glOrtho(camera_x ,640+camera_x ,480+camera_y ,camera_y ,-1 , 1);
             
+    		entities.removeAll(removeList);
+    		removeList.clear();
+    		
             //draw
             map.draw();
             for ( Entity entity : entities ) {
@@ -139,22 +172,6 @@ public class Game{
             	else
             		entity.draw();
 			}
-            
-            // check collisions
-    		for (int p = 0; p < entities.size(); p++) {
-    			for (int s = p + 1; s < entities.size(); s++) {
-    				Entity me = entities.get(p);
-    				Entity him = entities.get(s);
-
-    				if (me.collidesWith(him)) {
-    					me.collidedWith(him);
-    					him.collidedWith(me);
-    				}
-    			}
-    		}
-            
-            entities.removeAll(removeList);
-    		removeList.clear();
             
             Display.update();
             Display.sync(60);
@@ -229,7 +246,6 @@ public class Game{
         	if(KEY_D)
         		bodyAng = 135;
         	player.setDY(-speed);
-            camera_y -= 5; 
         }
         if(KEY_S && !KEY_W){
         	bodyAng = 270;
@@ -238,7 +254,6 @@ public class Game{
         	if(KEY_D)
         		bodyAng = 225;
         	player.setDY(speed);
-            camera_y += 5;
         }
         if(KEY_D && !KEY_A){
         	bodyAng = 180;
@@ -247,7 +262,6 @@ public class Game{
         	if(KEY_S)
         		bodyAng = 225;
         	player.setDX(speed);
-            camera_x += 5;
         }
         if(KEY_A && !KEY_D){
         	bodyAng = 0;
@@ -256,11 +270,19 @@ public class Game{
         	if(KEY_S)
         		bodyAng = 315;
         	player.setDX(-speed);
-            camera_x -= 5;
         }
         
         if(Mouse.isButtonDown(0)){
-        	player.Fire();
+        	//player.Fire();
+        	if (System.currentTimeMillis() - lastFire < firingInterval) {
+    			return;
+    		}
+    		lastFire = System.currentTimeMillis();
+    		Bullet bullet = bullets[bulletIndex ++ % bullets.length];
+    		bulletIndex %= bullets.length;
+    		bullet.reinitialize((float)(player.x-Math.cos(0.0174532925*gunRotation)*player.width/1.5), (float)(player.y-Math.sin(0.0174532925*gunRotation)*player.height/1.5),(float)-Math.cos(0.0174532925*gunRotation)*bullet.dx, (float)-Math.sin(0.0174532925*gunRotation)*bullet.dy);
+    		entities.add(bullet);
+    		//soundManager.playEffect(SOUND_SHOT);
         }
 	}
     

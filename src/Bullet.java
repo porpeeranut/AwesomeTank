@@ -13,6 +13,7 @@ import org.newdawn.slick.opengl.Texture;
 public class Bullet extends Entity {
 	
 	public int moveSpeed = 12;
+	public int damage = 12;
 	private Texture bull;
 	private boolean used;
 
@@ -40,7 +41,6 @@ public class Bullet extends Entity {
 		this.dx = dx;
 		this.dy = dy;
 		used = false;
-		System.out.println(dx+" : "+dy);
 	}
 	
 	public void draw() {

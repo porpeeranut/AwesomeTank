@@ -19,7 +19,10 @@ import org.newdawn.slick.opengl.TextureLoader;
 public abstract class Entity {
 	/** center x,y */
 	protected float x,y;
+	/** move speed */
 	protected float	dx,dy;
+	/** center x,y bofore move */
+	protected float	xPreMove,yPreMove;
 	protected int width,height;
 	protected float halfSize;
 	protected int HP;
@@ -33,6 +36,9 @@ public abstract class Entity {
 	public void move(long delta) {
 		x += (delta * dx) / 10;
 		y += (delta * dy) / 10;
+	}
+	
+	public void preMove(long delta) {
 	}
 	
 	public boolean validLocation(float nx, float ny) {
@@ -124,8 +130,10 @@ public abstract class Entity {
 
 	public boolean collidesWith(Entity other) {
 		me.setBounds((int) x - width/2, (int) y - height/2, width, height);
-		him.setBounds((int) other.x - width/2, (int) other.y - height/2, other.width, other.height);
-
+		him.setBounds((int) other.x - other.width/2, (int) other.y - other.height/2, other.width, other.height);
+		/*me.setBounds(3, 3, 15, 15);
+		him.setBounds(5, 5, 15, 15);*/
+		//System.out.println(me.intersects(him)+"\n");
 		return me.intersects(him);
 	}
 

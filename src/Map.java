@@ -47,9 +47,7 @@ public class Map {
 					tmp[y][x] = 100+(new Random().nextInt(9) +1);	// random 1-9
 				if(mapData[x][y] == NULL)
 					tmp[y][x] = mapData[x][y]*100;
-				System.out.println(tmp[y][x]+"\n");
 			}
-			System.out.println("\n");
 		}
 		return tmp;
 	}

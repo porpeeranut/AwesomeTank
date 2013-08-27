@@ -1,5 +1,6 @@
-add brick class
+can collide,fix camera
 
+-resize bull pic
 -fix gun angle
 -rectangle intersect
 -check validLocation
@@ -7,7 +8,6 @@ add brick class
 
 fire effect
 HP bar
-fire delay
 bot (tank,Turrets)
 body anima
 bullet anima
