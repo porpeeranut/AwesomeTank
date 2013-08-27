@@ -1,5 +1,4 @@
 
--resize bull pic
 -fix gun angle
 
 fire effect

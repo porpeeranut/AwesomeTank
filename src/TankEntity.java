@@ -19,7 +19,7 @@ public abstract class TankEntity extends Entity {
 	// angle 0 is direct left
 	protected float gunAngle;
 	protected int bodyAngle = 0;
-	protected int deltaAng = 3;
+	protected int deltaAng = 5;
 	protected long firingInterval = 100;	// ms
 	protected long lastFire;
 	private int bulletIndex = 0;
@@ -121,13 +121,11 @@ public abstract class TankEntity extends Entity {
         glRotatef(gunAngle - bodyAngle, 0f, 0f, 1f);
         glTranslatef(-x, -y, 0);
         
-        width += 8;
-        height += 8;
+        halfSize += 8;
         gun.bind();
         super.draw();
     	glPopMatrix();
-    	width -= 8;
-        height -= 8;
+    	halfSize -= 8;
         
         for ( Entity entity : entities ) {
         	entity.draw();
