@@ -35,6 +35,7 @@ public class Game{
     private long lastFpsTime;
     private int fps;
     
+    public float initBulletX,initBulletY;
     protected long firingInterval = 100;	// ms
 	protected long lastFire;
 	private int bulletIndex = 0;
@@ -77,7 +78,7 @@ public class Game{
         player.setPositionToMap(2,3);
         Brick[] brick = new Brick[11];
         for(int i = 0;i < brick.length;i++){
-        	brick[i] = new Brick(this);
+        	brick[i] = new Brick(this,30);
         	brick[i].setPositionToMap(i+3, 3);
         	entities.add(brick[i]);
         }
@@ -113,6 +114,9 @@ public class Game{
     			lastFpsTime = 0;
     			fps = 0;
     		}
+    		
+    		initBulletX = (float)(player.x-Math.cos(0.0174532925*gunRotation)*player.width/1.5);
+    		initBulletY = (float)(player.y-Math.sin(0.0174532925*gunRotation)*player.height/1.5);
            
             /*sky.bind();
             glBegin(GL_QUADS);
@@ -134,7 +138,7 @@ public class Game{
             		entity.move(delta);
             	if(entity instanceof Bullet){
 					if(map.blocked((int)entity.x/map.TILE_SIZE, (int)entity.y/map.TILE_SIZE)){
-						((Bullet) entity).reinitialize((float)(player.x-Math.cos(0.0174532925*gunRotation)*player.width/1.5), (float)(player.y-Math.sin(0.0174532925*gunRotation)*player.height/1.5),((Bullet)entity).getMoveSpeed(), ((Bullet)entity).getMoveSpeed());
+						((Bullet) entity).reinitialize(initBulletX,initBulletY ,((Bullet)entity).getMoveSpeed(), ((Bullet)entity).getMoveSpeed());
 						removeList.add(entity);
 					}
 				}
@@ -148,9 +152,10 @@ public class Game{
     				if (me.collidesWith(him)) {
     					me.collidedWith(him);
     					him.collidedWith(me);
-    					if(me.getClass() == MyTank.class){
-    						((MyTank)me).moveBack();
-    					}
+    					/*if(him.getClass() == MyTank.class){
+    						System.out.println("\ny axis");
+    						((MyTank)him).moveBack();
+    					}*/
     				}
     			}
     		}
@@ -280,7 +285,7 @@ public class Game{
     		lastFire = System.currentTimeMillis();
     		Bullet bullet = bullets[bulletIndex ++ % bullets.length];
     		bulletIndex %= bullets.length;
-    		bullet.reinitialize((float)(player.x-Math.cos(0.0174532925*gunRotation)*player.width/1.5), (float)(player.y-Math.sin(0.0174532925*gunRotation)*player.height/1.5),(float)-Math.cos(0.0174532925*gunRotation)*bullet.dx, (float)-Math.sin(0.0174532925*gunRotation)*bullet.dy);
+    		bullet.reinitialize(initBulletX,initBulletY ,(float)-Math.cos(0.0174532925*gunRotation)*bullet.dx, (float)-Math.sin(0.0174532925*gunRotation)*bullet.dy);
     		entities.add(bullet);
     		//soundManager.playEffect(SOUND_SHOT);
         }

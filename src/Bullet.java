@@ -13,7 +13,7 @@ import org.newdawn.slick.opengl.Texture;
 public class Bullet extends Entity {
 	
 	public int moveSpeed = 12;
-	public int damage = 12;
+	public int attack = 5;
 	private Texture bull;
 	private boolean used;
 
@@ -50,7 +50,17 @@ public class Bullet extends Entity {
 
 	@Override
 	public void collidedWith(Entity other) {
-		
+		if (used) {
+			return;
+		}
+		if (other instanceof Brick) {
+			reinitialize(game.initBulletX,game.initBulletY ,getMoveSpeed(), getMoveSpeed());
+			game.removeEntity(this);
+			other.damage(attack);
+			if(other.getHP() <= 0)
+				game.removeEntity(other);
+		}
+		used = true;
 	}
 
 }

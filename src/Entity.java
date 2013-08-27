@@ -62,6 +62,9 @@ public abstract class Entity {
 		return true;
 	}
 	
+	public void damage(int damage) {
+		this.HP -= damage;
+	}
 	public void setHP(int HP) {
 		this.HP = HP;
 	}
