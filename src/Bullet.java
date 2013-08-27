@@ -22,8 +22,8 @@ public class Bullet extends Entity {
 		bull = loadTexture("bullet.png");
 		this.dx = moveSpeed;
 		this.dy = moveSpeed;
-		width = bull.getImageWidth()-15;
-        height = bull.getImageHeight()-15;
+		width = bull.getImageWidth()-5;
+        height = bull.getImageHeight()-5;
 		halfSize = width/2;
 	}
 	

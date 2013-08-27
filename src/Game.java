@@ -82,7 +82,7 @@ public class Game{
         	entities.add(brick[i]);
         }
         entities.add(player);
-        bullets = new Bullet[20];
+        bullets = new Bullet[50];
 		for (int i = 0; i < bullets.length; i++) {
 			bullets[i] = new Bullet(this);
 		}
