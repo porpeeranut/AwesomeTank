@@ -134,9 +134,6 @@ public abstract class Entity {
 	public boolean collidesWith(Entity other) {
 		me.setBounds((int) x - width/2, (int) y - height/2, width, height);
 		him.setBounds((int) other.x - other.width/2, (int) other.y - other.height/2, other.width, other.height);
-		/*me.setBounds(3, 3, 15, 15);
-		him.setBounds(5, 5, 15, 15);*/
-		//System.out.println(me.intersects(him)+"\n");
 		return me.intersects(him);
 	}
 

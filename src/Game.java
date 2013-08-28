@@ -39,7 +39,9 @@ public class Game{
     protected long firingInterval = 100;	// ms
 	protected long lastFire;
 	private int bulletIndex = 0;
-	private Bullet[]	bullets;
+	private MyBullet[] myBullets;
+	private EnemyTank[] enemyTank;
+	public int numEnemy;
     
     static{
     	//initial world size
@@ -74,7 +76,7 @@ public class Game{
         
         // set game
         map = new Map();
-        player = new MyTank(this);
+        player = new MyTank(this,100);
         player.setPositionToMap(2,3);
         Brick[] brick = new Brick[11];
         for(int i = 0;i < brick.length;i++){
@@ -83,10 +85,17 @@ public class Game{
         	entities.add(brick[i]);
         }
         entities.add(player);
-        bullets = new Bullet[50];
-		for (int i = 0; i < bullets.length; i++) {
-			bullets[i] = new Bullet(this);
+        myBullets = new MyBullet[50];
+		for (int i = 0; i < myBullets.length; i++) {
+			myBullets[i] = new MyBullet(this);
 		}
+		enemyTank = new EnemyTank[5];
+		for (int i = 0; i < enemyTank.length; i++) {
+			enemyTank[i] = new EnemyTank(this,60);
+			enemyTank[i].setPositionToMap(i+5, 4);
+			entities.add(enemyTank[i]);
+		}
+		numEnemy = enemyTank.length;
                
         //initialization opengl code
         glMatrixMode(GL_PROJECTION);
@@ -110,11 +119,17 @@ public class Game{
 
     		// update our FPS
     		if (lastFpsTime >= 1000) {
-    			Display.setTitle("Awesome Tank (FPS: " + fps + ")");
+    			//Display.setTitle("Awesome Tank (FPS: " + fps + ")");
+    			Display.setTitle(String.valueOf(numEnemy));
     			lastFpsTime = 0;
     			fps = 0;
     		}
     		
+    		if(numEnemy == 0){
+    			map.createMap(2);
+    			entities.clear();
+    			numEnemy = 5;
+    		}
     		initBulletX = (float)(player.x-Math.cos(0.0174532925*gunRotation)*player.width/1.5);
     		initBulletY = (float)(player.y-Math.sin(0.0174532925*gunRotation)*player.height/1.5);
            
@@ -283,8 +298,8 @@ public class Game{
     			return;
     		}
     		lastFire = System.currentTimeMillis();
-    		Bullet bullet = bullets[bulletIndex ++ % bullets.length];
-    		bulletIndex %= bullets.length;
+    		Bullet bullet = myBullets[bulletIndex ++ % myBullets.length];
+    		bulletIndex %= myBullets.length;
     		bullet.reinitialize(initBulletX,initBulletY ,(float)-Math.cos(0.0174532925*gunRotation)*bullet.dx, (float)-Math.sin(0.0174532925*gunRotation)*bullet.dy);
     		entities.add(bullet);
     		//soundManager.playEffect(SOUND_SHOT);

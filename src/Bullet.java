@@ -10,15 +10,14 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 
 
-public class Bullet extends Entity {
+public abstract class Bullet extends Entity {
 	
 	public int moveSpeed = 12;
 	public int attack = 5;
 	private Texture bull;
-	private boolean used;
+	protected boolean used;
 
-	public Bullet(Game ingame) {
-		game = ingame;
+	public Bullet() {
 		bull = loadTexture("bullet.png");
 		this.dx = moveSpeed;
 		this.dy = moveSpeed;
@@ -48,19 +47,5 @@ public class Bullet extends Entity {
 		super.draw();
 	}
 
-	@Override
-	public void collidedWith(Entity other) {
-		if (used) {
-			return;
-		}
-		if (other instanceof Brick) {
-			reinitialize(game.initBulletX,game.initBulletY ,getMoveSpeed(), getMoveSpeed());
-			game.removeEntity(this);
-			other.damage(attack);
-			if(other.getHP() <= 0)
-				game.removeEntity(other);
-		}
-		used = true;
-	}
-
+	public abstract void collidedWith(Entity other);
 }

@@ -1,18 +1,16 @@
 
 public class MyTank extends TankEntity {
 
-	public MyTank(Game ingame) {
+	public MyTank(Game ingame,int hp) {
 		game = ingame;
+		HP = hp;
 		gun = loadTexture("gun.png");
 		body = loadTexture("body.png");
-		width = 40;
-        height = 40;
-		halfSize = width/2;
 	}
 	
 	@Override
 	public void collidedWith(Entity other) {
-		if (other instanceof Brick) {
+		if (!(other instanceof Bullet)) {
 			/*float tmp = xPreMove;
 			xPreMove = x;
 			x = tmp;

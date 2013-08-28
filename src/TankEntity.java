@@ -20,19 +20,11 @@ public abstract class TankEntity extends Entity {
 	protected float gunAngle;
 	protected int bodyAngle = 0;
 	protected int deltaAng = 5;
-	protected long firingInterval = 100;	// ms
-	protected long lastFire;
-	private int bulletIndex = 0;
-	private Bullet[]	bullets;
-	private ArrayList<Bullet> entities = new ArrayList<Bullet>();
-	private ArrayList<Bullet> removeList = new ArrayList<Bullet>();
 
 	public TankEntity() {
-		entities.clear();
-		bullets = new Bullet[20];
-		for (int i = 0; i < bullets.length; i++) {
-			bullets[i] = new Bullet(this.game);
-		}
+		width = 40;
+        height = 40;
+		halfSize = width/2;
 	}
 	
 	public void move(long delta,float setAng){
@@ -126,12 +118,6 @@ public abstract class TankEntity extends Entity {
         super.draw();
     	glPopMatrix();
     	halfSize -= 8;
-        
-        for ( Entity entity : entities ) {
-        	entity.draw();
-		}
-        entities.removeAll(removeList);
-		removeList.clear();
 	}
 	
 	public abstract void collidedWith(Entity other);
