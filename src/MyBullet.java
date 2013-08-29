@@ -7,10 +7,11 @@ public class MyBullet extends Bullet {
 
 	@Override
 	public void collidedWith(Entity other) {
-		if (used || other instanceof MyTank) {
+		if (used || other instanceof MyTank || other instanceof Bullet) {
 			return;
 		}
-		reinitialize(game.initBulletX,game.initBulletY ,getMoveSpeed(), getMoveSpeed());
+		setDX(getMoveSpeed());
+		setDY(getMoveSpeed());
 		game.removeEntity(this);
 		other.damage(attack);
 		if(other.getHP() <= 0){

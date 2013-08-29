@@ -9,6 +9,7 @@ bullet anima
 block anima
 esc pause
 next level
+sound
 
 ## feature
 fog
@@ -103,7 +104,18 @@ texture body+ang
 	bomb
 	hp bar
 bullet
+--------------------------------------------------
+## turret
+x,y
+width,height
+hp
+map
+collidedWith(other)
 
+texture body
+	shot
+	bomb
+	hp bar
 --------------------------------------------------
 ## box
 x,y

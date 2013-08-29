@@ -1,5 +1,7 @@
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.glBegin;
+import static org.lwjgl.opengl.GL11.glColor4f;
+import static org.lwjgl.opengl.GL11.glColor3f;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
@@ -12,6 +14,7 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
@@ -92,6 +95,8 @@ public abstract class Entity {
 	public void draw() {
 		glPushMatrix();
 	    glBegin(GL_QUADS);
+	    //glColor4f(1f, 1f, 1f, (float) Math.sin(Math.toRadians(40)));
+	    //glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
 			glTexCoord2f(0,0);
 			glVertex2f(x-halfSize ,y-halfSize);//upper left
 			glTexCoord2f(1,0);
@@ -102,6 +107,7 @@ public abstract class Entity {
 			glVertex2f(x-halfSize ,y+halfSize);//bottom left
 		glEnd();
 		glPopMatrix();
+		glColor3f(1f, 1f, 1f);
 	}
 
 	public void doLogic() {

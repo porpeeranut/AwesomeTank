@@ -20,11 +20,20 @@ public abstract class TankEntity extends Entity {
 	protected float gunAngle;
 	protected int bodyAngle = 0;
 	protected int deltaAng = 5;
+	
+	protected long firingInterval = 100;	// ms
+	protected long lastFire;
+	private int bulletIndex = 0;
+	private MyBullet[] myBullets;
 
 	public TankEntity() {
 		width = 40;
         height = 40;
 		halfSize = width/2;
+		myBullets = new MyBullet[50];
+		for (int i = 0; i < myBullets.length; i++) {
+			myBullets[i] = new MyBullet(game);
+		}
 	}
 	
 	public void move(long delta,float setAng){
@@ -78,17 +87,15 @@ public abstract class TankEntity extends Entity {
 		y = yPreMove;
 	}
 	
-	public void Fire() {
-		/*if (System.currentTimeMillis() - lastFire < firingInterval) {
+	public void Fire(float initBulletX,float initBulletY,float gunRotation) {
+		if (System.currentTimeMillis() - lastFire < firingInterval) {
 			return;
 		}
-
-		System.out.println(bulletIndex+"\n");
 		lastFire = System.currentTimeMillis();
-		Bullet bullet = bullets[bulletIndex ++ % bullets.length];
-		bullet.reinitialize((float)(x-Math.cos(0.0174532925*gunAngle)*width/1.5), (float)(y-Math.sin(0.0174532925*gunAngle)*height/1.5),(float)-Math.cos(0.0174532925*gunAngle)*bullet.dx, (float)-Math.sin(0.0174532925*gunAngle)*bullet.dy);
-		entities.add(bullet);*/
-
+		Bullet bullet = myBullets[bulletIndex ++ % myBullets.length];
+		bulletIndex %= myBullets.length;
+		bullet.reinitialize(initBulletX,initBulletY ,(float)-Math.cos(0.0174532925*gunRotation)*bullet.moveSpeed, (float)-Math.sin(0.0174532925*gunRotation)*bullet.moveSpeed);
+		game.addEntity(bullet);
 		//soundManager.playEffect(SOUND_SHOT);
 	}
 	

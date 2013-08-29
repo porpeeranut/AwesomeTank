@@ -16,6 +16,7 @@ public abstract class Bullet extends Entity {
 	public int attack = 5;
 	private Texture bull;
 	protected boolean used;
+	protected boolean die = false;
 
 	public Bullet() {
 		bull = loadTexture("bullet.png");
@@ -40,6 +41,10 @@ public abstract class Bullet extends Entity {
 		this.dx = dx;
 		this.dy = dy;
 		used = false;
+	}
+	
+	public void die(long delta) {
+		die = true;
 	}
 	
 	public void draw() {

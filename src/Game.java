@@ -20,8 +20,8 @@ import org.newdawn.slick.opengl.TextureLoader;
 import de.matthiasmann.twl.utils.PNGDecoder;
  
 public class Game{
-	private ArrayList<Entity> entities = new ArrayList<Entity>();
-	private ArrayList<Entity> removeList = new ArrayList<Entity>();
+	private static ArrayList<Entity> entities = new ArrayList<Entity>();
+	private static ArrayList<Entity> removeList = new ArrayList<Entity>();
     public Map map;
     private MyTank player;
     static private int camera_x,camera_y,camera_w,camera_h;
@@ -36,12 +36,9 @@ public class Game{
     private int fps;
     
     public float initBulletX,initBulletY;
-    protected long firingInterval = 100;	// ms
-	protected long lastFire;
-	private int bulletIndex = 0;
-	private MyBullet[] myBullets;
+    
 	private EnemyTank[] enemyTank;
-	public int numEnemy;
+	public static int numEnemy;
     
     static{
     	//initial world size
@@ -85,10 +82,6 @@ public class Game{
         	entities.add(brick[i]);
         }
         entities.add(player);
-        myBullets = new MyBullet[50];
-		for (int i = 0; i < myBullets.length; i++) {
-			myBullets[i] = new MyBullet(this);
-		}
 		enemyTank = new EnemyTank[5];
 		for (int i = 0; i < enemyTank.length; i++) {
 			enemyTank[i] = new EnemyTank(this,60);
@@ -120,7 +113,6 @@ public class Game{
     		// update our FPS
     		if (lastFpsTime >= 1000) {
     			//Display.setTitle("Awesome Tank (FPS: " + fps + ")");
-    			Display.setTitle(String.valueOf(numEnemy));
     			lastFpsTime = 0;
     			fps = 0;
     		}
@@ -293,16 +285,7 @@ public class Game{
         }
         
         if(Mouse.isButtonDown(0)){
-        	//player.Fire();
-        	if (System.currentTimeMillis() - lastFire < firingInterval) {
-    			return;
-    		}
-    		lastFire = System.currentTimeMillis();
-    		Bullet bullet = myBullets[bulletIndex ++ % myBullets.length];
-    		bulletIndex %= myBullets.length;
-    		bullet.reinitialize(initBulletX,initBulletY ,(float)-Math.cos(0.0174532925*gunRotation)*bullet.dx, (float)-Math.sin(0.0174532925*gunRotation)*bullet.dy);
-    		entities.add(bullet);
-    		//soundManager.playEffect(SOUND_SHOT);
+        	player.Fire(initBulletX,initBulletY,gunRotation);
         }
 	}
     
@@ -314,7 +297,7 @@ public class Game{
     	String str = String.valueOf(gunRotation);
     	
     	// Mouse.getX(),Mouse.getY() position (0,0) at bottom left
-    	//Display.setTitle(str);
+    	Display.setTitle(str);
     	//gunRotation = 57.2957795f*(float)Math.atan2(camera_h/2 - Mouse.getY(),Mouse.getX() - camera_w/2);
     	gunRotation = 57.2957795f*(float)Math.atan2(camera_h/2 - Mouse.getY(),Mouse.getX() - camera_w/2);
     	gunRotation += 180;
@@ -328,7 +311,7 @@ public class Game{
     	entities.add(entity);
 	}
     
-    public void removeEntity(Entity entity) {
+    public static void removeEntity(Entity entity) {
 		removeList.add(entity);
 	}
     

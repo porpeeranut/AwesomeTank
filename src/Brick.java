@@ -1,3 +1,4 @@
+import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
 	public class Brick extends Entity {
@@ -20,7 +21,9 @@ import org.newdawn.slick.opengl.Texture;
 
 	@Override
 	public void collidedWith(Entity other) {
-		
+		if(other instanceof Bullet){
+			
+		}
 	}
 
 }
