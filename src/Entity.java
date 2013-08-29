@@ -32,6 +32,8 @@ public abstract class Entity {
 	protected Game game;
 	private Rectangle	me	= new Rectangle();
 	private Rectangle	him	= new Rectangle();
+	protected boolean shoted;
+	protected int shotFade = 90;
 	
 	public Entity() {
 	}
@@ -39,6 +41,14 @@ public abstract class Entity {
 	public void move(long delta) {
 		x += (delta * dx) / 10;
 		y += (delta * dy) / 10;
+		if(shoted){
+			if(shotFade > 0){
+				shotFade -= 30;
+			} else {
+				shotFade = 90;
+				shoted = false;
+			}
+		}
 	}
 	
 	public void preMove(long delta) {
