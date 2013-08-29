@@ -34,7 +34,9 @@ public class Game{
     private long lastLoopTime = getTime();
     private long lastFpsTime;
     private int fps;
-    private SoundManager	soundManager;
+    public static SoundManager soundManager;
+    public static int SOUND_SHOT;
+    public static int SOUND_HIT;
     
     public float initBulletX,initBulletY;
     
@@ -62,7 +64,12 @@ public class Game{
         //initial display
         Display.setDisplayMode(new DisplayMode(camera_w, camera_h));
         Display.create();
+        
         entities.clear();
+        soundManager = new SoundManager();
+		soundManager.initialize(8);
+		SOUND_SHOT   = soundManager.addSound("shot.wav");
+		SOUND_HIT    = soundManager.addSound("hit.wav");
         
         // set game
         map = new Map();
@@ -111,7 +118,7 @@ public class Game{
     			fps = 0;
     		}
     		
-    		if(numEnemy == 0){
+    		if(numEnemy == -2){
     			map.createMap(2);
     			entities.clear();
     			numEnemy = 5;
@@ -131,19 +138,22 @@ public class Game{
             	glVertex2f(0 ,WORLD_H);//bottom left
             glEnd();*/
             
-            input();
-            for ( Entity entity : entities ) {
-            	if(entity instanceof MyTank)
-            		player.move(delta, bodyAng);
-            	else
-            		entity.move(delta);
-            	if(entity instanceof Bullet){
-					if(map.blocked((int)entity.x/map.TILE_SIZE, (int)entity.y/map.TILE_SIZE)){
-						((Bullet) entity).reinitialize(initBulletX,initBulletY ,((Bullet)entity).getMoveSpeed(), ((Bullet)entity).getMoveSpeed());
-						removeList.add(entity);
-					}
-				}
-			}
+    		input();
+    		
+            if(!soundManager.isPlayingSound()){
+            	for ( Entity entity : entities ) {
+                	if(entity instanceof MyTank)
+                		player.move(delta, bodyAng);
+                	else
+                		entity.move(delta);
+                	if(entity instanceof Bullet){
+    					if(map.blocked((int)entity.x/map.TILE_SIZE, (int)entity.y/map.TILE_SIZE)){
+    						((Bullet) entity).reinitialize(initBulletX,initBulletY ,((Bullet)entity).getMoveSpeed(), ((Bullet)entity).getMoveSpeed());
+    						removeList.add(entity);
+    					}
+    				}
+    			}
+            }
             
             // check collisions and move
     		for (int p = 0; p < entities.size(); p++) {
@@ -182,7 +192,6 @@ public class Game{
             Display.update();
             Display.sync(60);
         }
-        Display.destroy();
     }
    
     private void input() {
@@ -192,6 +201,7 @@ public class Game{
     	boolean KEY_A = Keyboard.isKeyDown(Keyboard.KEY_A);
     	
         if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
+        	soundManager.destroy();
         	Display.destroy();
             System.exit(0);
         }
@@ -278,8 +288,10 @@ public class Game{
         	player.setDX(-speed);
         }
         
-        if(Mouse.isButtonDown(0)){
-        	player.Fire(initBulletX,initBulletY,gunRotation);
+        if(!soundManager.isPlayingSound()){
+        	if(Mouse.isButtonDown(0)){
+            	player.Fire(initBulletX,initBulletY,gunRotation);
+            }
         }
 	}
     

@@ -97,7 +97,7 @@ public abstract class TankEntity extends Entity {
 		bulletIndex %= myBullets.length;
 		bullet.reinitialize(initBulletX,initBulletY ,(float)-Math.cos(0.0174532925*gunRotation)*bullet.moveSpeed, (float)-Math.sin(0.0174532925*gunRotation)*bullet.moveSpeed);
 		game.addEntity(bullet);
-		//soundManager.playEffect(SOUND_SHOT);
+		game.soundManager.playEffect(game.SOUND_SHOT);
 	}
 	
 	public void setGunAngle(float gunAngle) {
