@@ -301,6 +301,9 @@ public class Game{
     	//gunRotation = 57.2957795f*(float)Math.atan2(camera_h/2 - Mouse.getY(),Mouse.getX() - camera_w/2);
     	gunRotation = 57.2957795f*(float)Math.atan2(camera_h/2 - Mouse.getY(),Mouse.getX() - camera_w/2);
     	gunRotation += 180;
+    	if(gunRotation > 45 && gunRotation < 135){
+    		gunRotation += gunRotation-45;
+    	}
     	player.setGunAngle(gunRotation);
 
     	camera_x = (int)mouseX + (int)(player.get_centerX() - camera_w/2);
