@@ -86,6 +86,7 @@ public class Game{
 		for (int i = 0; i < enemyTank.length; i++) {
 			enemyTank[i] = new EnemyTank(this,60);
 			enemyTank[i].setPositionToMap(i+5, 4);
+			enemyTank[i].setBodyAngle(39);
 			entities.add(enemyTank[i]);
 		}
 		numEnemy = enemyTank.length;

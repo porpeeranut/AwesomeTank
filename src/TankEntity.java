@@ -16,6 +16,7 @@ public abstract class TankEntity extends Entity {
 	
 	protected Texture gun;
 	protected Texture body;
+	protected Texture bodyShot;
 	// angle 0 is direct left
 	protected float gunAngle;
 	protected int bodyAngle = 0;
@@ -115,6 +116,11 @@ public abstract class TankEntity extends Entity {
         
         body.bind();
         super.draw();
+        
+        if(shoted){
+        	bodyShot.bind();
+			super.draw();
+		}
     	
 		glTranslatef(x, y, 0);
         glRotatef(gunAngle - bodyAngle, 0f, 0f, 1f);
