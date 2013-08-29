@@ -53,17 +53,17 @@ public class Map {
 	}
 	
 	private Texture loadTexture(String name) throws FileNotFoundException, IOException{
-		return TextureLoader.getTexture("JPG", new FileInputStream(new File("D://JavaGameWorkspace//testRPG//res//"+name+".jpg")));
+		return TextureLoader.getTexture("JPG", new FileInputStream(new File("res/"+name)));
 	}
 	
 	public Map() {
 		createMap(1);
 		try {
-			textureTable.put(String.valueOf(100*(int)NULL),loadTexture("null"));
+			textureTable.put(String.valueOf(100*(int)NULL),loadTexture("null.jpg"));
 			for(int i = 1;i <= 14;i++)
-				textureTable.put(String.valueOf(i),loadTexture("ground"+i));
+				textureTable.put(String.valueOf(i),loadTexture("ground"+i+".jpg"));
 			for(int i = 1;i <= 9;i++)
-				textureTable.put(String.valueOf(i+100),loadTexture("block"+i));
+				textureTable.put(String.valueOf(i+100),loadTexture("block"+i+".jpg"));
 	    } catch (FileNotFoundException e) { 
 	        e.printStackTrace();
 	    } catch (IOException e) {
