@@ -1,6 +1,4 @@
 
--fix gun angle
-
 fire effect
 HP bar
 bot (tank,Turrets)
@@ -10,6 +8,7 @@ block anima
 esc pause
 next level
 sound
+-fix gun angle
 
 ## feature
 fog

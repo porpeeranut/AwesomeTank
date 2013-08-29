@@ -55,7 +55,7 @@ public class Game{
         
         try {
 			Display.setIcon(new ByteBuffer[] {
-			        loadIcon(getClass().getResource("gameIcon.png"))  // "bin/gameIcon.png" size 32x32
+			        loadIcon(getClass().getResource("game.png"))  // "bin/gameIcon.png" size 32x32
 			    });
 		} catch (IOException e1) {
 			e1.printStackTrace();
@@ -299,11 +299,8 @@ public class Game{
     	// Mouse.getX(),Mouse.getY() position (0,0) at bottom left
     	Display.setTitle(str);
     	//gunRotation = 57.2957795f*(float)Math.atan2(camera_h/2 - Mouse.getY(),Mouse.getX() - camera_w/2);
-    	gunRotation = 57.2957795f*(float)Math.atan2(camera_h/2 - Mouse.getY(),Mouse.getX() - camera_w/2);
+    	gunRotation = (float) (180/Math.PI*(float)Math.atan2(camera_h/2 - Mouse.getY(),Mouse.getX() - camera_w/2));
     	gunRotation += 180;
-    	if(gunRotation > 45 && gunRotation < 135){
-    		gunRotation += gunRotation-45;
-    	}
     	player.setGunAngle(gunRotation);
 
     	camera_x = (int)mouseX + (int)(player.get_centerX() - camera_w/2);
