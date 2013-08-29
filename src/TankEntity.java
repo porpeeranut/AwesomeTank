@@ -72,15 +72,6 @@ public abstract class TankEntity extends Entity {
 		} else if(validLocation(nx, y)){
 			x = (int)nx;
 		}
-		
-		/*for ( Bullet entity : entities ) {
-			entity.move(delta);
-			if(this.game.map.blocked((int)entity.x/game.map.TILE_SIZE, (int)entity.y/game.map.TILE_SIZE)){
-				removeList.add(entity);
-				entity.setDX(entity.getMoveSpeed());
-				entity.setDY(entity.getMoveSpeed());
-			}
-		}*/
 	}
 	
 	public void moveBack() {

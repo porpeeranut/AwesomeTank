@@ -41,14 +41,6 @@ public abstract class Entity {
 	public void move(long delta) {
 		x += (delta * dx) / 10;
 		y += (delta * dy) / 10;
-		if(shoted){
-			if(shotFade > 0){
-				shotFade -= 30;
-			} else {
-				shotFade = 90;
-				shoted = false;
-			}
-		}
 	}
 	
 	public void preMove(long delta) {
@@ -105,8 +97,6 @@ public abstract class Entity {
 	public void draw() {
 		glPushMatrix();
 	    glBegin(GL_QUADS);
-	    //glColor4f(1f, 1f, 1f, (float) Math.sin(Math.toRadians(40)));
-	    //glColor4f(0.5f, 0.5f, 0.5f, 0.5f);
 			glTexCoord2f(0,0);
 			glVertex2f(x-halfSize ,y-halfSize);//upper left
 			glTexCoord2f(1,0);
@@ -117,7 +107,14 @@ public abstract class Entity {
 			glVertex2f(x-halfSize ,y+halfSize);//bottom left
 		glEnd();
 		glPopMatrix();
-		glColor3f(1f, 1f, 1f);
+		if(shoted){
+			if(shotFade > 0){
+				shotFade -= 30;
+			} else {
+				shotFade = 90;
+				shoted = false;
+			}
+		}
 	}
 
 	public void doLogic() {
