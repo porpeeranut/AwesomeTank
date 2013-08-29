@@ -34,6 +34,7 @@ public class Game{
     private long lastLoopTime = getTime();
     private long lastFpsTime;
     private int fps;
+    private SoundManager	soundManager;
     
     public float initBulletX,initBulletY;
     
@@ -46,29 +47,21 @@ public class Game{
         WORLD_H = 1200;
     }
    
-    public Game(){
+    public Game() throws IOException, LWJGLException{
     	//initialed value of camera
     	camera_x = 0;
         camera_y = 0;
         camera_w = 640;
         camera_h = 480;
         
-        try {
-			Display.setIcon(new ByteBuffer[] {
-			        loadIcon(getClass().getResource("game.png"))  // "bin/gameIcon.png" size 32x32
-			    });
-		} catch (IOException e1) {
-			e1.printStackTrace();
-		}
+        Display.setIcon(new ByteBuffer[] {
+		        loadIcon(getClass().getResource("game.png"))  // "bin/gameIcon.png" size 32x32
+		    });
         //Mouse.setGrabbed(true);
 
         //initial display
-        try {
-            Display.setDisplayMode(new DisplayMode(camera_w, camera_h));
-            Display.create();
-        } catch (LWJGLException e) {
-        	e.printStackTrace();
-        }
+        Display.setDisplayMode(new DisplayMode(camera_w, camera_h));
+        Display.create();
         entities.clear();
         
         // set game
@@ -113,7 +106,7 @@ public class Game{
 
     		// update our FPS
     		if (lastFpsTime >= 1000) {
-    			//Display.setTitle("Awesome Tank (FPS: " + fps + ")");
+    			Display.setTitle("Awesome Tank (FPS: " + fps + ")");
     			lastFpsTime = 0;
     			fps = 0;
     		}
@@ -298,7 +291,7 @@ public class Game{
     	String str = String.valueOf(gunRotation);
     	
     	// Mouse.getX(),Mouse.getY() position (0,0) at bottom left
-    	Display.setTitle(str);
+    	//Display.setTitle(str);
     	//gunRotation = 57.2957795f*(float)Math.atan2(camera_h/2 - Mouse.getY(),Mouse.getX() - camera_w/2);
     	gunRotation = (float) (180/Math.PI*(float)Math.atan2(camera_h/2 - Mouse.getY(),Mouse.getX() - camera_w/2));
     	gunRotation += 180;
@@ -333,7 +326,7 @@ public class Game{
         }
     }
    
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException, LWJGLException {
             new Game();
     }
 }
