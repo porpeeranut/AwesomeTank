@@ -160,10 +160,8 @@ public abstract class TankEntity extends Entity {
 			for(int i = 0;i < 10;i++){
 				bullet = myShotgunBullets[shotgunBulIndex ++ % myShotgunBullets.length];
 				shotgunBulIndex %= myShotgunBullets.length;
-				//##############################################
-				//##############################################
-				float ranDX = (float)-Math.cos(0.0174532925*(gunRotation + new Random().nextInt(16)-8))*bullet.moveSpeed;
-				float ranDY = (float)-Math.sin(0.0174532925*(gunRotation + new Random().nextInt(16)-8))*bullet.moveSpeed;
+				float ranDX = (float)-Math.cos(0.0174532925*(gunRotation + new Random().nextInt(30)-15))*bullet.moveSpeed*(new Random().nextInt(3)+6)*0.1f;
+				float ranDY = (float)-Math.sin(0.0174532925*(gunRotation + new Random().nextInt(30)-15))*bullet.moveSpeed*(new Random().nextInt(3)+6)*0.1f;
 				bullet.reinitialize(initBulletX,initBulletY ,ranDX, ranDY);
 				game.addEntity(bullet);
 			}
