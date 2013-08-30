@@ -75,6 +75,7 @@ public class Game{
         map = new Map();
         player = new MyTank(this,100);
         player.setPositionToMap(2,3);
+        player.setGun(player.gunType.MINIGUN);
         Brick[] brick = new Brick[11];
         for(int i = 0;i < brick.length;i++){
         	brick[i] = new Brick(this,30);

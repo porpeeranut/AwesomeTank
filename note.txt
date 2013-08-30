@@ -1,10 +1,7 @@
 
-fire effect
+fire,shot effect
 HP bar
-bot (tank,Turrets)
-body anima(โดนยิง ระเบิด)
-bullet anima
-block anima
+body,bullet,block anima(ระเบิด)
 esc pause
 next level
 menu
@@ -12,12 +9,14 @@ sound
 -fix gun angle
 
 ## feature
+เก็บตังเปลียนปืน,แต่งperformanceรถ(armor,speed)
+box drop item(+HP,freeze)
 fog
-freeze
 
 gold
-speed up
-turret
+movement speed
+visibility
+turret speed
 armor
 gun
 
