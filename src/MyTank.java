@@ -1,10 +1,18 @@
+import org.newdawn.slick.opengl.Texture;
+
 
 public class MyTank extends TankEntity {
 
 	public MyTank(Game ingame,int hp) {
 		game = ingame;
 		HP = hp;
-		gun = loadTexture("MyGun.png");
+		gun1 = loadTexture("MyGun1.png");
+		gun2 = loadTexture("MyGun2.png");
+		gun3 = loadTexture("MyGun3.png");
+		gun4 = loadTexture("MyGun4.png");
+		gun5 = loadTexture("MyGun5.png");
+		gun6 = loadTexture("MyGun6.png");
+		gun = gun1;
 		body = loadTexture("MyBody.png");
 		bodyShot = loadTexture("MyShot.png");
 	}

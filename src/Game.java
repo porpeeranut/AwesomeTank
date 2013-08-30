@@ -201,6 +201,11 @@ public class Game{
     	boolean KEY_D = Keyboard.isKeyDown(Keyboard.KEY_D);
     	boolean KEY_A = Keyboard.isKeyDown(Keyboard.KEY_A);
     	boolean KEY_1 = Keyboard.isKeyDown(Keyboard.KEY_1);
+    	boolean KEY_2 = Keyboard.isKeyDown(Keyboard.KEY_2);
+    	boolean KEY_3 = Keyboard.isKeyDown(Keyboard.KEY_3);
+    	boolean KEY_4 = Keyboard.isKeyDown(Keyboard.KEY_4);
+    	boolean KEY_5 = Keyboard.isKeyDown(Keyboard.KEY_5);
+    	boolean KEY_6 = Keyboard.isKeyDown(Keyboard.KEY_6);
     	
         if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
         	soundManager.destroy();
@@ -291,6 +296,16 @@ public class Game{
         }
         if(KEY_1)
         	player.setGun(player.gunType.MINIGUN);
+        if(KEY_2)
+        	player.setGun(player.gunType.SHOTGUN);
+        if(KEY_3)
+        	player.setGun(player.gunType.RICOCHET);
+        if(KEY_4)
+        	player.setGun(player.gunType.CANNON);
+        if(KEY_5)
+        	player.setGun(player.gunType.ROCKET);
+        if(KEY_6)
+        	player.setGun(player.gunType.LASER);
         
         
         if(!soundManager.isPlayingSound()){

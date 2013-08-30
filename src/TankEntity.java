@@ -11,12 +11,19 @@ import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 
 public abstract class TankEntity extends Entity {
 	
+	protected Texture gun1;
+	protected Texture gun2;
+	protected Texture gun3;
+	protected Texture gun4;
+	protected Texture gun5;
+	protected Texture gun6;
 	protected Texture gun;
 	protected Texture body;
 	protected Texture bodyShot;
@@ -28,6 +35,8 @@ public abstract class TankEntity extends Entity {
 		MINIGUN,SHOTGUN,RICOCHET,CANNON,ROCKET,LASER;
 	}
 	protected GunType gunType = GunType.MINIGUN;
+	// unlockGun true = unlock
+	public HashMap<GunType, Boolean> unlockGun = new HashMap<GunType, Boolean>();
 	private boolean changeGun = false;
 	private int gunSizeIndex = 0;
 	private int[] gunSize = new int[]{ 8,-6,-2,2,6,10,14,14,14,12,12,10,10,8,8,6,6,4,4,6,6};
@@ -45,6 +54,12 @@ public abstract class TankEntity extends Entity {
 		for (int i = 0; i < myBullets.length; i++) {
 			myBullets[i] = new MyBullet(game);
 		}
+		unlockGun.put(gunType.MINIGUN, true);
+		unlockGun.put(gunType.SHOTGUN, false);
+		unlockGun.put(gunType.RICOCHET, false);
+		unlockGun.put(gunType.CANNON, false);
+		unlockGun.put(gunType.ROCKET, false);
+		unlockGun.put(gunType.LASER, false);
 	}
 	
 	public void move(long delta,float setAng){
@@ -89,9 +104,31 @@ public abstract class TankEntity extends Entity {
 		y = yPreMove;
 	}
 	
-	public void setGun(GunType gun) {
-		gunType = gun;
-		changeGun = true;
+	public void setGun(GunType gunT) {
+		if(unlockGun.get(gunT)){
+			gunType = gunT;
+			changeGun = true;
+			switch(gunType){
+			case MINIGUN:
+				gun = gun1;
+				break;
+			case SHOTGUN:
+				gun = gun2;
+				break;
+			case RICOCHET:
+				gun = gun3;
+				break;
+			case CANNON:
+				gun = gun4;
+				break;
+			case ROCKET:
+				gun = gun5;
+				break;
+			case LASER:
+				gun = gun6;
+				break;
+			}
+		}
 	}
 	
 	public void Fire(float initBulletX,float initBulletY,float gunRotation) {
