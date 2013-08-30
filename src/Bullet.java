@@ -12,7 +12,7 @@ import org.newdawn.slick.opengl.Texture;
 
 public abstract class Bullet extends Entity {
 	
-	public int moveSpeed = 12;
+	public int moveSpeed;
 	public int attack = 5;
 	private Texture bull;
 	protected boolean used;

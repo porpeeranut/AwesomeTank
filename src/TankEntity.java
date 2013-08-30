@@ -12,6 +12,7 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
 
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
@@ -41,21 +42,28 @@ public abstract class TankEntity extends Entity {
 	private int gunSizeIndex = 0;
 	private int[] gunSize = new int[]{ 8,-6,-2,2,6,10,14,14,14,12,12,10,10,8,8,6,6,4,4,6,6};
 	
-	protected long firingInterval = 100;	// ms
+	protected long minigunFiringInterval = 100;	// ms
+	protected long shortgunFiringInterval = 600;	// ms
 	protected long lastFire;
-	private int bulletIndex = 0;
-	private MyBullet[] myBullets;
+	private int minigunBulIndex = 0;
+	private int shotgunBulIndex = 0;
+	private MyMinigunBullet[] myBullets;
+	private MyShotgunBullet[] myShotgunBullets;
 
 	public TankEntity() {
 		width = 40;
         height = 40;
 		halfSize = width/2;
-		myBullets = new MyBullet[20];
+		myBullets = new MyMinigunBullet[20];
 		for (int i = 0; i < myBullets.length; i++) {
-			myBullets[i] = new MyBullet(game);
+			myBullets[i] = new MyMinigunBullet(game,12);
+		}
+		myShotgunBullets = new MyShotgunBullet[30];
+		for (int i = 0; i < myShotgunBullets.length; i++) {
+			myShotgunBullets[i] = new MyShotgunBullet(game,5);
 		}
 		unlockGun.put(gunType.MINIGUN, true);
-		unlockGun.put(gunType.SHOTGUN, false);
+		unlockGun.put(gunType.SHOTGUN, true);
 		unlockGun.put(gunType.RICOCHET, false);
 		unlockGun.put(gunType.CANNON, false);
 		unlockGun.put(gunType.ROCKET, false);
@@ -132,19 +140,33 @@ public abstract class TankEntity extends Entity {
 	}
 	
 	public void Fire(float initBulletX,float initBulletY,float gunRotation) {
-		if (System.currentTimeMillis() - lastFire < firingInterval) {
-			return;
-		}
-		lastFire = System.currentTimeMillis();
-		
+		Bullet bullet;
 		switch(gunType){
 		case MINIGUN:
-			Bullet bullet = myBullets[bulletIndex ++ % myBullets.length];
-			bulletIndex %= myBullets.length;
+			if (System.currentTimeMillis() - lastFire < minigunFiringInterval) {
+				return;
+			}
+			lastFire = System.currentTimeMillis();
+			bullet = myBullets[minigunBulIndex ++ % myBullets.length];
+			minigunBulIndex %= myBullets.length;
 			bullet.reinitialize(initBulletX,initBulletY ,(float)-Math.cos(0.0174532925*gunRotation)*bullet.moveSpeed, (float)-Math.sin(0.0174532925*gunRotation)*bullet.moveSpeed);
 			game.addEntity(bullet);
 			break;
 		case SHOTGUN:
+			if (System.currentTimeMillis() - lastFire < shortgunFiringInterval) {
+				return;
+			}
+			lastFire = System.currentTimeMillis();
+			for(int i = 0;i < 10;i++){
+				bullet = myShotgunBullets[shotgunBulIndex ++ % myShotgunBullets.length];
+				shotgunBulIndex %= myShotgunBullets.length;
+				//##############################################
+				//##############################################
+				float ranDX = (float)-Math.cos(0.0174532925*(gunRotation + new Random().nextInt(16)-8))*bullet.moveSpeed;
+				float ranDY = (float)-Math.sin(0.0174532925*(gunRotation + new Random().nextInt(16)-8))*bullet.moveSpeed;
+				bullet.reinitialize(initBulletX,initBulletY ,ranDX, ranDY);
+				game.addEntity(bullet);
+			}
 			break;
 		case RICOCHET:
 			break;

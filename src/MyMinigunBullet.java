@@ -1,8 +1,9 @@
 
-public class MyBullet extends Bullet {
+public class MyMinigunBullet extends Bullet {
 
-	public MyBullet(Game ingame) {
+	public MyMinigunBullet(Game ingame,int speed) {
 		game = ingame;
+		moveSpeed = speed;
 	}
 
 	@Override
@@ -10,8 +11,8 @@ public class MyBullet extends Bullet {
 		if (used || other instanceof MyTank || other instanceof Bullet) {
 			return;
 		}
-		setDX(getMoveSpeed());
-		setDY(getMoveSpeed());
+		setDX(0);
+		setDY(0);
 		game.removeEntity(this);
 		other.damage(attack);
 		if(other.getHP() <= 0){

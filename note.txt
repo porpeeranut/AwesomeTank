@@ -1,3 +1,4 @@
+fix class MyBullet to MyMinigunBullet,add MyShotgunBullet
 
 fire,shot effect
 HP bar
