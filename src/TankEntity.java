@@ -28,6 +28,9 @@ public abstract class TankEntity extends Entity {
 		MINIGUN,SHOTGUN,RICOCHET,CANNON,ROCKET,LASER;
 	}
 	protected GunType gunType = GunType.MINIGUN;
+	private boolean changeGun = false;
+	private int gunSizeIndex = 0;
+	private int[] gunSize = new int[]{ 8,-6,-2,2,6,10,14,14,14,12,12,10,10,8,8,6,6,4,4,6,6};
 	
 	protected long firingInterval = 100;	// ms
 	protected long lastFire;
@@ -88,6 +91,7 @@ public abstract class TankEntity extends Entity {
 	
 	public void setGun(GunType gun) {
 		gunType = gun;
+		changeGun = true;
 	}
 	
 	public void Fire(float initBulletX,float initBulletY,float gunRotation) {
@@ -143,11 +147,17 @@ public abstract class TankEntity extends Entity {
         glRotatef(gunAngle - bodyAngle, 0f, 0f, 1f);
         glTranslatef(-x, -y, 0);
         
-        halfSize += 8;
+        halfSize += gunSize[gunSizeIndex];
         gun.bind();
         super.draw();
     	glPopMatrix();
-    	halfSize -= 8;
+    	halfSize -= gunSize[gunSizeIndex];
+    	if(changeGun){
+        	gunSizeIndex++;
+        	gunSizeIndex %= gunSize.length;
+        	if(gunSizeIndex == 0)
+        		changeGun = false;
+        }
 	}
 	
 	public abstract void collidedWith(Entity other);

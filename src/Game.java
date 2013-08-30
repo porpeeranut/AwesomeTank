@@ -200,6 +200,7 @@ public class Game{
     	boolean KEY_S = Keyboard.isKeyDown(Keyboard.KEY_S);
     	boolean KEY_D = Keyboard.isKeyDown(Keyboard.KEY_D);
     	boolean KEY_A = Keyboard.isKeyDown(Keyboard.KEY_A);
+    	boolean KEY_1 = Keyboard.isKeyDown(Keyboard.KEY_1);
     	
         if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
         	soundManager.destroy();
@@ -288,6 +289,9 @@ public class Game{
         		bodyAng = 315;
         	player.setDX(-speed);
         }
+        if(KEY_1)
+        	player.setGun(player.gunType.MINIGUN);
+        
         
         if(!soundManager.isPlayingSound()){
         	if(Mouse.isButtonDown(0)){
