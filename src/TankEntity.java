@@ -59,11 +59,11 @@ public abstract class TankEntity extends Entity {
 		width = 40;
         height = 40;
 		halfSize = width/2;
-		myBullets = new MyMinigunBullet[20];
+		myBullets = new MyMinigunBullet[25];
 		for (int i = 0; i < myBullets.length; i++) {
 			myBullets[i] = new MyMinigunBullet(game,12,5);
 		}
-		myShotgunBullets = new MyShotgunBullet[50];
+		myShotgunBullets = new MyShotgunBullet[60];
 		for (int i = 0; i < myShotgunBullets.length; i++) {
 			myShotgunBullets[i] = new MyShotgunBullet(game,5,5);
 		}

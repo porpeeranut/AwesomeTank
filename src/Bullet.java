@@ -16,7 +16,6 @@ public abstract class Bullet extends Entity {
 	public int attack;
 	protected Texture bull;
 	protected boolean used;
-	protected boolean die = false;
 
 	public Bullet(String pic) {
 		this.dx = moveSpeed;
@@ -31,20 +30,12 @@ public abstract class Bullet extends Entity {
 		return moveSpeed;
 	}
 	
-	public void move(long delta) {
-		super.move(delta);
-	}
-	
 	public void reinitialize(float x, float y,float dx,float dy) {
 		this.x = x;
 		this.y = y;
 		this.dx = dx;
 		this.dy = dy;
 		used = false;
-	}
-	
-	public void die(long delta) {
-		die = true;
 	}
 	
 	public void draw() {

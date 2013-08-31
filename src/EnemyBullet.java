@@ -8,16 +8,16 @@ public class EnemyBullet extends Bullet {
 
 	@Override
 	public void collidedWith(Entity other) {
-		if (used || other instanceof EnemyTank || other instanceof Bullet) {
+		if (used || other instanceof EnemyTank || other instanceof Bullet || other instanceof ShotEffect) {
 			return;
 		}
-		setDX(getMoveSpeed());
-		setDY(getMoveSpeed());
+		setDX(0);
+		setDY(0);
+		used = true;
 		game.removeEntity(this);
 		other.damage(attack);
 		if(other.getHP() <= 0){
 			game.removeEntity(other);
 		}
-		used = true;
 	}
 }

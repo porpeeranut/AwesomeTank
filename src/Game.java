@@ -142,14 +142,18 @@ public class Game{
     		input();
     		
             if(!soundManager.isPlayingSound()){
-            	for ( Entity entity : entities ) {
+            	for (int p = 0; p < entities.size(); p++) {
+            		Entity entity = entities.get(p);
                 	if(entity instanceof MyTank)
                 		player.move(delta, bodyAng);
                 	else
                 		entity.move(delta);
                 	if(entity instanceof Bullet){
     					if(map.blocked((int)entity.x/map.TILE_SIZE, (int)entity.y/map.TILE_SIZE)){
-    						((Bullet) entity).reinitialize(initBulletX,initBulletY ,((Bullet)entity).getMoveSpeed(), ((Bullet)entity).getMoveSpeed());
+    						entities.add(new ShotEffect(this,entity.x,entity.y));
+    						entity.setDX(0);
+    						entity.setDY(0);
+    						((Bullet) entity).used = true;
     						removeList.add(entity);
     					}
     				}
@@ -335,7 +339,7 @@ public class Game{
     	camera_y = -(int)mouseY + (int)(player.get_centerY()-player.halfSize - camera_h/2);
     }
     
-    public void addEntity(Entity entity) {
+    public static void addEntity(Entity entity) {
     	entities.add(entity);
 	}
     

@@ -1,19 +1,17 @@
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.glBegin;
-import static org.lwjgl.opengl.GL11.glColor4f;
-import static org.lwjgl.opengl.GL11.glColor3f;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
-import java.awt.Rectangle;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+import org.lwjgl.util.Rectangle;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
@@ -35,9 +33,6 @@ public abstract class Entity {
 	protected Game game;
 	protected boolean shoted;
 	protected int shotFade = 90;
-	
-	protected Polygon rect1;
-	protected Polygon rect2;
 
 	public Entity() {
 	}
@@ -45,9 +40,6 @@ public abstract class Entity {
 	public void move(long delta) {
 		x += (delta * dx) / 10;
 		y += (delta * dy) / 10;
-	}
-	
-	public void preMove(long delta) {
 	}
 	
 	public boolean validLocation(float nx, float ny) {
@@ -149,11 +141,11 @@ public abstract class Entity {
     }
 
 	public boolean collidesWith(Entity other) {
-		rect1 = new Polygon(new float[]{(x - width/2), (y - height/2),
+		/*Polygon rect1 = new Polygon(new float[]{(x - width/2), (y - height/2),
 												(x + width/2), (y - height/2),
 												(x + width/2), (y + height/2),
 												(x - width/2), (y + height/2)});
-		rect2 = new Polygon(new float[]{other.x - other.width/2,other.y - other.height/2,
+		Polygon rect2 = new Polygon(new float[]{other.x - other.width/2,other.y - other.height/2,
 												other.x + other.width/2,other.y - other.height/2,
 												other.x + other.width/2,other.y + other.height/2,
 												other.x - other.width/2,other.y + other.height/2,});
@@ -161,13 +153,28 @@ public abstract class Entity {
 			if(this instanceof TankEntity){
 				rect1 = (Polygon) rect1.transform(Transform.createRotateTransform(
 		                (float) Math.toRadians(((TankEntity)this).bodyAngle), x,y));
+				System.out.println(String.valueOf(((TankEntity)this).bodyAngle)+"\n");
 			}
 			if(other instanceof TankEntity){
 				rect2 = (Polygon) rect2.transform(Transform.createRotateTransform(
 		                (float) Math.toRadians(((TankEntity)other).bodyAngle), other.x,other.y));
 			}
 		}
-		return rect1.intersects(rect2);
+		return rect1.intersects(rect2);*/
+		
+		Rectangle  me  = new Rectangle();
+		Rectangle  him  = new Rectangle();
+		me.setBounds((int) x - width/2, (int) y - height/2, width, height);
+		him.setBounds((int) other.x - other.width/2, (int) other.y - other.height/2, other.width, other.height);
+		return me.intersects(him);
+		
+		/*if ((x >= (other.x + other.width)) || ((x + width) <= other.x)) {
+			return false;
+		}
+		if ((y >= (other.y + other.height)) || ((y + height) <= other.y)) {
+			return false;
+		}
+		return true;*/
 	}
 
 	public abstract void collidedWith(Entity other);
