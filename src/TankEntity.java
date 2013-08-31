@@ -15,6 +15,8 @@ import java.util.HashMap;
 import java.util.Random;
 
 import org.lwjgl.opengl.Display;
+import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.opengl.Texture;
 
 public abstract class TankEntity extends Entity {

@@ -189,10 +189,12 @@ public class Game{
             	else
             		entity.draw();
 			}
-            
             Display.update();
             Display.sync(60);
         }
+        soundManager.destroy();
+        Display.destroy();
+        System.exit(0);
     }
    
     private void input() {

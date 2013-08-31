@@ -15,6 +15,9 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 
 import org.newdawn.slick.Color;
+import org.newdawn.slick.geom.Polygon;
+import org.newdawn.slick.geom.Shape;
+import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
@@ -30,11 +33,12 @@ public abstract class Entity {
 	protected float halfSize;
 	protected int HP;
 	protected Game game;
-	private Rectangle	me	= new Rectangle();
-	private Rectangle	him	= new Rectangle();
 	protected boolean shoted;
 	protected int shotFade = 90;
 	
+	protected Polygon rect1;
+	protected Polygon rect2;
+
 	public Entity() {
 	}
 
@@ -145,9 +149,25 @@ public abstract class Entity {
     }
 
 	public boolean collidesWith(Entity other) {
-		me.setBounds((int) x - width/2, (int) y - height/2, width, height);
-		him.setBounds((int) other.x - other.width/2, (int) other.y - other.height/2, other.width, other.height);
-		return me.intersects(him);
+		rect1 = new Polygon(new float[]{(x - width/2), (y - height/2),
+												(x + width/2), (y - height/2),
+												(x + width/2), (y + height/2),
+												(x - width/2), (y + height/2)});
+		rect2 = new Polygon(new float[]{other.x - other.width/2,other.y - other.height/2,
+												other.x + other.width/2,other.y - other.height/2,
+												other.x + other.width/2,other.y + other.height/2,
+												other.x - other.width/2,other.y + other.height/2,});
+		if(rect1.intersects(rect2)){
+			if(this instanceof TankEntity){
+				rect1 = (Polygon) rect1.transform(Transform.createRotateTransform(
+		                (float) Math.toRadians(((TankEntity)this).bodyAngle), x,y));
+			}
+			if(other instanceof TankEntity){
+				rect2 = (Polygon) rect2.transform(Transform.createRotateTransform(
+		                (float) Math.toRadians(((TankEntity)other).bodyAngle), other.x,other.y));
+			}
+		}
+		return rect1.intersects(rect2);
 	}
 
 	public abstract void collidedWith(Entity other);
