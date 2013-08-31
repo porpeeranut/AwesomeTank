@@ -43,7 +43,7 @@ public abstract class TankEntity extends Entity {
 	private int[] gunSize = new int[]{ 8,-6,-2,2,6,10,14,14,14,12,12,10,10,8,8,6,6,4,4,6,6};
 	
 	protected long minigunFiringInterval = 100;	// ms
-	protected long shortgunFiringInterval = 600;	// ms
+	protected long shotgunFiringInterval = 600;	// ms
 	protected long lastFire;
 	private int minigunBulIndex = 0;
 	private int shotgunBulIndex = 0;
@@ -58,7 +58,7 @@ public abstract class TankEntity extends Entity {
 		for (int i = 0; i < myBullets.length; i++) {
 			myBullets[i] = new MyMinigunBullet(game,12);
 		}
-		myShotgunBullets = new MyShotgunBullet[30];
+		myShotgunBullets = new MyShotgunBullet[50];
 		for (int i = 0; i < myShotgunBullets.length; i++) {
 			myShotgunBullets[i] = new MyShotgunBullet(game,5);
 		}
@@ -153,7 +153,7 @@ public abstract class TankEntity extends Entity {
 			game.addEntity(bullet);
 			break;
 		case SHOTGUN:
-			if (System.currentTimeMillis() - lastFire < shortgunFiringInterval) {
+			if (System.currentTimeMillis() - lastFire < shotgunFiringInterval) {
 				return;
 			}
 			lastFire = System.currentTimeMillis();

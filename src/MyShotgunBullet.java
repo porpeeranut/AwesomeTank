@@ -2,8 +2,9 @@
 public class MyShotgunBullet extends Bullet {
 
 	public MyShotgunBullet(Game ingame,int speed) {
+		super("shotgunBullet.png");
 		game = ingame;
-		moveSpeed = speed;
+		moveSpeed = speed;		
 	}
 
 	@Override

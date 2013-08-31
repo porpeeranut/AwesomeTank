@@ -2,6 +2,7 @@
 public class MyMinigunBullet extends Bullet {
 
 	public MyMinigunBullet(Game ingame,int speed) {
+		super("bullet.png");
 		game = ingame;
 		moveSpeed = speed;
 	}

@@ -2,6 +2,7 @@
 public class EnemyBullet extends Bullet {
 
 	public EnemyBullet(Game ingame) {
+		super("bullet.png");
 		game = ingame;
 	}
 

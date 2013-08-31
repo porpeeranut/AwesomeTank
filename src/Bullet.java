@@ -14,14 +14,14 @@ public abstract class Bullet extends Entity {
 	
 	public int moveSpeed;
 	public int attack = 5;
-	private Texture bull;
+	protected Texture bull;
 	protected boolean used;
 	protected boolean die = false;
 
-	public Bullet() {
-		bull = loadTexture("bullet.png");
+	public Bullet(String pic) {
 		this.dx = moveSpeed;
 		this.dy = moveSpeed;
+		bull = loadTexture(pic);
 		width = bull.getImageWidth()-5;
         height = bull.getImageHeight()-5;
 		halfSize = width/2;
