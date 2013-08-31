@@ -1,10 +1,11 @@
 
 public class MyMinigunBullet extends Bullet {
 
-	public MyMinigunBullet(Game ingame,int speed) {
+	public MyMinigunBullet(Game ingame,int speed,int atck) {
 		super("bullet.png");
 		game = ingame;
 		moveSpeed = speed;
+		attack = atck;
 	}
 
 	@Override

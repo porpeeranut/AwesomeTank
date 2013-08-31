@@ -44,11 +44,14 @@ public abstract class TankEntity extends Entity {
 	
 	protected long minigunFiringInterval = 100;	// ms
 	protected long shotgunFiringInterval = 600;	// ms
+	protected long cannonFiringInterval = 800;	// ms
 	protected long lastFire;
 	private int minigunBulIndex = 0;
 	private int shotgunBulIndex = 0;
+	private int cannonBulIndex = 0;
 	private MyMinigunBullet[] myBullets;
 	private MyShotgunBullet[] myShotgunBullets;
+	private MyCannonBullet[] myCannonBullets;
 
 	public TankEntity() {
 		width = 40;
@@ -56,16 +59,20 @@ public abstract class TankEntity extends Entity {
 		halfSize = width/2;
 		myBullets = new MyMinigunBullet[20];
 		for (int i = 0; i < myBullets.length; i++) {
-			myBullets[i] = new MyMinigunBullet(game,12);
+			myBullets[i] = new MyMinigunBullet(game,12,5);
 		}
 		myShotgunBullets = new MyShotgunBullet[50];
 		for (int i = 0; i < myShotgunBullets.length; i++) {
-			myShotgunBullets[i] = new MyShotgunBullet(game,5);
+			myShotgunBullets[i] = new MyShotgunBullet(game,5,5);
+		}
+		myCannonBullets = new MyCannonBullet[10];
+		for (int i = 0; i < myCannonBullets.length; i++) {
+			myCannonBullets[i] = new MyCannonBullet(game,7,35);
 		}
 		unlockGun.put(gunType.MINIGUN, true);
 		unlockGun.put(gunType.SHOTGUN, true);
 		unlockGun.put(gunType.RICOCHET, false);
-		unlockGun.put(gunType.CANNON, false);
+		unlockGun.put(gunType.CANNON, true);
 		unlockGun.put(gunType.ROCKET, false);
 		unlockGun.put(gunType.LASER, false);
 	}
@@ -169,6 +176,14 @@ public abstract class TankEntity extends Entity {
 		case RICOCHET:
 			break;
 		case CANNON:
+			if (System.currentTimeMillis() - lastFire < cannonFiringInterval) {
+				return;
+			}
+			lastFire = System.currentTimeMillis();
+			bullet = myCannonBullets[cannonBulIndex ++ % myCannonBullets.length];
+			cannonBulIndex %= myCannonBullets.length;
+			bullet.reinitialize(initBulletX,initBulletY ,(float)-Math.cos(0.0174532925*gunRotation)*bullet.moveSpeed, (float)-Math.sin(0.0174532925*gunRotation)*bullet.moveSpeed);
+			game.addEntity(bullet);
 			break;
 		case ROCKET:
 			break;
