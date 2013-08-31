@@ -85,7 +85,7 @@ public class Game{
         entities.add(player);
 		enemyTank = new EnemyTank[5];
 		for (int i = 0; i < enemyTank.length; i++) {
-			enemyTank[i] = new EnemyTank(this,60);
+			enemyTank[i] = new EnemyTank(this,50);
 			enemyTank[i].setPositionToMap(i+5, 4);
 			enemyTank[i].setBodyAngle(39);
 			entities.add(enemyTank[i]);
@@ -329,8 +329,8 @@ public class Game{
     	gunRotation += 180;
     	player.setGunAngle(gunRotation);
 
-    	camera_x = (int)mouseX + (int)(player.get_centerX() - camera_w/2);
-    	camera_y = -(int)mouseY + (int)(player.get_centerY() - camera_h/2);
+    	camera_x = (int)mouseX + (int)(player.get_centerX()-player.halfSize - camera_w/2);
+    	camera_y = -(int)mouseY + (int)(player.get_centerY()-player.halfSize - camera_h/2);
     }
     
     public void addEntity(Entity entity) {

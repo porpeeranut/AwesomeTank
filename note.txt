@@ -1,5 +1,7 @@
 
+got laser shot effect
 fire,shot effect
+ROCKET คลิก,เปลียนอาวุธแล้วระเบิด,camera ตาม rocket
 HP bar
 body,bullet,block anima(ระเบิด)
 esc pause
