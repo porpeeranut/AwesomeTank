@@ -1,8 +1,10 @@
 
-public class MyRicochetBullet {
+public class MyRicochetBullet extends MyBullet {
 
-	public MyRicochetBullet() {
-		// TODO Auto-generated constructor stub
+	public MyRicochetBullet(Game ingame,int speed,int atck) {
+		super("bullet.png");
+		game = ingame;
+		moveSpeed = speed;
+		attack = atck;
 	}
-
 }

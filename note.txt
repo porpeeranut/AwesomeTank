@@ -1,6 +1,8 @@
-add HP bar,class MyBullet
 
+check release mouse
 body,bullet,block anima(ระเบิด)
+gun
+Wground
 fire effect
 got laser shot effect
 ROCKET คลิก,เปลียนอาวุธแล้วระเบิด,camera ตาม rocket

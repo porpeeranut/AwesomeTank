@@ -22,7 +22,6 @@ public class ShotEffect extends Entity {
 		width = shotEffect.getImageWidth()-9;
         height = shotEffect.getImageHeight()-9;
 		halfSize = width/2;
-		shoted = true;
 	}
 	
 	public void draw() {

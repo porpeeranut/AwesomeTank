@@ -7,7 +7,10 @@ public class MyBullet extends Bullet {
 	
 	@Override
 	public void collidedWith(Entity other) {
-		if (used || other instanceof MyTank || other instanceof Bullet || other instanceof ShotEffect) {
+		if (used || other instanceof MyTank
+				|| other instanceof Bullet
+				|| other instanceof ShotEffect
+				|| other instanceof BombEffect_1) {
 			return;
 		}
 		setDX(0);
@@ -18,6 +21,7 @@ public class MyBullet extends Bullet {
 		other.damage(attack);
 		if(other.getHP() <= 0){
 			game.removeEntity(other);
+			game.addEntity(new BombEffect_1(game,other.x,other.y));
 			if(other instanceof EnemyTank){
 				if(!((EnemyTank) other).died){
 					((EnemyTank) other).died = true;
