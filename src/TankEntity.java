@@ -29,7 +29,6 @@ public abstract class TankEntity extends Entity {
 	protected Texture gun6;
 	protected Texture gun;
 	protected Texture body;
-	protected Texture bodyShot;
 	// angle 0 is direct left
 	protected float gunAngle;
 	protected int bodyAngle = 0;
@@ -213,7 +212,7 @@ public abstract class TankEntity extends Entity {
         super.draw();
         
         if(shoted){
-        	bodyShot.bind();
+        	Shot.bind();
 			super.draw();
 		}
     	
@@ -232,6 +231,10 @@ public abstract class TankEntity extends Entity {
         	if(gunSizeIndex == 0)
         		changeGun = false;
         }
+    	
+    	if(showHP){
+			drawHP();
+		}
 	}
 	
 	public abstract void collidedWith(Entity other);

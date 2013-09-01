@@ -6,6 +6,7 @@ public class MyTank extends TankEntity {
 	public MyTank(Game ingame,int hp) {
 		game = ingame;
 		HP = hp;
+		maxHP = HP;
 		gun1 = loadTexture("MyGun1.png");
 		gun2 = loadTexture("MyGun2.png");
 		gun3 = loadTexture("MyGun3.png");
@@ -14,7 +15,7 @@ public class MyTank extends TankEntity {
 		gun6 = loadTexture("MyGun6.png");
 		gun = gun1;
 		body = loadTexture("MyBody.png");
-		bodyShot = loadTexture("MyShot.png");
+		Shot = loadTexture("MyShot.png");
 	}
 	
 	@Override

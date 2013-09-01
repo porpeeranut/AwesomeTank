@@ -29,12 +29,22 @@ public abstract class Entity {
 	protected float	xPreMove,yPreMove;
 	protected int width,height;
 	protected float halfSize;
+	protected Texture Shot;
+	protected Texture HPbar;
+	protected Texture HPred;
+	protected Texture HPblk;
 	protected int HP;
+	protected int maxHP;
+	protected boolean showHP;
+	protected int HPshowTime = 0;
 	protected Game game;
 	protected boolean shoted;
 	protected int shotFade = 90;
 
 	public Entity() {
+		HPbar = loadTexture("HPbar.png");
+		HPred = loadTexture("HPred.png");
+		HPblk = loadTexture("HPblk.png");
 	}
 
 	public void move(long delta) {
@@ -89,8 +99,8 @@ public abstract class Entity {
 	public float getDY() {
 		return dy;
 	}
-
-	public void draw() {
+	
+	public void basicDraw() {
 		glPushMatrix();
 	    glBegin(GL_QUADS);
 			glTexCoord2f(0,0);
@@ -103,7 +113,12 @@ public abstract class Entity {
 			glVertex2f(x-halfSize ,y+halfSize);//bottom left
 		glEnd();
 		glPopMatrix();
+	}
+
+	public void draw() {
+		basicDraw();
 		if(shoted){
+			showHP = true;
 			if(shotFade > 0){
 				shotFade -= 30;
 			} else {
@@ -111,6 +126,41 @@ public abstract class Entity {
 				shoted = false;
 			}
 		}
+		if(showHP){
+			if(HPshowTime < 360){
+				HPshowTime++;
+			} else {
+				HPshowTime = 0;
+				showHP = false;
+			}
+		}
+	}
+	
+	public void drawHP() {
+		y -= halfSize;
+		HPred.bind();
+		glPushMatrix();
+		glBegin(GL_QUADS);
+			glVertex2f(x-(halfSize-1) ,y-(height/12.8f));
+			glVertex2f((x-(halfSize-1))+(width-2)*HP/maxHP ,y-(height/12.8f));
+			glVertex2f((x-(halfSize-1))+(width-2)*HP/maxHP ,y+(height/12.8f));
+			glVertex2f(x-(halfSize-1) ,y+(height/12.8f));
+		glEnd();
+		glPopMatrix();
+		
+		HPbar.bind();
+		basicDraw();
+		
+		HPblk.bind();
+		glPushMatrix();
+		glBegin(GL_QUADS);
+			glVertex2f((x-(halfSize-1))+(width-2)*HP/maxHP ,y-(height/12.8f));
+			glVertex2f(x+(halfSize-1) ,y-(height/12.8f));
+			glVertex2f(x+(halfSize-1) ,y+(height/12.8f));
+			glVertex2f((x-(halfSize-1))+(width-2)*HP/maxHP ,y+(height/12.8f));
+		glEnd();
+		glPopMatrix();
+		y += halfSize;
 	}
 
 	public void doLogic() {

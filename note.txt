@@ -1,14 +1,13 @@
+add HP bar,class MyBullet
 
-got laser shot effect
-fire,shot effect
-ROCKET คลิก,เปลียนอาวุธแล้วระเบิด,camera ตาม rocket
-HP bar
 body,bullet,block anima(ระเบิด)
+fire effect
+got laser shot effect
+ROCKET คลิก,เปลียนอาวุธแล้วระเบิด,camera ตาม rocket
 esc pause
 next level
 menu
 sound
--fix gun angle
 
 ## feature
 เก็บตังเปลียนปืน,แต่งperformanceรถ(armor,speed)

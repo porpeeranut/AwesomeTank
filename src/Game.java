@@ -114,11 +114,12 @@ public class Game{
 
     		// update our FPS
     		if (lastFpsTime >= 1000) {
-    			Display.setTitle("Awesome Tank (FPS: " + fps + ")");
+    			//Display.setTitle("Awesome Tank (FPS: " + fps + ")");
     			lastFpsTime = 0;
     			fps = 0;
     		}
     		
+    		Display.setTitle(String.valueOf(numEnemy));
     		if(numEnemy == -2){
     			map.createMap(2);
     			entities.clear();
@@ -135,7 +136,7 @@ public class Game{
             	glVertex2f(WORLD_W ,0);//upper right
             	glTexCoord2f(1,1);
             	glVertex2f(WORLD_W ,WORLD_H);//bottom right
-            	glTexCoord2f(0,1);
+            	glTexCoord2f(0,ssss1);
             	glVertex2f(0 ,WORLD_H);//bottom left
             glEnd();*/
             
