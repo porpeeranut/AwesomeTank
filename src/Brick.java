@@ -44,5 +44,4 @@ import org.newdawn.slick.opengl.Texture;
 			shoted = true;
 		}
 	}
-
 }

@@ -90,7 +90,10 @@ public class Game{
 			enemyTank[i].setBodyAngle(39);
 			entities.add(enemyTank[i]);
 		}
-		numEnemy = enemyTank.length;
+		Turret turret = new Turret(this, 50);
+		turret.setPositionToMap(15, 4);
+		entities.add(turret);
+		numEnemy = enemyTank.length + 1;
                
         //initialization opengl code
         glMatrixMode(GL_PROJECTION);
@@ -119,7 +122,7 @@ public class Game{
     			fps = 0;
     		}
     		
-    		if(numEnemy == -2){
+    		if(numEnemy == 0){
     			map.createMap(2);
     			entities.clear();
     			numEnemy = 5;

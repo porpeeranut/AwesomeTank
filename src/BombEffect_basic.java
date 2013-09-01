@@ -3,14 +3,14 @@ import static org.lwjgl.opengl.GL11.glColor4f;
 import org.newdawn.slick.opengl.Texture;
 
 
-public class BombEffect_1 extends Entity {
+public class BombEffect_basic extends Entity {
 	
 	private Texture[] bombEffect = new Texture[6];
 	private long lastFrameChange;
 	private long frameDuration = 50;
 	private int frameNumber;
 
-	public BombEffect_1(Game ingame,float x, float y) {
+	public BombEffect_basic(Game ingame,float x, float y) {
 		game = ingame;
 		this.x = x;
 		this.y = y;
