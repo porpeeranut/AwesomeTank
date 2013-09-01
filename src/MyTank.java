@@ -23,7 +23,7 @@ public class MyTank extends TankEntity {
 		if (other instanceof EnemyBullet) {
 			shoted = true;
 		} 
-		if(!(other instanceof Bullet)){
+		if(!(other instanceof Bullet) && !(other instanceof BombEffect_basic)){
 			/*float tmp = xPreMove;
 			xPreMove = x;
 			x = tmp;
