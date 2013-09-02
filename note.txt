@@ -1,12 +1,11 @@
 
-add class BombEffect_OilTank
+ยุบ effect
 
 fix class OilTank
 
 check release mouse
-gun bomb3
 จน.กระสุน
-gun bar
+select gun bar
 Wground
 Range bullet
 fire effect
