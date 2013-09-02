@@ -21,7 +21,14 @@ public class MyBullet extends Bullet {
 		other.damage(attack);
 		if(other.getHP() <= 0){
 			game.removeEntity(other);
-			game.addEntity(new BombEffect_basic(game,other.x,other.y));
+			if(other instanceof BombWall){
+				game.addEntity(new BombEffect_BombWall(game,other.x,other.y));
+				if(!((BombWall) other).died){
+					((BombWall) other).died = true;
+				}
+			} else {
+				game.addEntity(new BombEffect_basic(game,other.x,other.y));
+			}
 			if(other instanceof EnemyTank){
 				if(!((EnemyTank) other).died){
 					((EnemyTank) other).died = true;
@@ -36,5 +43,4 @@ public class MyBullet extends Bullet {
 			}
 		}
 	}
-
 }

@@ -82,6 +82,12 @@ public class Game{
         	brick[i].setPositionToMap(i+3, 3);
         	entities.add(brick[i]);
         }
+        BombWall[] bmWall = new BombWall[8];
+        for(int i = 0;i < bmWall.length;i++){
+        	bmWall[i] = new BombWall(this,30);
+        	bmWall[i].setPositionToMap(i+2, 4);
+        	entities.add(bmWall[i]);
+        }
         OilTank oilTank = new OilTank(this, 20);
         oilTank.setPositionToMap(14, 4);
 		entities.add(oilTank);

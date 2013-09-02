@@ -1,23 +1,23 @@
 import org.newdawn.slick.opengl.Texture;
 
 
-public class Turret extends Entity {
+public class BombWall extends Entity {
 	
-	protected Texture turret;
+	protected Texture bombWall;
 
-	public Turret(Game ingame,int hp) {
+	public BombWall(Game ingame,int hp) {
 		game = ingame;
-		turret = loadTexture("turret.png");
-		Shot = loadTexture("turretShot.png");
-		width = (int)(game.map.TILE_SIZE*0.8);
-        height = (int)(game.map.TILE_SIZE*0.8);
+		bombWall = loadTexture("brick.jpg");
+		Shot = loadTexture("brickShot.jpg");
+		width = game.map.TILE_SIZE;
+        height = game.map.TILE_SIZE;
 		halfSize = width/2;
 		HP = hp;
 		maxHP = HP;
 	}
 	
 	public void draw() {
-		super.draw(turret);
+		super.draw(bombWall);
 		if(shoted){
 			super.draw(Shot);
 		}

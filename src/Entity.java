@@ -37,6 +37,7 @@ public abstract class Entity {
 	protected int maxHP;
 	protected boolean showHP;
 	protected int HPshowTime = 0;
+	protected boolean died = false;
 	protected Game game;
 	protected boolean shoted;
 	protected int shotFade = 90;
