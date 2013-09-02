@@ -1,0 +1,157 @@
+
+got laser shot effect
+fire,shot effect
+ROCKET คลิก,เปลียนอาวุธแล้วระเบิด,camera ตาม rocket
+HP bar
+body,bullet,block anima(ระเบิด)
+esc pause
+next level
+menu
+sound
+-fix gun angle
+
+## feature
+เก็บตังเปลียนปืน,แต่งperformanceรถ(armor,speed)
+box drop item(+HP,freeze)
+fog
+
+gold
+movement speed
+visibility
+turret speed
+armor
+gun
+
+--------------------------------------------------
+##entity
+Entity(map)
+x,y
+dx,dy
+width,height
+hp
+map
+me,him
+collidedWith(other)
+draw()
+setPositionToMap(x,y)
+loadTexture(key)
+--------------------------------------------------
+## mytank
+x,y
+dx,dy
+width,height
+hp
+map
+collidedWith(other)
+
+texture body+ang
+	shot
+	gun+ang
+	bomb
+bullet
+move(dx,dy,setAng)
+--------------------------------------------------
+## bullet
+x,y
+dx,dy
+width,height
+map
+collidedWith(other)
+
+Range
+speed
+texture body
+	collide
+move(dx,dy,setAng)
+--------------------------------------------------
+## brick
+x,y
+width,height
+hp
+map
+collidedWith(other)
+
+texture body
+	shot
+	bomb
+	hp bar
+--------------------------------------------------
+## enemytank
+x,y
+dx,dy
+width,height
+hp
+map
+collidedWith(other)
+
+texture body+ang
+	shot
+	gun+ang
+	bomb
+	hp bar
+bullet
+move(dx,dy,setAng)
+--------------------------------------------------
+## enemyturret
+x,y
+width,height
+hp
+map
+collidedWith(other)
+
+texture body+ang
+	shot
+	gun+ang
+	bomb
+	hp bar
+bullet
+--------------------------------------------------
+## turret
+x,y
+width,height
+hp
+map
+collidedWith(other)
+
+texture body
+	shot
+	bomb
+	hp bar
+--------------------------------------------------
+## box
+x,y
+width,height
+hp
+map
+collidedWith(other)
+
+texture body
+	shot
+	bomb
+	hp bar
+--------------------------------------------------
+## wallbomb
+x,y
+width,height
+hp
+map
+collidedWith(other)
+
+texture body
+	shot
+	bomb
+	hp bar
+bomb()
+--------------------------------------------------
+## oiltank
+x,y
+width,height
+hp
+map
+collidedWith(other)
+
+texture body
+	shot
+	bomb
+	hp bar
+bomb()
