@@ -162,7 +162,11 @@ public class Game{
                 		entity.move(delta);
                 	if(entity instanceof Bullet){
     					if(map.blocked((int)entity.x/map.TILE_SIZE, (int)entity.y/map.TILE_SIZE)){
-    						entities.add(new BulletShotEffect(this,entity.x,entity.y));
+    						if(entity instanceof MyCannonBullet || entity instanceof MyRocketBullet){
+    							entities.add(new BombEffect_BigBullet(this,entity.x,entity.y));
+    						} else {
+    							entities.add(new BulletShotEffect(this,entity.x,entity.y));
+    						}
     						entity.setDX(0);
     						entity.setDY(0);
     						((Bullet) entity).used = true;

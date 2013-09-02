@@ -1,9 +1,12 @@
 
+add class BombEffect_OilTank
+
 fix class OilTank
 
 check release mouse
-gun
-จอสั่น
+gun bomb3
+จน.กระสุน
+gun bar
 Wground
 Range bullet
 fire effect
@@ -12,6 +15,7 @@ ROCKET คลิก,เปลียนอาวุธแล้วระเบิด,camera ตาม rocket
 next level
 menu
 sound
+จอสั่น
 esc pause
 
 ## feature
@@ -40,6 +44,6 @@ fog
 --------------------------------------------------
 ## box		Bomb1
 --------------------------------------------------
-## wallbomb	Bomb1
+## wallbomb	Bomb2
 --------------------------------------------------
-## oiltank	Bomb2
+## oiltank	Bomb3

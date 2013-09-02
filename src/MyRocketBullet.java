@@ -1,8 +1,9 @@
 
-public class MyRocketBullet {
+public class MyRocketBullet extends MyBullet {
 
-	public MyRocketBullet() {
-		// TODO Auto-generated constructor stub
+	public MyRocketBullet(Game ingame,int speed,int atck) {
+		super(ingame,"cannonBullet.png");
+		moveSpeed = speed;
+		attack = atck;
 	}
-
 }

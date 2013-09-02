@@ -17,7 +17,12 @@ public class MyBullet extends Bullet {
 		setDY(0);
 		used = true;
 		game.removeEntity(this);
-		game.addEntity(new BulletShotEffect(game,x,y));
+		if(this instanceof MyCannonBullet || this instanceof MyRocketBullet){
+			game.addEntity(new BombEffect_BigBullet(game,x,y));
+		} else {
+			game.addEntity(new BulletShotEffect(game,x,y));
+		}
+			
 		other.damage(attack);
 		if(other.getHP() <= 0){
 			game.removeEntity(other);
