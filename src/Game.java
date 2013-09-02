@@ -23,6 +23,7 @@ public class Game{
 	private static ArrayList<Entity> entities = new ArrayList<Entity>();
 	private static ArrayList<Entity> removeList = new ArrayList<Entity>();
     public Map map;
+    private int level = 1;
     private MyTank player;
     static private int camera_x,camera_y,camera_w,camera_h;
     static final int WORLD_W,WORLD_H;
@@ -70,40 +71,10 @@ public class Game{
 		soundManager.initialize(8);
 		SOUND_SHOT   = soundManager.addSound("shot.wav");
 		SOUND_HIT    = soundManager.addSound("hit.wav");
-        
-        // set game
-        map = new Map();
-        player = new MyTank(this,100);
-        player.setPositionToMap(2,3);
-        player.setGun(player.gunType.MINIGUN);
-        Brick[] brick = new Brick[11];
-        for(int i = 0;i < brick.length;i++){
-        	brick[i] = new Brick(this,30);
-        	brick[i].setPositionToMap(i+3, 3);
-        	entities.add(brick[i]);
-        }
-        BombWall[] bmWall = new BombWall[8];
-        for(int i = 0;i < bmWall.length;i++){
-        	bmWall[i] = new BombWall(this,30);
-        	bmWall[i].setPositionToMap(i+2, 4);
-        	entities.add(bmWall[i]);
-        }
-        OilTank oilTank = new OilTank(this, 20);
-        oilTank.setPositionToMap(14, 4);
-		entities.add(oilTank);
-        entities.add(player);
-		enemyTank = new EnemyTank[5];
-		for (int i = 0; i < enemyTank.length; i++) {
-			enemyTank[i] = new EnemyTank(this,50);
-			enemyTank[i].setPositionToMap(i+5, 4);
-			enemyTank[i].setBodyAngle(39);
-			entities.add(enemyTank[i]);
-		}
-		Turret turret = new Turret(this, 50);
-		turret.setPositionToMap(15, 4);
-		entities.add(turret);
-		numEnemy = enemyTank.length + 1;
-               
+
+		map = new Map();
+		SetGame(level);
+		
         //initialization opengl code
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
@@ -132,9 +103,9 @@ public class Game{
     		}
     		
     		if(numEnemy == 0){
-    			map.createMap(2);
     			entities.clear();
-    			numEnemy = 5;
+    			level++;
+    			SetGame(level);
     		}
     		initBulletX = (float)(player.x-Math.cos(0.0174532925*gunRotation)*player.width/1.5);
     		initBulletY = (float)(player.y-Math.sin(0.0174532925*gunRotation)*player.height/1.5);
@@ -362,6 +333,46 @@ public class Game{
     public static void removeEntity(Entity entity) {
 		removeList.add(entity);
 	}
+    
+    private void SetGame(int LV){
+    	switch (LV) {
+		case 1:
+			player = new MyTank(this,200);
+	        player.setPositionToMap(2,3);
+	        player.setGun(player.gunType.MINIGUN);
+	        Brick[] brick = new Brick[11];
+	        for(int i = 0;i < brick.length;i++){
+	        	brick[i] = new Brick(this,30);
+	        	brick[i].setPositionToMap(i+3, 3);
+	        	entities.add(brick[i]);
+	        }
+	        BombWall[] bmWall = new BombWall[8];
+	        for(int i = 0;i < bmWall.length;i++){
+	        	bmWall[i] = new BombWall(this,30);
+	        	bmWall[i].setPositionToMap(i+2, 4);
+	        	entities.add(bmWall[i]);
+	        }
+	        OilTank oilTank = new OilTank(this, 20);
+	        oilTank.setPositionToMap(14, 4);
+			entities.add(oilTank);
+	        entities.add(player);
+			enemyTank = new EnemyTank[5];
+			for (int i = 0; i < enemyTank.length; i++) {
+				enemyTank[i] = new EnemyTank(this,50);
+				enemyTank[i].setPositionToMap(i+5, 4);
+				enemyTank[i].setBodyAngle(39);
+				entities.add(enemyTank[i]);
+			}
+			Turret turret = new Turret(this, 50);
+			turret.setPositionToMap(15, 4);
+			entities.add(turret);
+			numEnemy = enemyTank.length + 1;
+			break;
+		case 2:
+			map.createMap(2);
+			break;
+		}
+    }
     
     public static long getTime() {
 		return (Sys.getTime() * 1000) / timerTicksPerSecond;

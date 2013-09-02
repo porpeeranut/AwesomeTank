@@ -1,10 +1,11 @@
 
+fix oilTank atck
+เชคชน bombEffect
 ยุบ effect
-
-fix class OilTank
 
 check release mouse
 จน.กระสุน
+เชคตาย
 select gun bar
 Wground
 Range bullet

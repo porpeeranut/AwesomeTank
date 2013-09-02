@@ -7,7 +7,7 @@ public class BombEffect_OilTank extends Entity {
 	private long lastFrameChange;
 	private long frameDuration = 50;
 	private int frameNumber;
-	public int attack = 60;;
+	public int attack = 60;
 
 	public BombEffect_OilTank(Game ingame,float x, float y) {
 		game = ingame;
@@ -46,7 +46,6 @@ public class BombEffect_OilTank extends Entity {
 			return;
 		}
 		other.damage(attack);
-		game.removeEntity(other);
 		if(other.getHP() <= 0){
 			game.removeEntity(other);
 			if(other instanceof BombWall){
