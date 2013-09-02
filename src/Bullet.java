@@ -16,6 +16,10 @@ public abstract class Bullet extends Entity {
 	public int attack;
 	protected Texture bull;
 	protected boolean used;
+<<<<<<< HEAD
+=======
+	protected boolean die = false;
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 
 	public Bullet(String pic) {
 		this.dx = moveSpeed;
@@ -30,6 +34,13 @@ public abstract class Bullet extends Entity {
 		return moveSpeed;
 	}
 	
+<<<<<<< HEAD
+=======
+	public void move(long delta) {
+		super.move(delta);
+	}
+	
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 	public void reinitialize(float x, float y,float dx,float dy) {
 		this.x = x;
 		this.y = y;
@@ -38,6 +49,13 @@ public abstract class Bullet extends Entity {
 		used = false;
 	}
 	
+<<<<<<< HEAD
+=======
+	public void die(long delta) {
+		die = true;
+	}
+	
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 	public void draw() {
 		bull.bind();
 		super.draw();

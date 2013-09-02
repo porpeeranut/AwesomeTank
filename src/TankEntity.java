@@ -29,6 +29,10 @@ public abstract class TankEntity extends Entity {
 	protected Texture gun6;
 	protected Texture gun;
 	protected Texture body;
+<<<<<<< HEAD
+=======
+	protected Texture bodyShot;
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 	// angle 0 is direct left
 	protected float gunAngle;
 	protected int bodyAngle = 0;
@@ -58,11 +62,19 @@ public abstract class TankEntity extends Entity {
 		width = 40;
         height = 40;
 		halfSize = width/2;
+<<<<<<< HEAD
 		myBullets = new MyMinigunBullet[25];
 		for (int i = 0; i < myBullets.length; i++) {
 			myBullets[i] = new MyMinigunBullet(game,12,5);
 		}
 		myShotgunBullets = new MyShotgunBullet[60];
+=======
+		myBullets = new MyMinigunBullet[20];
+		for (int i = 0; i < myBullets.length; i++) {
+			myBullets[i] = new MyMinigunBullet(game,12,5);
+		}
+		myShotgunBullets = new MyShotgunBullet[50];
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 		for (int i = 0; i < myShotgunBullets.length; i++) {
 			myShotgunBullets[i] = new MyShotgunBullet(game,5,5);
 		}
@@ -212,7 +224,11 @@ public abstract class TankEntity extends Entity {
         super.draw();
         
         if(shoted){
+<<<<<<< HEAD
         	Shot.bind();
+=======
+        	bodyShot.bind();
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 			super.draw();
 		}
     	
@@ -231,10 +247,13 @@ public abstract class TankEntity extends Entity {
         	if(gunSizeIndex == 0)
         		changeGun = false;
         }
+<<<<<<< HEAD
     	
     	if(showHP){
 			drawHP();
 		}
+=======
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 	}
 	
 	public abstract void collidedWith(Entity other);

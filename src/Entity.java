@@ -1,17 +1,29 @@
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.glBegin;
+<<<<<<< HEAD
+=======
+import static org.lwjgl.opengl.GL11.glColor4f;
+import static org.lwjgl.opengl.GL11.glColor3f;
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
+<<<<<<< HEAD
+=======
+import java.awt.Rectangle;
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 
+<<<<<<< HEAD
 import org.lwjgl.util.Rectangle;
+=======
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 import org.newdawn.slick.Color;
 import org.newdawn.slick.geom.Polygon;
 import org.newdawn.slick.geom.Shape;
@@ -29,6 +41,7 @@ public abstract class Entity {
 	protected float	xPreMove,yPreMove;
 	protected int width,height;
 	protected float halfSize;
+<<<<<<< HEAD
 	protected Texture Shot;
 	protected Texture HPbar;
 	protected Texture HPred;
@@ -45,6 +58,17 @@ public abstract class Entity {
 		HPbar = loadTexture("HPbar.png");
 		HPred = loadTexture("HPred.png");
 		HPblk = loadTexture("HPblk.png");
+=======
+	protected int HP;
+	protected Game game;
+	protected boolean shoted;
+	protected int shotFade = 90;
+	
+	protected Polygon rect1;
+	protected Polygon rect2;
+
+	public Entity() {
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 	}
 
 	public void move(long delta) {
@@ -52,6 +76,12 @@ public abstract class Entity {
 		y += (delta * dy) / 10;
 	}
 	
+<<<<<<< HEAD
+=======
+	public void preMove(long delta) {
+	}
+	
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 	public boolean validLocation(float nx, float ny) {
 		int nxN = (int)(nx-halfSize)/game.map.TILE_SIZE;
 		int nyN = (int)(ny-halfSize)/game.map.TILE_SIZE;
@@ -99,8 +129,13 @@ public abstract class Entity {
 	public float getDY() {
 		return dy;
 	}
+<<<<<<< HEAD
 	
 	public void basicDraw() {
+=======
+
+	public void draw() {
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 		glPushMatrix();
 	    glBegin(GL_QUADS);
 			glTexCoord2f(0,0);
@@ -113,12 +148,16 @@ public abstract class Entity {
 			glVertex2f(x-halfSize ,y+halfSize);//bottom left
 		glEnd();
 		glPopMatrix();
+<<<<<<< HEAD
 	}
 
 	public void draw() {
 		basicDraw();
 		if(shoted){
 			showHP = true;
+=======
+		if(shoted){
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 			if(shotFade > 0){
 				shotFade -= 30;
 			} else {
@@ -126,6 +165,7 @@ public abstract class Entity {
 				shoted = false;
 			}
 		}
+<<<<<<< HEAD
 		if(showHP){
 			if(HPshowTime < 360){
 				HPshowTime++;
@@ -161,16 +201,27 @@ public abstract class Entity {
 		glEnd();
 		glPopMatrix();
 		y += halfSize;
+=======
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 	}
 
 	public void doLogic() {
 	}
 
 	public float get_centerX(){
+<<<<<<< HEAD
         return x+width/2;
 	}
 	public float get_centerY(){
         return y+height/2;
+=======
+        return x;
+		//return x+width/2;
+	}
+	public float get_centerY(){
+        return y;
+		//return y+height/2;
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 	}
 
 	/** (1,1) to (mapWIDTH, mapHEIGHT)*/
@@ -191,11 +242,19 @@ public abstract class Entity {
     }
 
 	public boolean collidesWith(Entity other) {
+<<<<<<< HEAD
 		/*Polygon rect1 = new Polygon(new float[]{(x - width/2), (y - height/2),
 												(x + width/2), (y - height/2),
 												(x + width/2), (y + height/2),
 												(x - width/2), (y + height/2)});
 		Polygon rect2 = new Polygon(new float[]{other.x - other.width/2,other.y - other.height/2,
+=======
+		rect1 = new Polygon(new float[]{(x - width/2), (y - height/2),
+												(x + width/2), (y - height/2),
+												(x + width/2), (y + height/2),
+												(x - width/2), (y + height/2)});
+		rect2 = new Polygon(new float[]{other.x - other.width/2,other.y - other.height/2,
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 												other.x + other.width/2,other.y - other.height/2,
 												other.x + other.width/2,other.y + other.height/2,
 												other.x - other.width/2,other.y + other.height/2,});
@@ -203,13 +262,17 @@ public abstract class Entity {
 			if(this instanceof TankEntity){
 				rect1 = (Polygon) rect1.transform(Transform.createRotateTransform(
 		                (float) Math.toRadians(((TankEntity)this).bodyAngle), x,y));
+<<<<<<< HEAD
 				System.out.println(String.valueOf(((TankEntity)this).bodyAngle)+"\n");
+=======
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 			}
 			if(other instanceof TankEntity){
 				rect2 = (Polygon) rect2.transform(Transform.createRotateTransform(
 		                (float) Math.toRadians(((TankEntity)other).bodyAngle), other.x,other.y));
 			}
 		}
+<<<<<<< HEAD
 		return rect1.intersects(rect2);*/
 		
 		Rectangle  me  = new Rectangle();
@@ -225,6 +288,9 @@ public abstract class Entity {
 			return false;
 		}
 		return true;*/
+=======
+		return rect1.intersects(rect2);
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 	}
 
 	public abstract void collidedWith(Entity other);

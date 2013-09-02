@@ -30,7 +30,11 @@ public class path_map implements TileBasedMap {
 	private int[][] mapData;
 	private static int WIDTH;
 	private static int HEIGHT;
+<<<<<<< HEAD
 	public static int TILE_SIZE =64;
+=======
+	public static int TILE_SIZE = 50;
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 	//for path	#new add
 	private boolean[][] visited;
 	private int[][] map4path;

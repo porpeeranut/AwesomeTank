@@ -1,10 +1,21 @@
 import static org.lwjgl.opengl.GL11.*;
+<<<<<<< HEAD
  
+=======
+
+import pathFinding.AStarPathFinder; 
+import pathFinding.Path;
+
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 import org.lwjgl.opengl.*;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.*;
+<<<<<<< HEAD
  
+=======
+
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,6 +25,10 @@ import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
  
+<<<<<<< HEAD
+=======
+
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
@@ -22,8 +37,14 @@ import de.matthiasmann.twl.utils.PNGDecoder;
 public class Game{
 	private static ArrayList<Entity> entities = new ArrayList<Entity>();
 	private static ArrayList<Entity> removeList = new ArrayList<Entity>();
+<<<<<<< HEAD
     public Map map;
     private MyTank player;
+=======
+    //public Map map;
+    public path_map map;
+	private MyTank player;
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
     static private int camera_x,camera_y,camera_w,camera_h;
     static final int WORLD_W,WORLD_H;
     private float gunRotation = 0;
@@ -42,6 +63,12 @@ public class Game{
     
 	private EnemyTank[] enemyTank;
 	public static int numEnemy;
+<<<<<<< HEAD
+=======
+	//path
+	private Path path;
+	private AStarPathFinder finder;
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
     
     static{
     	//initial world size
@@ -64,7 +91,11 @@ public class Game{
         //initial display
         Display.setDisplayMode(new DisplayMode(camera_w, camera_h));
         Display.create();
+<<<<<<< HEAD
         
+=======
+        	
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
         entities.clear();
         soundManager = new SoundManager();
 		soundManager.initialize(8);
@@ -72,16 +103,32 @@ public class Game{
 		SOUND_HIT    = soundManager.addSound("hit.wav");
         
         // set game
+<<<<<<< HEAD
         map = new Map();
         player = new MyTank(this,100);
         player.setPositionToMap(2,3);
         player.setGun(player.gunType.MINIGUN);
         Brick[] brick = new Brick[11];
+=======
+		//add player
+        //map = new Map();
+		map = new path_map();
+		//setup finder
+		finder =new AStarPathFinder(map,100,false);
+        player = new MyTank(this,100);
+        player.setPositionToMap(2,3);
+        
+        player.setGun(player.gunType.ROCKET);
+        entities.add(player);
+        //add bricks
+        Brick[] brick = new Brick[1];
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
         for(int i = 0;i < brick.length;i++){
         	brick[i] = new Brick(this,30);
         	brick[i].setPositionToMap(i+3, 3);
         	entities.add(brick[i]);
         }
+<<<<<<< HEAD
         entities.add(player);
 		enemyTank = new EnemyTank[5];
 		for (int i = 0; i < enemyTank.length; i++) {
@@ -94,6 +141,17 @@ public class Game{
 		turret.setPositionToMap(15, 4);
 		entities.add(turret);
 		numEnemy = enemyTank.length + 1;
+=======
+        //add enemy
+		enemyTank = new EnemyTank[1];
+		for (int i = 0; i < enemyTank.length; i++) {
+			enemyTank[i] = new EnemyTank(this,50);
+			enemyTank[i].setPositionToMap(i+5, 3);
+			enemyTank[i].setBodyAngle(90);
+			entities.add(enemyTank[i]);
+		}
+		numEnemy = enemyTank.length;
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
                
         //initialization opengl code
         glMatrixMode(GL_PROJECTION);
@@ -105,7 +163,17 @@ public class Game{
         
         glEnable(GL_BLEND);
         glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+<<<<<<< HEAD
 
+=======
+        
+        /*###################################################
+         * ################ MAIN GAME LOOP ##################
+         * ################################################## 
+         */
+        map.setArrayMap(entities);
+        
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
         while(!Display.isCloseRequested()){
         	//clear screen
             glClear(GL_COLOR_BUFFER_BIT);
@@ -122,7 +190,11 @@ public class Game{
     			fps = 0;
     		}
     		
+<<<<<<< HEAD
     		if(numEnemy == 0){
+=======
+    		if(numEnemy == -2){
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
     			map.createMap(2);
     			entities.clear();
     			numEnemy = 5;
@@ -130,6 +202,7 @@ public class Game{
     		initBulletX = (float)(player.x-Math.cos(0.0174532925*gunRotation)*player.width/1.5);
     		initBulletY = (float)(player.y-Math.sin(0.0174532925*gunRotation)*player.height/1.5);
            
+<<<<<<< HEAD
             /*sky.bind();
             glBegin(GL_QUADS);
             	glTexCoord2f(0,0);
@@ -149,21 +222,41 @@ public class Game{
             		Entity entity = entities.get(p);
                 	if(entity instanceof MyTank)
                 		player.move(delta, bodyAng);
+=======
+            //get input for controlling 
+    		input();
+    		
+    		//manage entities to move 
+            if(!soundManager.isPlayingSound()){
+            	for ( Entity entity : entities ) {
+                	if(entity instanceof MyTank)
+                		player.move(delta, bodyAng);
+                	else if(entity instanceof EnemyTank)
+                		enemyTank[0].move(delta,path);
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
                 	else
                 		entity.move(delta);
                 	if(entity instanceof Bullet){
     					if(map.blocked((int)entity.x/map.TILE_SIZE, (int)entity.y/map.TILE_SIZE)){
+<<<<<<< HEAD
     						entities.add(new ShotEffect(this,entity.x,entity.y));
     						entity.setDX(0);
     						entity.setDY(0);
     						((Bullet) entity).used = true;
+=======
+    						((Bullet) entity).reinitialize(initBulletX,initBulletY ,((Bullet)entity).getMoveSpeed(), ((Bullet)entity).getMoveSpeed());
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
     						removeList.add(entity);
     					}
     				}
     			}
             }
             
+<<<<<<< HEAD
             // check collisions and move
+=======
+            // check collisions and move back
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
     		for (int p = 0; p < entities.size(); p++) {
     			for (int s = p + 1; s < entities.size(); s++) {
     				Entity me = entities.get(p);
@@ -178,18 +271,48 @@ public class Game{
     				}
     			}
     		}
+<<<<<<< HEAD
             
+=======
+    		//test prinout x y center of player 
+    		//System.out.println(player.get_centerX()+" "+player.get_centerY());
+    		//set up
+    		//System.out.println( (int) player.get_centerX()/map.TILE_SIZE +" "+ (int) player.get_centerY()/map.TILE_SIZE );
+    		
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
             //set camera
             setCamera();
             glMatrixMode(GL_PROJECTION);
             glLoadIdentity();
             glOrtho(camera_x ,640+camera_x ,480+camera_y ,camera_y ,-1 , 1);
             
+<<<<<<< HEAD
     		entities.removeAll(removeList);
     		removeList.clear();
     		
             //draw
             map.draw();
+=======
+            entities.removeAll(removeList);
+    		removeList.clear();
+    		//set data to array map for A*patwhfinding
+    		map.setArrayMap(entities);
+    		map.clearVisited(); 
+    		path = finder.findPath(new UnitMover() 
+		    		,(int) enemyTank[0].get_centerX()/map.TILE_SIZE 
+					,(int) enemyTank[0].get_centerY()/map.TILE_SIZE
+    				,(int) player.get_centerX()/map.TILE_SIZE 
+    				,(int) player.get_centerY()/map.TILE_SIZE
+    				);
+    		if(path!=null)
+    			path.removeFromLast(3);
+    		//path.getStep(path.getLength()-1);
+    		//path = finder.findPath(new UnitMover() ,(int) (player.get_centerX()) /map.TILE_SIZE ,(int) (player.get_centerY())/map.TILE_SIZE
+    				//,2 ,2);
+            //System.out.println( (int) enemyTank[0].get_centerX()/map.TILE_SIZE+" "+(int) enemyTank[0].get_centerY()/map.TILE_SIZE);
+    		//draw
+            map.draw(path);
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
             for ( Entity entity : entities ) {
             	if(entity instanceof MyTank)
             		player.draw();
@@ -197,8 +320,14 @@ public class Game{
             		entity.draw();
 			}
             Display.update();
+<<<<<<< HEAD
             Display.sync(60);
         }
+=======
+            Display.sync(30);
+        }
+        //handle for new frame
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
         soundManager.destroy();
         Display.destroy();
         System.exit(0);
@@ -342,7 +471,11 @@ public class Game{
     	camera_y = -(int)mouseY + (int)(player.get_centerY()-player.halfSize - camera_h/2);
     }
     
+<<<<<<< HEAD
     public static void addEntity(Entity entity) {
+=======
+    public void addEntity(Entity entity) {
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
     	entities.add(entity);
 	}
     

@@ -6,7 +6,10 @@ public class MyTank extends TankEntity {
 	public MyTank(Game ingame,int hp) {
 		game = ingame;
 		HP = hp;
+<<<<<<< HEAD
 		maxHP = HP;
+=======
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 		gun1 = loadTexture("MyGun1.png");
 		gun2 = loadTexture("MyGun2.png");
 		gun3 = loadTexture("MyGun3.png");
@@ -15,7 +18,11 @@ public class MyTank extends TankEntity {
 		gun6 = loadTexture("MyGun6.png");
 		gun = gun1;
 		body = loadTexture("MyBody.png");
+<<<<<<< HEAD
 		Shot = loadTexture("MyShot.png");
+=======
+		bodyShot = loadTexture("MyShot.png");
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 	}
 	
 	@Override
@@ -23,7 +30,11 @@ public class MyTank extends TankEntity {
 		if (other instanceof EnemyBullet) {
 			shoted = true;
 		} 
+<<<<<<< HEAD
 		if(!(other instanceof Bullet) && !(other instanceof BombEffect_basic)){
+=======
+		if(!(other instanceof Bullet)){
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 			/*float tmp = xPreMove;
 			xPreMove = x;
 			x = tmp;
@@ -50,6 +61,10 @@ public class MyTank extends TankEntity {
 					y = tmp;
 				}
 			}*/
+<<<<<<< HEAD
+=======
+			
+>>>>>>> 39c289637e236b3f3c3dc1510b136af572347b8b
 			moveBack();
 		}
 	}
