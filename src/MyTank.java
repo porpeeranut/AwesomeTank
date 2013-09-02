@@ -49,6 +49,7 @@ public class MyTank extends TankEntity {
 					y = tmp;
 				}
 			}*/
+			
 			moveBack();
 		}
 	}
