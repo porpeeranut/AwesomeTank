@@ -100,23 +100,29 @@ public abstract class Entity {
 		return dy;
 	}
 	
-	public void basicDraw() {
+	public void basicDraw(Texture tex) {
+		tex.bind();
+		float TexCoordWidth = tex.getWidth();
+		float TexCoordHeight = tex.getHeight();
 		glPushMatrix();
 	    glBegin(GL_QUADS);
 			glTexCoord2f(0,0);
-			glVertex2f(x-halfSize ,y-halfSize);//upper left
-			glTexCoord2f(1,0);
-			glVertex2f(x+halfSize ,y-halfSize);//upper right
-			glTexCoord2f(1,1);
-			glVertex2f(x+halfSize ,y+halfSize);//bottom right
-			glTexCoord2f(0,1);
-			glVertex2f(x-halfSize ,y+halfSize);//bottom left
+			glVertex2f(x-width/2 ,y-height/2);//upper left
+			glTexCoord2f(TexCoordWidth,0);
+			glVertex2f(x+width/2 ,y-height/2);//upper right
+			glTexCoord2f(TexCoordWidth,TexCoordHeight);
+			glVertex2f(x+width/2 ,y+height/2);//bottom right
+			glTexCoord2f(0,TexCoordHeight);
+			glVertex2f(x-width/2 ,y+height/2);//bottom left
 		glEnd();
 		glPopMatrix();
 	}
 
 	public void draw() {
-		basicDraw();
+	}
+	
+	public void draw(Texture tex) {
+		basicDraw(tex);
 		if(shoted){
 			showHP = true;
 			if(shotFade > 0){
@@ -127,7 +133,7 @@ public abstract class Entity {
 			}
 		}
 		if(showHP){
-			if(HPshowTime < 360){
+			if(HPshowTime < 100){
 				HPshowTime++;
 			} else {
 				HPshowTime = 0;
@@ -149,7 +155,18 @@ public abstract class Entity {
 		glPopMatrix();
 		
 		HPbar.bind();
-		basicDraw();
+		glPushMatrix();
+		glBegin(GL_QUADS);
+			glTexCoord2f(0,0);
+			glVertex2f(x-halfSize ,y-(height/12.8f));
+			glTexCoord2f(HPbar.getWidth(),0);
+			glVertex2f(x+halfSize ,y-(height/12.8f));
+			glTexCoord2f(HPbar.getWidth(),HPbar.getHeight());
+			glVertex2f(x+halfSize ,y+(height/12.8f));
+			glTexCoord2f(0,HPbar.getHeight());
+			glVertex2f(x-halfSize ,y+(height/12.8f));
+		glEnd();
+		glPopMatrix();
 		
 		HPblk.bind();
 		glPushMatrix();
@@ -167,10 +184,10 @@ public abstract class Entity {
 	}
 
 	public float get_centerX(){
-        return x+width/2;
+        return x;
 	}
 	public float get_centerY(){
-        return y+height/2;
+        return y;
 	}
 
 	/** (1,1) to (mapWIDTH, mapHEIGHT)*/
@@ -217,14 +234,6 @@ public abstract class Entity {
 		me.setBounds((int) x - width/2, (int) y - height/2, width, height);
 		him.setBounds((int) other.x - other.width/2, (int) other.y - other.height/2, other.width, other.height);
 		return me.intersects(him);
-		
-		/*if ((x >= (other.x + other.width)) || ((x + width) <= other.x)) {
-			return false;
-		}
-		if ((y >= (other.y + other.height)) || ((y + height) <= other.y)) {
-			return false;
-		}
-		return true;*/
 	}
 
 	public abstract void collidedWith(Entity other);

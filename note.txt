@@ -1,5 +1,5 @@
 
-ชน effect
+add class BombEffect_LV2
 
 check release mouse
 gun

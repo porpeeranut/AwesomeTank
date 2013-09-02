@@ -9,20 +9,18 @@ public class Turret extends Entity {
 	public Turret(Game ingame,int hp) {
 		game = ingame;
 		turret = loadTexture("turret.png");
-		Shot = loadTexture("shotTurret.png");
-		width = turret.getImageWidth();
-        height = turret.getImageHeight();
+		Shot = loadTexture("turretShot.png");
+		width = (int)(game.map.TILE_SIZE*0.8);
+        height = (int)(game.map.TILE_SIZE*0.8);
 		halfSize = width/2;
 		HP = hp;
 		maxHP = HP;
 	}
 	
 	public void draw() {
-		turret.bind();
-		super.draw();
+		super.draw(turret);
 		if(shoted){
-			Shot.bind();
-			super.draw();
+			super.draw(Shot);
 		}
 		if(showHP){
 			drawHP();

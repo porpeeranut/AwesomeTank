@@ -54,19 +54,20 @@ public abstract class TankEntity extends Entity {
 	private MyShotgunBullet[] myShotgunBullets;
 	private MyCannonBullet[] myCannonBullets;
 
-	public TankEntity() {
-		width = 40;
-        height = 40;
+	public TankEntity(Game ingame) {
+		game = ingame;
+		width = (int)(game.map.TILE_SIZE*0.7);
+        height = (int)(game.map.TILE_SIZE*0.7);
 		halfSize = width/2;
-		myBullets = new MyMinigunBullet[25];
+		myBullets = new MyMinigunBullet[50];
 		for (int i = 0; i < myBullets.length; i++) {
 			myBullets[i] = new MyMinigunBullet(game,12,5);
 		}
-		myShotgunBullets = new MyShotgunBullet[60];
+		myShotgunBullets = new MyShotgunBullet[70];
 		for (int i = 0; i < myShotgunBullets.length; i++) {
 			myShotgunBullets[i] = new MyShotgunBullet(game,5,5);
 		}
-		myCannonBullets = new MyCannonBullet[10];
+		myCannonBullets = new MyCannonBullet[20];
 		for (int i = 0; i < myCannonBullets.length; i++) {
 			myCannonBullets[i] = new MyCannonBullet(game,7,35);
 		}
@@ -208,23 +209,23 @@ public abstract class TankEntity extends Entity {
         glRotatef(bodyAngle, 0f, 0f, 1f);
         glTranslatef(-x, -y, 0);
         
-        body.bind();
-        super.draw();
+        super.draw(body);
         
         if(shoted){
-        	Shot.bind();
-			super.draw();
+			super.draw(Shot);
 		}
     	
 		glTranslatef(x, y, 0);
         glRotatef(gunAngle - bodyAngle, 0f, 0f, 1f);
         glTranslatef(-x, -y, 0);
         
-        halfSize += gunSize[gunSizeIndex];
+        width += gunSize[gunSizeIndex];
+        height += gunSize[gunSizeIndex];
         gun.bind();
-        super.draw();
+        super.draw(gun);
     	glPopMatrix();
-    	halfSize -= gunSize[gunSizeIndex];
+    	width -= gunSize[gunSizeIndex];
+    	height -= gunSize[gunSizeIndex];
     	if(changeGun){
         	gunSizeIndex++;
         	gunSizeIndex %= gunSize.length;

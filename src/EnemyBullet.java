@@ -2,13 +2,12 @@
 public class EnemyBullet extends Bullet {
 
 	public EnemyBullet(Game ingame) {
-		super("bullet.png");
-		game = ingame;
+		super(ingame,"bullet.png");
 	}
 
 	@Override
 	public void collidedWith(Entity other) {
-		if (used || other instanceof EnemyTank || other instanceof Bullet || other instanceof ShotEffect) {
+		if (used || other instanceof EnemyTank || other instanceof Bullet || other instanceof BulletShotEffect) {
 			return;
 		}
 		setDX(0);

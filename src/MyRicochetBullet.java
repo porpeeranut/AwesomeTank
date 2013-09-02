@@ -2,8 +2,7 @@
 public class MyRicochetBullet extends MyBullet {
 
 	public MyRicochetBullet(Game ingame,int speed,int atck) {
-		super("bullet.png");
-		game = ingame;
+		super(ingame,"bullet.png");
 		moveSpeed = speed;
 		attack = atck;
 	}

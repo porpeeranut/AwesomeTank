@@ -17,12 +17,13 @@ public abstract class Bullet extends Entity {
 	protected Texture bull;
 	protected boolean used;
 
-	public Bullet(String pic) {
+	public Bullet(Game ingame,String pic) {
+		game = ingame;
 		this.dx = moveSpeed;
 		this.dy = moveSpeed;
 		bull = loadTexture(pic);
-		width = bull.getImageWidth()-5;
-        height = bull.getImageHeight()-5;
+		width = (int)(ingame.map.TILE_SIZE*0.17);
+        height = (int)(ingame.map.TILE_SIZE*0.17);
 		halfSize = width/2;
 	}
 	
@@ -39,8 +40,7 @@ public abstract class Bullet extends Entity {
 	}
 	
 	public void draw() {
-		bull.bind();
-		super.draw();
+		super.draw(bull);
 	}
 
 	public abstract void collidedWith(Entity other);

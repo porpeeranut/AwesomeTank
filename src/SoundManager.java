@@ -1,4 +1,9 @@
 
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
 import java.nio.IntBuffer;
 
 import org.lwjgl.BufferUtils;
@@ -63,8 +68,8 @@ public class SoundManager {
       System.out.println("Sound disabled");
     }
   }
-
-  public int addSound(String path) {
+  
+  public int addSound(String path) throws IOException {
     // Generate 1 buffer entry
     scratchBuffer.rewind().position(0).limit(1);
     AL10.alGenBuffers(scratchBuffer);

@@ -8,19 +8,19 @@ import static org.lwjgl.opengl.GL11.glColor3f;
 import org.newdawn.slick.opengl.Texture;
 
 
-public class ShotEffect extends Entity {
+public class BulletShotEffect extends Entity {
 	
 	protected Texture shotEffect;
 	private int ang = 0;
 	private int fade = 90;
 
-	public ShotEffect(Game ingame,float x, float y) {
+	public BulletShotEffect(Game ingame,float x, float y) {
 		game = ingame;
 		this.x = x;
 		this.y = y;
 		shotEffect = loadTexture("shotEffect.png");
-		width = shotEffect.getImageWidth()-9;
-        height = shotEffect.getImageHeight()-9;
+		width = (int)(ingame.map.TILE_SIZE*0.3);
+        height = (int)(ingame.map.TILE_SIZE*0.3);
 		halfSize = width/2;
 	}
 	
@@ -29,10 +29,9 @@ public class ShotEffect extends Entity {
 		glTranslatef(x, y, 0);
         glRotatef(ang, 0f, 0f, 1f);
         glTranslatef(-x, -y, 0);
-        
-        shotEffect.bind();
+
         glColor4f(1f, 1f, 1f, (float) Math.sin(Math.toRadians(fade)));
-        super.draw();
+        super.draw(shotEffect);
         glColor3f(1f, 1f, 1f);
         glPopMatrix();
         

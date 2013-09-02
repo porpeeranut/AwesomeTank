@@ -57,7 +57,7 @@ public class Game{
         camera_h = 480;
         
         Display.setIcon(new ByteBuffer[] {
-		        loadIcon(getClass().getResource("game.png"))  // "bin/gameIcon.png" size 32x32
+		        loadIcon("game.png")  // "res/game.png" size 32x32
 		    });
         //Mouse.setGrabbed(true);
 
@@ -82,6 +82,9 @@ public class Game{
         	brick[i].setPositionToMap(i+3, 3);
         	entities.add(brick[i]);
         }
+        OilTank oilTank = new OilTank(this, 20);
+        oilTank.setPositionToMap(14, 4);
+		entities.add(oilTank);
         entities.add(player);
 		enemyTank = new EnemyTank[5];
 		for (int i = 0; i < enemyTank.length; i++) {
@@ -138,7 +141,7 @@ public class Game{
             	glVertex2f(WORLD_W ,0);//upper right
             	glTexCoord2f(1,1);
             	glVertex2f(WORLD_W ,WORLD_H);//bottom right
-            	glTexCoord2f(0,ssss1);
+            	glTexCoord2f(0,1);
             	glVertex2f(0 ,WORLD_H);//bottom left
             glEnd();*/
             
@@ -153,7 +156,7 @@ public class Game{
                 		entity.move(delta);
                 	if(entity instanceof Bullet){
     					if(map.blocked((int)entity.x/map.TILE_SIZE, (int)entity.y/map.TILE_SIZE)){
-    						entities.add(new ShotEffect(this,entity.x,entity.y));
+    						entities.add(new BulletShotEffect(this,entity.x,entity.y));
     						entity.setDX(0);
     						entity.setDY(0);
     						((Bullet) entity).used = true;
@@ -338,8 +341,8 @@ public class Game{
     	gunRotation += 180;
     	player.setGunAngle(gunRotation);
 
-    	camera_x = (int)mouseX + (int)(player.get_centerX()-player.halfSize - camera_w/2);
-    	camera_y = -(int)mouseY + (int)(player.get_centerY()-player.halfSize - camera_h/2);
+    	camera_x = (int)mouseX + (int)(player.get_centerX() - camera_w/2);
+    	camera_y = -(int)mouseY + (int)(player.get_centerY() - camera_h/2);
     }
     
     public static void addEntity(Entity entity) {
@@ -354,8 +357,8 @@ public class Game{
 		return (Sys.getTime() * 1000) / timerTicksPerSecond;
 	}
 
-	private ByteBuffer loadIcon(URL url) throws IOException {
-        InputStream is = url.openStream();
+	private ByteBuffer loadIcon(String key) throws IOException {
+        InputStream is = new FileInputStream(new File("res/"+key));
         try {
             PNGDecoder decoder = new PNGDecoder(is);
             ByteBuffer bb = ByteBuffer.allocateDirect(decoder.getWidth()*decoder.getHeight()*4);

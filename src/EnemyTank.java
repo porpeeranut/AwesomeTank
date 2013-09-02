@@ -4,7 +4,7 @@ public class EnemyTank extends TankEntity {
 	protected boolean died = false;
 
 	public EnemyTank(Game ingame,int hp) {
-		game = ingame;
+		super(ingame);
 		HP = hp;
 		maxHP = HP;
 		gun = loadTexture("EnemyGun.png");

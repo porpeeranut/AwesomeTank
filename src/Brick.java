@@ -27,11 +27,9 @@ import org.newdawn.slick.opengl.Texture;
 	}
 	
 	public void draw() {
-		brick.bind();
-		super.draw();
+		super.draw(brick);
 		if(shoted){
-			Shot.bind();
-			super.draw();
+			super.draw(Shot);
 		}
 		if(showHP){
 			drawHP();

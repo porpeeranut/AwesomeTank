@@ -4,7 +4,7 @@ import org.newdawn.slick.opengl.Texture;
 public class MyTank extends TankEntity {
 
 	public MyTank(Game ingame,int hp) {
-		game = ingame;
+		super(ingame);
 		HP = hp;
 		maxHP = HP;
 		gun1 = loadTexture("MyGun1.png");
@@ -23,7 +23,9 @@ public class MyTank extends TankEntity {
 		if (other instanceof EnemyBullet) {
 			shoted = true;
 		} 
-		if(!(other instanceof Bullet) && !(other instanceof BombEffect_basic)){
+		if(!(other instanceof Bullet) && 
+				!(other instanceof BombEffect_basic) && 
+				!(other instanceof BulletShotEffect)){
 			/*float tmp = xPreMove;
 			xPreMove = x;
 			x = tmp;

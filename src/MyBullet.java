@@ -1,15 +1,15 @@
 
 public class MyBullet extends Bullet {
 
-	public MyBullet(String pic) {
-		super(pic);
+	public MyBullet(Game ingame,String pic) {
+		super(ingame,pic);
 	}
 	
 	@Override
 	public void collidedWith(Entity other) {
 		if (used || other instanceof MyTank
 				|| other instanceof Bullet
-				|| other instanceof ShotEffect
+				|| other instanceof BulletShotEffect
 				|| other instanceof BombEffect_basic) {
 			return;
 		}
@@ -17,7 +17,7 @@ public class MyBullet extends Bullet {
 		setDY(0);
 		used = true;
 		game.removeEntity(this);
-		game.addEntity(new ShotEffect(game,x,y));
+		game.addEntity(new BulletShotEffect(game,x,y));
 		other.damage(attack);
 		if(other.getHP() <= 0){
 			game.removeEntity(other);
