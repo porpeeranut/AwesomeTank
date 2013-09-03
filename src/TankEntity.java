@@ -69,7 +69,7 @@ public abstract class TankEntity extends Entity {
 		}
 		myCannonBullets = new MyCannonBullet[20];
 		for (int i = 0; i < myCannonBullets.length; i++) {
-			myCannonBullets[i] = new MyCannonBullet(game,7,35);
+			myCannonBullets[i] = new MyCannonBullet(game,7,50);
 		}
 		unlockGun.put(gunType.MINIGUN, true);
 		unlockGun.put(gunType.SHOTGUN, true);

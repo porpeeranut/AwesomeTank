@@ -1,7 +1,6 @@
 
-fix oilTank atck
-เชคชน bombEffect
 ยุบ effect
+เชคชน bombEffect
 
 check release mouse
 จน.กระสุน

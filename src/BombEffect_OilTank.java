@@ -16,8 +16,8 @@ public class BombEffect_OilTank extends Entity {
 		for(int i = 1;i <= 6;i++){
 			bombEffect[i-1] = loadTexture("BombEffect_1/"+i+".png");
 		}
-		width = (int)(ingame.map.TILE_SIZE*3);
-        height = (int)(ingame.map.TILE_SIZE*3);
+		width = (int)(ingame.map.TILE_SIZE*4);
+        height = (int)(ingame.map.TILE_SIZE*4);
 		halfSize = width/2;
 	}
 	
@@ -45,7 +45,10 @@ public class BombEffect_OilTank extends Entity {
 				|| other instanceof BombEffect_BigBullet) {
 			return;
 		}
-		other.damage(attack);
+		if(lastFrameChange == 0 && !other.touchedBombEffect){
+			other.touchedBombEffect = true;
+			other.damage(attack);
+		}
 		if(other.getHP() <= 0){
 			game.removeEntity(other);
 			if(other instanceof BombWall){

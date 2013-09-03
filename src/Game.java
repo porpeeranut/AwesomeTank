@@ -350,18 +350,22 @@ public class Game{
 	        for(int i = 0;i < bmWall.length;i++){
 	        	bmWall[i] = new BombWall(this,30);
 	        	bmWall[i].setPositionToMap(i+2, 4);
-	        	entities.add(bmWall[i]);
+	        	//entities.add(bmWall[i]);
 	        }
-	        OilTank oilTank = new OilTank(this, 20);
-	        oilTank.setPositionToMap(14, 4);
-			entities.add(oilTank);
+	        OilTank[] oilTank = new OilTank[3];
+	        for(int i = 0;i < oilTank.length;i++){
+	        	oilTank[i] = new OilTank(this,15);
+	        	oilTank[i].setPositionToMap(i+10, 4);
+	        	entities.add(oilTank[i]);
+	        }
+			
 	        entities.add(player);
 			enemyTank = new EnemyTank[5];
 			for (int i = 0; i < enemyTank.length; i++) {
 				enemyTank[i] = new EnemyTank(this,50);
 				enemyTank[i].setPositionToMap(i+5, 4);
 				enemyTank[i].setBodyAngle(39);
-				entities.add(enemyTank[i]);
+				//entities.add(enemyTank[i]);
 			}
 			Turret turret = new Turret(this, 50);
 			turret.setPositionToMap(15, 4);
