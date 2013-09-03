@@ -33,6 +33,9 @@ public class MyBullet extends Bullet {
 				}
 			} else if (other instanceof OilTank){
 				game.addEntity(new BombEffect_OilTank(game,other.x,other.y));
+				if(!((OilTank) other).died){
+					((OilTank) other).died = true;
+				}
 			} else {
 				game.addEntity(new BombEffect_basic(game,other.x,other.y));
 			}

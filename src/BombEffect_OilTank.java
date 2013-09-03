@@ -16,8 +16,8 @@ public class BombEffect_OilTank extends Entity {
 		for(int i = 1;i <= 6;i++){
 			bombEffect[i-1] = loadTexture("BombEffect_1/"+i+".png");
 		}
-		width = (int)(ingame.map.TILE_SIZE*4);
-        height = (int)(ingame.map.TILE_SIZE*4);
+		width = (int)(ingame.map.TILE_SIZE*5);
+        height = (int)(ingame.map.TILE_SIZE*5);
 		halfSize = width/2;
 	}
 	
@@ -42,22 +42,27 @@ public class BombEffect_OilTank extends Entity {
 				|| other instanceof BulletShotEffect
 				|| other instanceof BombEffect_basic
 				|| other instanceof BombEffect_BombWall
-				|| other instanceof BombEffect_BigBullet) {
+				|| other instanceof BombEffect_BigBullet
+				|| other instanceof BombEffect_OilTank) {
 			return;
 		}
-		if(lastFrameChange == 0 && !other.touchedBombEffect){
+		if(!other.touchedBombEffect){
 			other.touchedBombEffect = true;
 			other.damage(attack);
 		}
 		if(other.getHP() <= 0){
 			game.removeEntity(other);
 			if(other instanceof BombWall){
-				game.addEntity(new BombEffect_BombWall(game,other.x,other.y));
 				if(!((BombWall) other).died){
 					((BombWall) other).died = true;
+					game.addEntity(new BombEffect_BombWall(game,other.x,other.y));
 				}
-			} 
-			else {
+			} else if (other instanceof OilTank){
+				if(!((OilTank) other).died){
+					((OilTank) other).died = true;
+					game.addEntity(new BombEffect_OilTank(game,other.x,other.y));
+				}
+			} else {
 				game.addEntity(new BombEffect_basic(game,other.x,other.y));
 			}
 			if(other instanceof EnemyTank){

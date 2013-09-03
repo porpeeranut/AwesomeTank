@@ -138,7 +138,7 @@ public abstract class Entity {
 		}
 		if(touchedBombEffect){
 			showHP = true;
-			if(BombTime < 100){
+			if(BombTime < 200){
 				BombTime++;
 			} else {
 				BombTime = 0;
