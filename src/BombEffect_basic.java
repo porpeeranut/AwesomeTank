@@ -3,7 +3,7 @@ import static org.lwjgl.opengl.GL11.glColor4f;
 import org.newdawn.slick.opengl.Texture;
 
 
-public class BombEffect_basic extends Entity {
+public class BombEffect_basic extends Effect {
 	
 	private Texture[] bombEffect = new Texture[6];
 	private long lastFrameChange;

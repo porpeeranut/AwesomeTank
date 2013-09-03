@@ -1,7 +1,7 @@
 import org.newdawn.slick.opengl.Texture;
 
 
-public class BombEffect_OilTank extends Entity {
+public class BombEffect_OilTank extends Effect{
 	
 	private Texture[] bombEffect = new Texture[6];
 	private long lastFrameChange;
@@ -38,12 +38,7 @@ public class BombEffect_OilTank extends Entity {
 
 	@Override
 	public void collidedWith(Entity other) {
-		if (other instanceof Bullet
-				|| other instanceof BulletShotEffect
-				|| other instanceof BombEffect_basic
-				|| other instanceof BombEffect_BombWall
-				|| other instanceof BombEffect_BigBullet
-				|| other instanceof BombEffect_OilTank) {
+		if (other instanceof Bullet || other instanceof Effect) {
 			return;
 		}
 		if(!other.touchedBombEffect){

@@ -8,7 +8,7 @@ import static org.lwjgl.opengl.GL11.glColor3f;
 import org.newdawn.slick.opengl.Texture;
 
 
-public class BulletShotEffect extends Entity {
+public class BulletShotEffect extends Effect {
 	
 	protected Texture shotEffect;
 	private int ang = 0;

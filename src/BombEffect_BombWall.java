@@ -1,7 +1,7 @@
 import org.newdawn.slick.opengl.Texture;
 
 
-public class BombEffect_BombWall extends Entity {
+public class BombEffect_BombWall extends Effect {
 	
 	private Texture[] bombEffect = new Texture[6];
 	private long lastFrameChange;
@@ -39,11 +39,9 @@ public class BombEffect_BombWall extends Entity {
 	public void collidedWith(Entity other) {
 		if(other instanceof BombWall){
 			game.removeEntity(other);
-			if(other instanceof BombWall){
-				if(!((BombWall) other).died){
-					((BombWall) other).died = true;
-					game.addEntity(new BombEffect_BombWall(game,other.x,other.y));
-				}
+			if(!((BombWall) other).died){
+				((BombWall) other).died = true;
+				game.addEntity(new BombEffect_BombWall(game,other.x,other.y));
 			}
 		}
 	}

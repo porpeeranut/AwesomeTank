@@ -1,7 +1,7 @@
 import org.newdawn.slick.opengl.Texture;
 
 
-public class BombEffect_BigBullet extends Entity {
+public class BombEffect_BigBullet extends Effect {
 	
 	private Texture[] bombEffect = new Texture[6];
 	private long lastFrameChange;

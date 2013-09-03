@@ -7,7 +7,9 @@ public class EnemyBullet extends Bullet {
 
 	@Override
 	public void collidedWith(Entity other) {
-		if (used || other instanceof EnemyTank || other instanceof Bullet || other instanceof BulletShotEffect) {
+		if (used || other instanceof EnemyTank 
+				|| other instanceof Bullet 
+				|| other instanceof Effect) {
 			return;
 		}
 		setDX(0);
