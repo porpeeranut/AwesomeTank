@@ -156,7 +156,7 @@ public abstract class Entity {
 	}
 	
 	public void drawHP() {
-		y -= halfSize;
+		y -= height/2;
 		HPred.bind();
 		glPushMatrix();
 		glBegin(GL_QUADS);
@@ -190,7 +190,7 @@ public abstract class Entity {
 			glVertex2f((x-(halfSize-1))+(width-2)*HP/maxHP ,y+(height/12.8f));
 		glEnd();
 		glPopMatrix();
-		y += halfSize;
+		y += height/2;
 	}
 
 	public void doLogic() {

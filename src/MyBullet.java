@@ -18,6 +18,8 @@ public class MyBullet extends Bullet {
 		game.removeEntity(this);
 		if(this instanceof MyCannonBullet || this instanceof MyRocketBullet){
 			game.addEntity(new BombEffect_BigBullet(game,x,y));
+			if(this instanceof MyRocketBullet)
+				game.player.rocketReleased = false;
 		} else {
 			game.addEntity(new BulletShotEffect(game,x,y));
 		}

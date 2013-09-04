@@ -24,8 +24,9 @@ public class Game{
 	private static ArrayList<Entity> removeList = new ArrayList<Entity>();
     public Map map;
     private int level = 1;
-    private MyTank player;
+    public MyTank player;
     static private int camera_x,camera_y,camera_w,camera_h;
+    static private int camera_x_tmp,camera_y_tmp;
     static final int WORLD_W,WORLD_H;
     private float gunRotation = 0;
     float bodyAng = 0;
@@ -97,7 +98,7 @@ public class Game{
 
     		// update our FPS
     		if (lastFpsTime >= 1000) {
-    			Display.setTitle("Awesome Tank (FPS: " + fps + ")");
+    			//Display.setTitle("Awesome Tank (FPS: " + fps + ")");
     			lastFpsTime = 0;
     			fps = 0;
     		}
@@ -135,6 +136,8 @@ public class Game{
     					if(map.blocked((int)entity.x/map.TILE_SIZE, (int)entity.y/map.TILE_SIZE)){
     						if(entity instanceof MyCannonBullet || entity instanceof MyRocketBullet){
     							entities.add(new BombEffect_BigBullet(this,entity.x,entity.y));
+    							if(entity instanceof MyRocketBullet)
+    								player.rocketReleased = false;
     						} else {
     							entities.add(new BulletShotEffect(this,entity.x,entity.y));
     						}
@@ -287,6 +290,13 @@ public class Game{
         		bodyAng = 315;
         	player.setDX(-speed);
         }
+        if(KEY_1 || KEY_2 || KEY_3 || KEY_4 || KEY_5 || KEY_6){
+        	if(player.rocketReleased){
+        		player.rocketReleased = false;
+        		removeEntity(player.myRocketBullet);
+        		entities.add(new BombEffect_BigBullet(this,player.myRocketBullet.x,player.myRocketBullet.y));
+        	}
+        }
         if(KEY_1)
         	player.setGun(player.gunType.MINIGUN);
         if(KEY_2)
@@ -295,14 +305,42 @@ public class Game{
         	player.setGun(player.gunType.RICOCHET);
         if(KEY_4)
         	player.setGun(player.gunType.CANNON);
-        if(KEY_5)
+        if(KEY_5){
+        	while (Mouse.next())
         	player.setGun(player.gunType.ROCKET);
+        }
         if(KEY_6)
         	player.setGun(player.gunType.LASER);
         
         
         if(!soundManager.isPlayingSound()){
-        	if(Mouse.isButtonDown(0)){
+        	if(player.gunType == player.gunType.ROCKET){
+        		while (Mouse.next()) {
+            	    if (Mouse.getEventButtonState()) {
+            	        switch (Mouse.getEventButton()) {
+            	        	case 0:
+            	        		player.Fire(player.x,player.y,gunRotation);
+            	        		break;
+            	        }
+            	    }
+            	}
+        	} else if(player.gunType == player.gunType.RICOCHET){
+        		while (Mouse.next()) {
+            	    if (Mouse.getEventButtonState()) {
+            	        switch (Mouse.getEventButton()) {
+            	        	case 0:
+            	        		player.Fire(initBulletX,initBulletY,gunRotation);
+            	        		break;
+            	        }
+            	    } else {	// mouse release
+            	    	switch (Mouse.getEventButton()) {
+        	        		case 0:
+        	        			player.Fire(initBulletX,initBulletY,gunRotation);
+        	        			break;
+            	    	}
+            	    }
+            	}
+        	} else if(Mouse.isButtonDown(0)){
             	player.Fire(initBulletX,initBulletY,gunRotation);
             }
         }
@@ -321,9 +359,34 @@ public class Game{
     	gunRotation = (float) (180/Math.PI*(float)Math.atan2(camera_h/2 - Mouse.getY(),Mouse.getX() - camera_w/2));
     	gunRotation += 180;
     	player.setGunAngle(gunRotation);
-
-    	camera_x = (int)mouseX + (int)(player.get_centerX() - camera_w/2);
-    	camera_y = -(int)mouseY + (int)(player.get_centerY() - camera_h/2);
+    	if(player.rocketReleased){
+    		player.myRocketBullet.setDX((float)-Math.cos(0.0174532925*gunRotation)*player.myRocketBullet.moveSpeed);
+    		player.myRocketBullet.setDY((float)-Math.sin(0.0174532925*gunRotation)*player.myRocketBullet.moveSpeed);
+    		camera_x = (int)(player.myRocketBullet.get_centerX() - camera_w/2);
+        	camera_y = (int)(player.myRocketBullet.get_centerY() - camera_h/2);
+        	if(Math.abs(camera_x_tmp - camera_x) > 5){
+        		if(camera_x > camera_x_tmp)
+        			camera_x = camera_x_tmp + 5;
+        		else
+        			camera_x = camera_x_tmp - 5;
+        	} else {
+        		camera_x_tmp = camera_x;
+        	}
+        	if(Math.abs(camera_y_tmp - camera_y) > 5){
+        		if(camera_y > camera_y_tmp)
+        			camera_y = camera_y_tmp + 5;
+        		else
+        			camera_y = camera_y_tmp - 5;
+        	} else {
+            	camera_y_tmp = camera_y;
+        	}
+    	}
+    	else{
+    		camera_x = (int)mouseX + (int)(player.get_centerX() - camera_w/2);
+        	camera_y = -(int)mouseY + (int)(player.get_centerY() - camera_h/2);
+        	camera_x_tmp = camera_x;
+        	camera_y_tmp = camera_y;
+    	}
     }
     
     public static void addEntity(Entity entity) {
