@@ -354,7 +354,7 @@ public class Game{
     	String str = String.valueOf(gunRotation);
     	
     	// Mouse.getX(),Mouse.getY() position (0,0) at bottom left
-    	//Display.setTitle(str);
+    	Display.setTitle(str);
     	//gunRotation = 57.2957795f*(float)Math.atan2(camera_h/2 - Mouse.getY(),Mouse.getX() - camera_w/2);
     	gunRotation = (float) (180/Math.PI*(float)Math.atan2(camera_h/2 - Mouse.getY(),Mouse.getX() - camera_w/2));
     	gunRotation += 180;
@@ -365,27 +365,56 @@ public class Game{
     		camera_x = (int)(player.myRocketBullet.get_centerX() - camera_w/2);
         	camera_y = (int)(player.myRocketBullet.get_centerY() - camera_h/2);
         	if(Math.abs(camera_x_tmp - camera_x) > 5){
-        		if(camera_x > camera_x_tmp)
+        		if(camera_x > camera_x_tmp){
         			camera_x = camera_x_tmp + 5;
-        		else
+        			camera_x_tmp += 5;
+        		}
+        		else{
         			camera_x = camera_x_tmp - 5;
+        			camera_x_tmp -= 5;
+        		}
         	} else {
         		camera_x_tmp = camera_x;
         	}
         	if(Math.abs(camera_y_tmp - camera_y) > 5){
-        		if(camera_y > camera_y_tmp)
+        		if(camera_y > camera_y_tmp){
         			camera_y = camera_y_tmp + 5;
-        		else
+        			camera_y_tmp += 5;
+        		}
+        		else{
         			camera_y = camera_y_tmp - 5;
+        			camera_y_tmp -= 5;
+        		}
         	} else {
             	camera_y_tmp = camera_y;
         	}
-    	}
-    	else{
+    	} else{
     		camera_x = (int)mouseX + (int)(player.get_centerX() - camera_w/2);
         	camera_y = -(int)mouseY + (int)(player.get_centerY() - camera_h/2);
-        	camera_x_tmp = camera_x;
-        	camera_y_tmp = camera_y;
+        	if(Math.abs(camera_x_tmp - camera_x) > 25){
+        		if(camera_x > camera_x_tmp){
+        			camera_x = camera_x_tmp + 25;
+        			camera_x_tmp += 25;
+        		}
+        		else{
+        			camera_x = camera_x_tmp - 25;
+        			camera_x_tmp -= 25;
+        		}
+        	} else {
+        		camera_x_tmp = camera_x;
+        	}
+        	if(Math.abs(camera_y_tmp - camera_y) > 25){
+        		if(camera_y > camera_y_tmp){
+        			camera_y = camera_y_tmp + 25;
+        			camera_y_tmp += 25;
+        		}
+        		else{
+        			camera_y = camera_y_tmp - 25;
+        			camera_y_tmp -= 25;
+        		}
+        	} else {
+            	camera_y_tmp = camera_y;
+        	}
     	}
     }
     
