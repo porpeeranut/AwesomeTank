@@ -1,21 +1,20 @@
+add state,button
 
-ROCKET smoke effect
-
+แยก List<button> แต่ละ state
+menu pic +contras 20,20
+menu
+กด esc,menu -> เกม pause
 จน.กระสุน
 เชคตาย
 sound effect เรียกใน class effect
 select gun bar
 Wground
 Range bullet
-fire effect
 got laser shot effect
-ROCKET คลิก,เปลียนอาวุธแล้วระเบิด,camera ตาม rocket
 next level
-menu
 enemytank ตายดรอปตังค์ 
 sound
 จอสั่น
-esc pause
 
 ## feature
 gold

@@ -7,7 +7,7 @@ public class BombEffect_basic extends Effect {
 	
 	private Texture[] bombEffect = new Texture[6];
 	private long lastFrameChange;
-	private long frameDuration = 50;
+	private long frameDuration = 25;
 	private int frameNumber;
 
 	public BombEffect_basic(Game ingame,float x, float y) {

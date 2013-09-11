@@ -20,6 +20,16 @@ import org.newdawn.slick.opengl.TextureLoader;
 import de.matthiasmann.twl.utils.PNGDecoder;
  
 public class Game{
+	private static enum State {
+		INTRO,UPGRADE,SELECT_LEVEL,PLAY;
+	}
+	private State state = State.INTRO;
+	public static enum CurrentButton {
+		NONE,MENU,PLAY;
+	}
+	private Button[] btn;
+	private CurrentButton currentButton = CurrentButton.NONE;
+	private Texture background;
 	private static ArrayList<Entity> entities = new ArrayList<Entity>();
 	private static ArrayList<Entity> removeList = new ArrayList<Entity>();
     public Map map;
@@ -73,6 +83,7 @@ public class Game{
 		SOUND_SHOT   = soundManager.addSound("shot.wav");
 		SOUND_HIT    = soundManager.addSound("hit.wav");
 
+		background = loadTexture("intro.png");
 		map = new Map();
 		SetGame(level);
 		
@@ -103,86 +114,154 @@ public class Game{
     			fps = 0;
     		}
     		
-    		if(numEnemy == 0){
-    			entities.clear();
-    			level++;
-    			SetGame(level);
-    		}
-    		initBulletX = (float)(player.x-Math.cos(0.0174532925*gunRotation)*player.width/1.5);
-    		initBulletY = (float)(player.y-Math.sin(0.0174532925*gunRotation)*player.height/1.5);
-           
-            /*sky.bind();
-            glBegin(GL_QUADS);
-            	glTexCoord2f(0,0);
-            	glVertex2f(0 ,0);//upper left
-            	glTexCoord2f(1,0);
-            	glVertex2f(WORLD_W ,0);//upper right
-            	glTexCoord2f(1,1);
-            	glVertex2f(WORLD_W ,WORLD_H);//bottom right
-            	glTexCoord2f(0,1);
-            	glVertex2f(0 ,WORLD_H);//bottom left
-            glEnd();*/
-            
-    		input();
     		
-            if(!soundManager.isPlayingSound()){
-            	for (int p = 0; p < entities.size(); p++) {
-            		Entity entity = entities.get(p);
+    		switch(state){
+        	case INTRO:
+        		drawBackground(background);
+        		btn = new Button[1];	
+        		btn[0] = new Button(this,CurrentButton.PLAY,320,240);
+        		if(btn[0].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY()))
+        			btn[0].draw_OnMouseOver();
+        		else
+        			btn[0].draw();
+        		while (Mouse.next()) {
+            	    if (Mouse.getEventButtonState()) {
+            	        switch (Mouse.getEventButton()) {
+            	        case 0:
+            	        	if(btn[0].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY()))
+            	        		currentButton = CurrentButton.PLAY;
+            	        	else
+                    			currentButton = CurrentButton.NONE;
+        	        		break;
+            	        }
+            	    } else {	// mouse release
+            	    	switch (Mouse.getEventButton()) {
+            	    	case 0:
+            	    		if(btn[0].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY())){
+            	    			if(currentButton == CurrentButton.PLAY){
+        	        				background = loadTexture("upgrade.png");
+        	        				btn = new Button[2];            	        		
+        	        				btn[0] = new Button(this,CurrentButton.MENU,120,444);
+    	            				btn[1] = new Button(this,CurrentButton.PLAY,520,444);
+        	        				state = State.UPGRADE;
+        	        			}
+                    		} else
+    	        				currentButton = CurrentButton.NONE;
+    	        			break;
+            	    	}
+            	    }
+            	}
+    			break;
+        	case UPGRADE:
+        		drawBackground(background);
+        		for(int i = 0;i < btn.length;i++){
+        			if(btn[i].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY()))
+            			btn[i].draw_OnMouseOver();
+            		else
+            			btn[i].draw();
+        		}
+        		while (Mouse.next()) {
+            	    if (Mouse.getEventButtonState()) {
+            	        switch (Mouse.getEventButton()) {
+            	        case 0:
+            	        	if(btn[0].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY()))
+            	        		currentButton = CurrentButton.MENU;
+            	        	else if(btn[1].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY()))
+            	        		currentButton = CurrentButton.PLAY;
+            	    		else
+            	    			currentButton = CurrentButton.NONE;
+        	        		break;
+            	        }
+            	    } else {	// mouse release
+            	    	switch (Mouse.getEventButton()) {
+            	    	case 0:
+            	    		if(btn[0].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY())){
+            	    			if(currentButton == CurrentButton.MENU){
+            	    				background = loadTexture("intro.png");
+            	    				state = State.INTRO;
+            	    			}            	        		
+            	    		}else if(btn[1].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY())){
+            	    			if(currentButton == CurrentButton.PLAY){
+            	    				currentButton = CurrentButton.PLAY;
+                	        		state = State.PLAY;
+            	    			}
+            	    		} else
+            	    			currentButton = CurrentButton.NONE;
+    	        			break;
+            	    	}
+            	    }
+            	}
+    			break;
+        	case SELECT_LEVEL:
+    			break;
+    		case PLAY:
+    			if(numEnemy == 0){
+        			entities.clear();
+        			level++;
+        			SetGame(level);
+        		}
+        		initBulletX = (float)(player.x-Math.cos(0.0174532925*gunRotation)*player.width/1.5);
+        		initBulletY = (float)(player.y-Math.sin(0.0174532925*gunRotation)*player.height/1.5);
+               
+        		input();
+        		
+                if(!soundManager.isPlayingSound()){
+                	for (int p = 0; p < entities.size(); p++) {
+                		Entity entity = entities.get(p);
+                    	if(entity instanceof MyTank)
+                    		player.move(delta, bodyAng);
+                    	else
+                    		entity.move(delta);
+                    	if(entity instanceof Bullet){
+        					if(map.blocked((int)entity.x/map.TILE_SIZE, (int)entity.y/map.TILE_SIZE)){
+        						if(entity instanceof MyCannonBullet || entity instanceof MyRocketBullet){
+        							entities.add(new BombEffect_BigBullet(this,entity.x,entity.y));
+        							if(entity instanceof MyRocketBullet)
+        								player.rocketReleased = false;
+        						} else {
+        							entities.add(new BulletShotEffect(this,entity.x,entity.y));
+        						}
+        						entity.setDX(0);
+        						entity.setDY(0);
+        						((Bullet) entity).used = true;
+        						removeList.add(entity);
+        					}
+        				}
+        			}
+                }
+                
+                // check collisions and move
+        		for (int p = 0; p < entities.size(); p++) {
+        			for (int s = p + 1; s < entities.size(); s++) {
+        				Entity me = entities.get(p);
+        				Entity him = entities.get(s);
+        				if (me.collidesWith(him)) {
+        					me.collidedWith(him);
+        					him.collidedWith(me);
+        				}
+        			}
+        		}
+                
+                //set camera
+                setCamera();
+                glMatrixMode(GL_PROJECTION);
+                glLoadIdentity();
+                glOrtho(camera_x ,640+camera_x ,480+camera_y ,camera_y ,-1 , 1);
+                
+        		entities.removeAll(removeList);
+        		removeList.clear();
+        		
+                //draw
+                map.draw();
+                for ( Entity entity : entities ) {
                 	if(entity instanceof MyTank)
-                		player.move(delta, bodyAng);
+                		player.draw();
                 	else
-                		entity.move(delta);
-                	if(entity instanceof Bullet){
-    					if(map.blocked((int)entity.x/map.TILE_SIZE, (int)entity.y/map.TILE_SIZE)){
-    						if(entity instanceof MyCannonBullet || entity instanceof MyRocketBullet){
-    							entities.add(new BombEffect_BigBullet(this,entity.x,entity.y));
-    							if(entity instanceof MyRocketBullet)
-    								player.rocketReleased = false;
-    						} else {
-    							entities.add(new BulletShotEffect(this,entity.x,entity.y));
-    						}
-    						entity.setDX(0);
-    						entity.setDY(0);
-    						((Bullet) entity).used = true;
-    						removeList.add(entity);
-    					}
-    				}
+                		entity.draw();
     			}
-            }
-            
-            // check collisions and move
-    		for (int p = 0; p < entities.size(); p++) {
-    			for (int s = p + 1; s < entities.size(); s++) {
-    				Entity me = entities.get(p);
-    				Entity him = entities.get(s);
-    				if (me.collidesWith(him)) {
-    					me.collidedWith(him);
-    					him.collidedWith(me);
-    					/*if(him.getClass() == MyTank.class){
-    						System.out.println("\ny axis");
-    						((MyTank)him).moveBack();
-    					}*/
-    				}
-    			}
+    			break;
     		}
             
-            //set camera
-            setCamera();
-            glMatrixMode(GL_PROJECTION);
-            glLoadIdentity();
-            glOrtho(camera_x ,640+camera_x ,480+camera_y ,camera_y ,-1 , 1);
-            
-    		entities.removeAll(removeList);
-    		removeList.clear();
-    		
-            //draw
-            map.draw();
-            for ( Entity entity : entities ) {
-            	if(entity instanceof MyTank)
-            		player.draw();
-            	else
-            		entity.draw();
-			}
             Display.update();
             Display.sync(60);
         }
@@ -192,17 +271,115 @@ public class Game{
     }
    
     private void input() {
-    	boolean KEY_W = Keyboard.isKeyDown(Keyboard.KEY_W);
-    	boolean KEY_S = Keyboard.isKeyDown(Keyboard.KEY_S);
-    	boolean KEY_D = Keyboard.isKeyDown(Keyboard.KEY_D);
-    	boolean KEY_A = Keyboard.isKeyDown(Keyboard.KEY_A);
-    	boolean KEY_1 = Keyboard.isKeyDown(Keyboard.KEY_1);
-    	boolean KEY_2 = Keyboard.isKeyDown(Keyboard.KEY_2);
-    	boolean KEY_3 = Keyboard.isKeyDown(Keyboard.KEY_3);
-    	boolean KEY_4 = Keyboard.isKeyDown(Keyboard.KEY_4);
-    	boolean KEY_5 = Keyboard.isKeyDown(Keyboard.KEY_5);
-    	boolean KEY_6 = Keyboard.isKeyDown(Keyboard.KEY_6);
-    	
+    	switch(state){
+    	case INTRO:
+			break;
+    	case UPGRADE:
+			break;
+    	case SELECT_LEVEL:
+			break;
+		case PLAY:
+			boolean KEY_W = Keyboard.isKeyDown(Keyboard.KEY_W);
+	    	boolean KEY_S = Keyboard.isKeyDown(Keyboard.KEY_S);
+	    	boolean KEY_D = Keyboard.isKeyDown(Keyboard.KEY_D);
+	    	boolean KEY_A = Keyboard.isKeyDown(Keyboard.KEY_A);
+	    	boolean KEY_1 = Keyboard.isKeyDown(Keyboard.KEY_1);
+	    	boolean KEY_2 = Keyboard.isKeyDown(Keyboard.KEY_2);
+	    	boolean KEY_3 = Keyboard.isKeyDown(Keyboard.KEY_3);
+	    	boolean KEY_4 = Keyboard.isKeyDown(Keyboard.KEY_4);
+	    	boolean KEY_5 = Keyboard.isKeyDown(Keyboard.KEY_5);
+	    	boolean KEY_6 = Keyboard.isKeyDown(Keyboard.KEY_6);
+	    	
+	    	player.setDX(0);
+	        player.setDY(0);
+	        if(KEY_W && !KEY_S){
+	        	bodyAng = 90;
+	        	if(KEY_A)
+	        		bodyAng = 45;
+	        	if(KEY_D)
+	        		bodyAng = 135;
+	        	player.setDY(-speed);
+	        }
+	        if(KEY_S && !KEY_W){
+	        	bodyAng = 270;
+	        	if(KEY_A)
+	        		bodyAng = 315;
+	        	if(KEY_D)
+	        		bodyAng = 225;
+	        	player.setDY(speed);
+	        }
+	        if(KEY_D && !KEY_A){
+	        	bodyAng = 180;
+	        	if(KEY_W)
+	        		bodyAng = 135;
+	        	if(KEY_S)
+	        		bodyAng = 225;
+	        	player.setDX(speed);
+	        }
+	        if(KEY_A && !KEY_D){
+	        	bodyAng = 0;
+	        	if(KEY_W)
+	        		bodyAng = 45;
+	        	if(KEY_S)
+	        		bodyAng = 315;
+	        	player.setDX(-speed);
+	        }
+	        if(KEY_1 || KEY_2 || KEY_3 || KEY_4 || KEY_5 || KEY_6){
+	        	if(player.rocketReleased){
+	        		player.rocketReleased = false;
+	        		removeEntity(player.myRocketBullet);
+	        		entities.add(new BombEffect_BigBullet(this,player.myRocketBullet.x,player.myRocketBullet.y));
+	        	}
+	        }
+	        if(KEY_1)
+	        	player.setGun(player.gunType.MINIGUN);
+	        if(KEY_2)
+	        	player.setGun(player.gunType.SHOTGUN);
+	        if(KEY_3)
+	        	player.setGun(player.gunType.RICOCHET);
+	        if(KEY_4)
+	        	player.setGun(player.gunType.CANNON);
+	        if(KEY_5){
+	        	while (Mouse.next())
+	        	player.setGun(player.gunType.ROCKET);
+	        }
+	        if(KEY_6)
+	        	player.setGun(player.gunType.LASER);
+	        
+	        
+	        if(!soundManager.isPlayingSound()){
+	        	if(player.gunType == player.gunType.ROCKET){
+	        		while (Mouse.next()) {
+	            	    if (Mouse.getEventButtonState()) {
+	            	        switch (Mouse.getEventButton()) {
+	            	        	case 0:
+	            	        		player.Fire(player.x,player.y,gunRotation);
+	            	        		break;
+	            	        }
+	            	    }
+	            	}
+	        	} else if(player.gunType == player.gunType.RICOCHET){
+	        		while (Mouse.next()) {
+	            	    if (Mouse.getEventButtonState()) {
+	            	        switch (Mouse.getEventButton()) {
+	            	        	case 0:
+	            	        		player.Fire(initBulletX,initBulletY,gunRotation);
+	            	        		break;
+	            	        }
+	            	    } else {	// mouse release
+	            	    	switch (Mouse.getEventButton()) {
+	        	        		case 0:
+	        	        			player.Fire(initBulletX,initBulletY,gunRotation);
+	        	        			break;
+	            	    	}
+	            	    }
+	            	}
+	        	} else if(Mouse.isButtonDown(0)){
+	            	player.Fire(initBulletX,initBulletY,gunRotation);
+	            }
+	        }
+			break;
+    	}
         if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
         	soundManager.destroy();
         	Display.destroy();
@@ -255,95 +432,6 @@ public class Game{
                 }
             }
         }*/
-        
-        player.setDX(0);
-        player.setDY(0);
-        if(KEY_W && !KEY_S){
-        	bodyAng = 90;
-        	if(KEY_A)
-        		bodyAng = 45;
-        	if(KEY_D)
-        		bodyAng = 135;
-        	player.setDY(-speed);
-        }
-        if(KEY_S && !KEY_W){
-        	bodyAng = 270;
-        	if(KEY_A)
-        		bodyAng = 315;
-        	if(KEY_D)
-        		bodyAng = 225;
-        	player.setDY(speed);
-        }
-        if(KEY_D && !KEY_A){
-        	bodyAng = 180;
-        	if(KEY_W)
-        		bodyAng = 135;
-        	if(KEY_S)
-        		bodyAng = 225;
-        	player.setDX(speed);
-        }
-        if(KEY_A && !KEY_D){
-        	bodyAng = 0;
-        	if(KEY_W)
-        		bodyAng = 45;
-        	if(KEY_S)
-        		bodyAng = 315;
-        	player.setDX(-speed);
-        }
-        if(KEY_1 || KEY_2 || KEY_3 || KEY_4 || KEY_5 || KEY_6){
-        	if(player.rocketReleased){
-        		player.rocketReleased = false;
-        		removeEntity(player.myRocketBullet);
-        		entities.add(new BombEffect_BigBullet(this,player.myRocketBullet.x,player.myRocketBullet.y));
-        	}
-        }
-        if(KEY_1)
-        	player.setGun(player.gunType.MINIGUN);
-        if(KEY_2)
-        	player.setGun(player.gunType.SHOTGUN);
-        if(KEY_3)
-        	player.setGun(player.gunType.RICOCHET);
-        if(KEY_4)
-        	player.setGun(player.gunType.CANNON);
-        if(KEY_5){
-        	while (Mouse.next())
-        	player.setGun(player.gunType.ROCKET);
-        }
-        if(KEY_6)
-        	player.setGun(player.gunType.LASER);
-        
-        
-        if(!soundManager.isPlayingSound()){
-        	if(player.gunType == player.gunType.ROCKET){
-        		while (Mouse.next()) {
-            	    if (Mouse.getEventButtonState()) {
-            	        switch (Mouse.getEventButton()) {
-            	        	case 0:
-            	        		player.Fire(player.x,player.y,gunRotation);
-            	        		break;
-            	        }
-            	    }
-            	}
-        	} else if(player.gunType == player.gunType.RICOCHET){
-        		while (Mouse.next()) {
-            	    if (Mouse.getEventButtonState()) {
-            	        switch (Mouse.getEventButton()) {
-            	        	case 0:
-            	        		player.Fire(initBulletX,initBulletY,gunRotation);
-            	        		break;
-            	        }
-            	    } else {	// mouse release
-            	    	switch (Mouse.getEventButton()) {
-        	        		case 0:
-        	        			player.Fire(initBulletX,initBulletY,gunRotation);
-        	        			break;
-            	    	}
-            	    }
-            	}
-        	} else if(Mouse.isButtonDown(0)){
-            	player.Fire(initBulletX,initBulletY,gunRotation);
-            }
-        }
 	}
     
     private void setCamera(){
@@ -486,6 +574,33 @@ public class Game{
             is.close();
         }
     }
+	
+	private Texture loadTexture(String key){
+    	try {
+            return TextureLoader.getTexture("PNG", new FileInputStream(new File("res/"+key)));
+    	} catch (FileNotFoundException e) {
+            e.printStackTrace();
+    	} catch (IOException e) {
+            e.printStackTrace();
+    	}
+    	return null;
+    }
+	
+	public void drawBackground(Texture tex) {
+		glPushMatrix();
+		background.bind();
+        glBegin(GL_QUADS);
+        	glTexCoord2f(0,0);
+        	glVertex2f(0 ,0);//upper left
+        	glTexCoord2f(background.getWidth(),0);
+        	glVertex2f(camera_w ,0);//upper right
+        	glTexCoord2f(background.getWidth(),background.getHeight());
+        	glVertex2f(camera_w ,camera_h);//bottom right
+        	glTexCoord2f(0,background.getHeight());
+        	glVertex2f(0 ,camera_h);//bottom left
+        glEnd();
+        glPopMatrix();
+	}
    
     public static void main(String[] args) throws IOException, LWJGLException {
             new Game();
