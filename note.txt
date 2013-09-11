@@ -1,6 +1,7 @@
-add state,button
 
-แยก List<button> แต่ละ state
+add effect to loadResource
+fix bombwall
+
 menu pic +contras 20,20
 menu
 กด esc,menu -> เกม pause

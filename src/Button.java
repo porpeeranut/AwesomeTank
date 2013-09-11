@@ -36,6 +36,15 @@ public class Button {
     		case PLAY:
     			button = loadTexture("play.png");
     			break;
+    		case PAUSE:
+    			button = loadTexture("pause.png");
+    			break;
+    		case BACKTOUPGRADE:
+    			button = loadTexture("bckToUpgrd.png");
+    			break;
+    		case LV1:
+    			button = loadTexture("LV1.png");
+    			break;
 		}
 		width = button.getImageWidth();
 		height = button.getImageHeight();

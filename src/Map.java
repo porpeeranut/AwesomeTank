@@ -127,6 +127,9 @@ public class Map {
 	
 	/** True if the location is blocked */
 	public boolean blocked(int x, int y) {
-		return mapData[(int) x][(int) y] > 100 && mapData[(int) x][(int) y] < 200;
+		if(x < 0 || x >= WIDTH || y < 0 || y >= HEIGHT)
+			return true;
+		else
+			return mapData[(int) x][(int) y] > 100 && mapData[(int) x][(int) y] < 200;
 	}
 }
