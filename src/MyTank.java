@@ -22,6 +22,7 @@ public class MyTank extends TankEntity {
 	public void collidedWith(Entity other) {
 		if (other instanceof EnemyBullet) {
 			shoted = true;
+			game.soundManager.playEffect(game.SOUND_SHOT_TANK);
 		} 
 		if(!(other instanceof Bullet) && !(other instanceof Effect)){
 			/*float tmp = xPreMove;

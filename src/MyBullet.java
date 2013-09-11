@@ -18,6 +18,7 @@ public class MyBullet extends Bullet {
 		game.removeEntity(this);
 		if(this instanceof MyCannonBullet || this instanceof MyRocketBullet){
 			game.addEntity(new BombEffect_BigBullet(game,x,y));
+			game.soundManager.playEffect(game.SOUND_BOMB_TANK);
 			if(this instanceof MyRocketBullet)
 				game.player.rocketReleased = false;
 		} else {
@@ -29,26 +30,31 @@ public class MyBullet extends Bullet {
 			game.removeEntity(other);
 			if(other instanceof BombWall){
 				game.addEntity(new BombEffect_BombWall(game,other.x,other.y));
+				game.soundManager.playEffect(game.SOUND_BOMB_BRICK);
 				if(!((BombWall) other).died){
 					((BombWall) other).died = true;
 				}
 			} else if (other instanceof OilTank){
 				game.addEntity(new BombEffect_OilTank(game,other.x,other.y));
+				game.soundManager.playEffect(game.SOUND_BOMB_OILTANK);
 				if(!((OilTank) other).died){
 					((OilTank) other).died = true;
 				}
 			} else {
 				game.addEntity(new BombEffect_basic(game,other.x,other.y));
+				game.soundManager.playEffect(game.SOUND_BOMB_BRICK);
 			}
 			if(other instanceof EnemyTank){
 				if(!((EnemyTank) other).died){
 					((EnemyTank) other).died = true;
+					game.soundManager.playEffect(game.SOUND_BOMB_TANK);
 					game.numEnemy--;
 				}
 			}
 			if(other instanceof Turret){
 				if(!((Turret) other).died){
 					((Turret) other).died = true;
+					game.soundManager.playEffect(game.SOUND_BOMB_TANK);
 					game.numEnemy--;
 				}
 			}

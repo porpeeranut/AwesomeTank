@@ -78,7 +78,6 @@ public abstract class Entity {
 	
 	public void damage(int damage) {
 		this.HP -= damage;
-		System.out.println(HP);
 	}
 	public void setHP(int HP) {
 		this.HP = HP;

@@ -163,7 +163,7 @@ public abstract class TankEntity extends Entity {
 			minigunBulIndex %= myBullets.length;
 			bullet.reinitialize(initBulletX,initBulletY ,(float)-Math.cos(0.0174532925*gunRotation)*bullet.moveSpeed, (float)-Math.sin(0.0174532925*gunRotation)*bullet.moveSpeed);
 			game.addEntity(bullet);
-			game.soundManager.playEffect(game.SOUND_SHOT);
+			game.soundManager.playEffect(game.SOUND_FIRE_MINIGUN);
 			break;
 		case SHOTGUN:
 			if (System.currentTimeMillis() - lastFire < shotgunFiringInterval) {
@@ -178,7 +178,7 @@ public abstract class TankEntity extends Entity {
 				bullet.reinitialize(initBulletX,initBulletY ,ranDX, ranDY);
 				game.addEntity(bullet);
 			}
-			game.soundManager.playEffect(game.SOUND_SHOT);
+			game.soundManager.playEffect(game.SOUND_FIRE_SHOTGUN);
 			break;
 		case RICOCHET:
 			break;
@@ -191,18 +191,19 @@ public abstract class TankEntity extends Entity {
 			cannonBulIndex %= myCannonBullets.length;
 			bullet.reinitialize(initBulletX,initBulletY ,(float)-Math.cos(0.0174532925*gunRotation)*bullet.moveSpeed, (float)-Math.sin(0.0174532925*gunRotation)*bullet.moveSpeed);
 			game.addEntity(bullet);
-			game.soundManager.playEffect(game.SOUND_SHOT);
+			game.soundManager.playEffect(game.SOUND_FIRE_CANNON);
 			break;
 		case ROCKET:
 			if(rocketReleased){
 				rocketReleased = false;
 				game.removeEntity(myRocketBullet);
 				game.addEntity(new BombEffect_BigBullet(game,myRocketBullet.x,myRocketBullet.y));
+				game.soundManager.playEffect(game.SOUND_BOMB_TANK);
 			} else {
 				rocketReleased = true;
 				myRocketBullet.reinitialize(initBulletX,initBulletY ,0, 0);
 				game.addEntity(myRocketBullet);
-				game.soundManager.playEffect(game.SOUND_SHOT);
+				game.soundManager.playEffect(game.SOUND_FIRE_ROCKET);
 			}
 			break;
 		case LASER:

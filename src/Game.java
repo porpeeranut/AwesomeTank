@@ -47,8 +47,20 @@ public class Game{
     private long lastFpsTime;
     private int fps;
     public static SoundManager soundManager;
-    public static int SOUND_SHOT;
     public static int SOUND_HIT;
+    public static int SOUND_FIRE_MINIGUN;
+    public static int SOUND_FIRE_SHOTGUN;
+    public static int SOUND_FIRE_CANNON;
+    public static int SOUND_FIRE_ROCKET;
+    public static int SOUND_CHANGE_GUN;
+    public static int SOUND_SHOT_BRICK;
+    public static int SOUND_SHOT_TANK;
+    public static int SOUND_BOMB_TANK;
+    public static int SOUND_BOMB_BRICK;
+    public static int SOUND_BOMB_OILTANK;
+    public static int SOUND_CLICK;
+    public static int SOUND_RELEASE;
+    public static int SOUND_PLAY;
     
     public float initBulletX,initBulletY;
     
@@ -71,7 +83,7 @@ public class Game{
     	camera_x = 0;
         camera_y = 0;
         camera_w = 640;
-        camera_h = 480;
+        camera_h = 650;
         
         Display.setIcon(new ByteBuffer[] {
 		        loadIcon("game.png")  // "res/game.png" size 32x32
@@ -84,9 +96,20 @@ public class Game{
         
         entities.clear();
         soundManager = new SoundManager();
-		soundManager.initialize(8);
-		SOUND_SHOT   = soundManager.addSound("shot.wav");
-		SOUND_HIT    = soundManager.addSound("hit.wav");
+		soundManager.initialize(20);
+		SOUND_FIRE_MINIGUN	= soundManager.addSound("fire_minigun.wav");
+		SOUND_FIRE_SHOTGUN	= soundManager.addSound("fire_shotGun.wav");
+		SOUND_FIRE_CANNON   = soundManager.addSound("fire_cannon.wav");
+		SOUND_FIRE_ROCKET   = soundManager.addSound("fire_rocket.wav");
+		SOUND_CHANGE_GUN	= soundManager.addSound("changeGun.wav");
+		SOUND_SHOT_BRICK	= soundManager.addSound("shot_brick.wav");
+		SOUND_SHOT_TANK	= soundManager.addSound("shot_tank.wav");
+		SOUND_BOMB_TANK	= soundManager.addSound("bomb_tank.wav");
+		SOUND_BOMB_BRICK	= soundManager.addSound("bomb_brick.wav");
+		SOUND_BOMB_OILTANK	= soundManager.addSound("bomb_oil.wav");
+		SOUND_CLICK		= soundManager.addSound("mouse_click.wav");
+		SOUND_RELEASE	= soundManager.addSound("mouse_release.wav");
+		SOUND_PLAY		= soundManager.addSound("play.wav");
 
 		background = loadTexture("intro.png");
 		map = new Map();
@@ -95,8 +118,8 @@ public class Game{
         //initialization opengl code
         glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
-        glOrtho(0 ,640 ,480 ,0 ,-1 , 1);
-        //glOrtho(camera_x ,640+camera_x ,480+camera_y ,camera_y ,-1 , 1);
+        glOrtho(0 ,640 ,650 ,0 ,-1 , 1);
+        //glOrtho(camera_x ,640+camera_x ,650+camera_y ,camera_y ,-1 , 1);
         glMatrixMode(GL_MODELVIEW);
         glEnable(GL_TEXTURE_2D);
         
@@ -157,10 +180,12 @@ public class Game{
             					if(map.blocked((int)entity.x/map.TILE_SIZE, (int)entity.y/map.TILE_SIZE)){
             						if(entity instanceof MyCannonBullet || entity instanceof MyRocketBullet){
             							entities.add(new BombEffect_BigBullet(this,entity.x,entity.y));
+            							soundManager.playEffect(SOUND_BOMB_TANK);
             							if(entity instanceof MyRocketBullet)
             								player.rocketReleased = false;
             						} else {
             							entities.add(new BulletShotEffect(this,entity.x,entity.y));
+            							soundManager.playEffect(SOUND_SHOT_BRICK);
             						}
             						entity.setDX(0);
             						entity.setDY(0);
@@ -187,7 +212,7 @@ public class Game{
         		}
                 glMatrixMode(GL_PROJECTION);
                 glLoadIdentity();
-                glOrtho(camera_x ,640+camera_x ,480+camera_y ,camera_y ,-1 , 1);
+                glOrtho(camera_x ,640+camera_x ,650+camera_y ,camera_y ,-1 , 1);
                 
         		entities.removeAll(removeList);
         		removeList.clear();
@@ -214,8 +239,8 @@ public class Game{
 
 	private void button_In_INTRO_state() {
     	btn = new Button[1];	
-		btn[0] = new Button(this,CurrentButton.PLAY,320,240);
-		if(btn[0].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY()))
+		btn[0] = new Button(this,CurrentButton.PLAY,320,340);
+		if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()))
 			btn[0].draw_OnMouseOver();
 		else
 			btn[0].draw();
@@ -223,8 +248,10 @@ public class Game{
     	    if (Mouse.getEventButtonState()) {
     	        switch (Mouse.getEventButton()) {
     	        case 0:
-    	        	if(btn[0].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY()))
+    	        	if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	        		soundManager.playEffect(SOUND_CLICK);
     	        		currentButton = CurrentButton.PLAY;
+    	        	}
     	        	else
             			currentButton = CurrentButton.NONE;
 	        		break;
@@ -232,12 +259,13 @@ public class Game{
     	    } else {	// mouse release
     	    	switch (Mouse.getEventButton()) {
     	    	case 0:
-    	    		if(btn[0].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY())){
+    	    		if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    			soundManager.playEffect(SOUND_RELEASE);
     	    			if(currentButton == CurrentButton.PLAY){
 	        				background = loadTexture("upgrade.png");
 	        				btn = new Button[2];            	        		
-	        				btn[0] = new Button(this,CurrentButton.MENU,120,444);
-            				btn[1] = new Button(this,CurrentButton.PLAY,520,444);
+	        				btn[0] = new Button(this,CurrentButton.MENU,120,600);
+            				btn[1] = new Button(this,CurrentButton.PLAY,520,600);
 	        				state = State.UPGRADE;
 	        			}
             		} else
@@ -250,7 +278,7 @@ public class Game{
 
 	private void button_In_UPGRADE_state() {
     	for(int i = 0;i < btn.length;i++){
-			if(btn[i].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY()))
+			if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()))
     			btn[i].draw_OnMouseOver();
     		else
     			btn[i].draw();
@@ -259,10 +287,14 @@ public class Game{
     	    if (Mouse.getEventButtonState()) {
     	        switch (Mouse.getEventButton()) {
     	        case 0:
-    	        	if(btn[0].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY()))
+    	        	if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	        		soundManager.playEffect(SOUND_CLICK);
     	        		currentButton = CurrentButton.MENU;
-    	        	else if(btn[1].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY()))
+    	        	}
+    	        	else if(btn[1].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	        		soundManager.playEffect(SOUND_CLICK);
     	        		currentButton = CurrentButton.PLAY;
+    	        	}
     	    		else
     	    			currentButton = CurrentButton.NONE;
 	        		break;
@@ -270,17 +302,19 @@ public class Game{
     	    } else {	// mouse release
     	    	switch (Mouse.getEventButton()) {
     	    	case 0:
-    	    		if(btn[0].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY())){
+    	    		if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    			soundManager.playEffect(SOUND_RELEASE);
     	    			if(currentButton == CurrentButton.MENU){
     	    				background = loadTexture("intro.png");
     	    				state = State.INTRO;
     	    			}            	        		
-    	    		}else if(btn[1].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY())){
+    	    		}else if(btn[1].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    			soundManager.playEffect(SOUND_RELEASE);
     	    			if(currentButton == CurrentButton.PLAY){
     	    				background = loadTexture("selectLV.png");
 	        				btn = new Button[2];            	        		
-	        				btn[0] = new Button(this,CurrentButton.BACKTOUPGRADE,320,444);
-            				btn[1] = new Button(this,CurrentButton.LV1,100,100);
+	        				btn[0] = new Button(this,CurrentButton.BACKTOUPGRADE,320,600);
+            				btn[1] = new Button(this,CurrentButton.LV1,100,200);
         	        		state = State.SELECT_LEVEL;
     	    			}
     	    		} else
@@ -293,7 +327,7 @@ public class Game{
 
 	private void button_In_SELECT_LEVEL_state() {
 		for(int i = 0;i < btn.length;i++){
-			if(btn[i].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY()))
+			if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()))
     			btn[i].draw_OnMouseOver();
     		else
     			btn[i].draw();
@@ -302,10 +336,14 @@ public class Game{
     	    if (Mouse.getEventButtonState()) {
     	        switch (Mouse.getEventButton()) {
     	        case 0:
-    	        	if(btn[0].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY()))
+    	        	if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	        		soundManager.playEffect(SOUND_CLICK);
     	        		currentButton = CurrentButton.BACKTOUPGRADE;
-    	        	else if(btn[1].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY()))
+    	        	}
+    	        	else if(btn[1].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	        		soundManager.playEffect(SOUND_CLICK);
     	        		currentButton = CurrentButton.PLAY;
+    	        	}
     	    		else
     	    			currentButton = CurrentButton.NONE;
 	        		break;
@@ -313,20 +351,23 @@ public class Game{
     	    } else {	// mouse release
     	    	switch (Mouse.getEventButton()) {
     	    	case 0:
-    	    		if(btn[0].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY())){
+    	    		if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    			soundManager.playEffect(SOUND_RELEASE);
     	    			if(currentButton == CurrentButton.BACKTOUPGRADE){
     	    				background = loadTexture("upgrade.png");
 	        				btn = new Button[2];            	        		
-	        				btn[0] = new Button(this,CurrentButton.MENU,120,444);
-            				btn[1] = new Button(this,CurrentButton.PLAY,520,444);
+	        				btn[0] = new Button(this,CurrentButton.MENU,120,600);
+            				btn[1] = new Button(this,CurrentButton.PLAY,520,600);
 	        				state = State.UPGRADE;
     	    			}            	        		
-    	    		}else if(btn[1].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY())){
+    	    		}else if(btn[1].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    			soundManager.playEffect(SOUND_RELEASE);
     	    			if(currentButton == CurrentButton.PLAY){
 	        				btn = new Button[2];            	        		
-	        				btn[0] = new Button(this,CurrentButton.MENU,120,444);
-            				btn[1] = new Button(this,CurrentButton.PAUSE,520,444);
+	        				btn[0] = new Button(this,CurrentButton.MENU,120,600);
+            				btn[1] = new Button(this,CurrentButton.PAUSE,520,600);
             				SetGame(1);
+            				soundManager.playEffect(SOUND_PLAY);
             				state = State.PLAY;
     	    			}
     	    		} else
@@ -341,8 +382,8 @@ public class Game{
 		for(int i = 0;i < btn.length;i++){
 			glMatrixMode(GL_PROJECTION);
             glLoadIdentity();
-			glOrtho(0 ,640 ,480 ,0 ,-1 , 1);
-			if(btn[i].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY()))
+			glOrtho(0 ,640 ,650 ,0 ,-1 , 1);
+			if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()))
 				btn[i].draw_OnMouseOver();
     		else
     			btn[i].draw();
@@ -351,10 +392,14 @@ public class Game{
     	    if (Mouse.getEventButtonState()) {
     	        switch (Mouse.getEventButton()) {
     	        case 0:
-    	        	if(btn[0].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY()))
+    	        	if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	        		soundManager.playEffect(SOUND_CLICK);
     	        		currentButton = CurrentButton.MENU;
-    	        	else if(btn[1].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY()))
+    	        	}
+    	        	else if(btn[1].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	        		soundManager.playEffect(SOUND_CLICK);
     	        		currentButton = CurrentButton.PAUSE;
+    	        	}
     	    		else
     	    			currentButton = CurrentButton.NONE;
 	        		break;
@@ -362,18 +407,20 @@ public class Game{
     	    } else {	// mouse release
     	    	switch (Mouse.getEventButton()) {
     	    	case 0:
-    	    		if(btn[0].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY())){
+    	    		if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    			soundManager.playEffect(SOUND_RELEASE);
     	    			if(currentButton == CurrentButton.MENU){
     	    				background = loadTexture("upgrade.png");
 	        				btn = new Button[2];            	        		
-	        				btn[0] = new Button(this,CurrentButton.MENU,120,444);
-            				btn[1] = new Button(this,CurrentButton.PLAY,520,444);
+	        				btn[0] = new Button(this,CurrentButton.MENU,120,600);
+            				btn[1] = new Button(this,CurrentButton.PLAY,520,600);
             				glMatrixMode(GL_PROJECTION);
                             glLoadIdentity();
-            				glOrtho(0 ,640 ,480 ,0 ,-1 , 1);
+            				glOrtho(0 ,640 ,650 ,0 ,-1 , 1);
 	        				state = State.UPGRADE;
     	    			}            	        		
-    	    		}else if(btn[1].On_Mouse_Over(Mouse.getX(), 480 - Mouse.getY())){
+    	    		}else if(btn[1].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    			soundManager.playEffect(SOUND_RELEASE);
     	    			if(currentButton == CurrentButton.PAUSE)
     	    				if(state == State.PLAY)
     	    					state = State.PAUSE;
@@ -440,58 +487,83 @@ public class Game{
 	        	player.setDX(-speed);
 	        }
 	        if(KEY_1 || KEY_2 || KEY_3 || KEY_4){
+	        	while (Keyboard.next()) {
+	        	    if (Keyboard.getEventKeyState()) {
+	        	        switch (Keyboard.getEventKey()) {
+	        	        	case Keyboard.KEY_1:
+	        	        		soundManager.playEffect(SOUND_CHANGE_GUN);
+	        	        		player.setGun(player.gunType.MINIGUN);
+	        	        		break;
+	        	        	case Keyboard.KEY_2:
+	        	        		soundManager.playEffect(SOUND_CHANGE_GUN);
+	        	        		player.setGun(player.gunType.SHOTGUN);
+	        	        		break;
+	        	        	case Keyboard.KEY_3:
+	        	        		soundManager.playEffect(SOUND_CHANGE_GUN);
+	        	        		player.setGun(player.gunType.CANNON);
+	        	        		break;
+	        	        	case Keyboard.KEY_4:
+	        	        		soundManager.playEffect(SOUND_CHANGE_GUN);
+	        	        		player.setGun(player.gunType.ROCKET);
+	        	        		break;
+	        	        }
+	        	    }
+	        	}
 	        	if(player.rocketReleased){
 	        		player.rocketReleased = false;
 	        		removeEntity(player.myRocketBullet);
 	        		entities.add(new BombEffect_BigBullet(this,player.myRocketBullet.x,player.myRocketBullet.y));
+	        		soundManager.playEffect(SOUND_BOMB_TANK);
 	        	}
 	        }
-	        if(KEY_1)
+	        /*if(KEY_1)
 	        	player.setGun(player.gunType.MINIGUN);
 	        if(KEY_2)
 	        	player.setGun(player.gunType.SHOTGUN);
-	        /*if(KEY_3)
-	        	player.setGun(player.gunType.RICOCHET);*/
+	        if(KEY_3)
+	        	player.setGun(player.gunType.RICOCHET);
 	        if(KEY_3)
 	        	player.setGun(player.gunType.CANNON);
 	        if(KEY_4){
 	        	//while (Mouse.next())
 	        	player.setGun(player.gunType.ROCKET);
 	        }
-	        /*if(KEY_6)
-	        	player.setGun(player.gunType.LASER);*/
-	        
+	        if(KEY_6)
+	        	player.setGun(player.gunType.LASER);
+	        */
 	        
 	        if(!soundManager.isPlayingSound()){
-	        	if(player.gunType == player.gunType.ROCKET){
-	        		while (Mouse.next()) {
-	            	    if (Mouse.getEventButtonState()) {
-	            	        switch (Mouse.getEventButton()) {
-	            	        	case 0:
-	            	        		player.Fire(player.x,player.y,gunRotation);
-	            	        		break;
-	            	        }
-	            	    }
-	            	}
-	        	} else if(player.gunType == player.gunType.RICOCHET){
-	        		while (Mouse.next()) {
-	            	    if (Mouse.getEventButtonState()) {
-	            	        switch (Mouse.getEventButton()) {
-	            	        	case 0:
-	            	        		player.Fire(initBulletX,initBulletY,gunRotation);
-	            	        		break;
-	            	        }
-	            	    } else {	// mouse release
-	            	    	switch (Mouse.getEventButton()) {
-	        	        		case 0:
-	        	        			player.Fire(initBulletX,initBulletY,gunRotation);
-	        	        			break;
-	            	    	}
-	            	    }
-	            	}
-	        	} else if(Mouse.isButtonDown(0)){
-	            	player.Fire(initBulletX,initBulletY,gunRotation);
-	            }
+	        	if(!btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()) && !btn[1].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+	        		if(player.gunType == player.gunType.ROCKET){
+		        		while (Mouse.next()) {
+		            	    if (Mouse.getEventButtonState()) {
+		            	        switch (Mouse.getEventButton()) {
+		            	        	case 0:
+		            	        		player.Fire(player.x,player.y,gunRotation);
+		            	        		break;
+		            	        }
+		            	    }
+		            	}
+		        	/*} else if(player.gunType == player.gunType.RICOCHET){
+		        		while (Mouse.next()) {
+		            	    if (Mouse.getEventButtonState()) {
+		            	        switch (Mouse.getEventButton()) {
+		            	        	case 0:
+		            	        		player.Fire(initBulletX,initBulletY,gunRotation);
+		            	        		break;
+		            	        }
+		            	    } else {	// mouse release
+		            	    	switch (Mouse.getEventButton()) {
+		        	        		case 0:
+		        	        			player.Fire(initBulletX,initBulletY,gunRotation);
+		        	        			break;
+		            	    	}
+		            	    }
+		            	}*/
+		        	} else if(Mouse.isButtonDown(0)){
+		            	player.Fire(initBulletX,initBulletY,gunRotation);
+		            }
+	        	}
 	        }
 			break;
     	}
@@ -652,26 +724,32 @@ public class Game{
     
     private void SetGame(int LV){
     	entities.clear();
+    	camera_x_tmp = 0;
+    	camera_y_tmp = 0;
     	switch (LV) {
 		case 1:
 	        player.setPositionToMap(2,3);
 	        player.setGun(player.gunType.MINIGUN);
+	        player.rocketReleased = false;
 	        for(int i = 0;i < brick.length;i++){
 	        	brick[i].setHP(30);
 	        	brick[i].setPositionToMap(i+3, 3);
 	        	brick[i].showHP = false;
+	        	brick[i].died = false;
 	        	entities.add(brick[i]);
 	        }
 	        for(int i = 0;i < bmWall.length;i++){
 	        	bmWall[i].setHP(30);
 	        	bmWall[i].setPositionToMap(i+2, 4);
 	        	bmWall[i].showHP = false;
+	        	bmWall[i].died = false;
 	        	entities.add(bmWall[i]);
 	        }
 	        for(int i = 0;i < oilTank.length;i++){
 	        	oilTank[i].setHP(15);
 	        	oilTank[i].setPositionToMap(i+10, 4);
 	        	oilTank[i].showHP = false;
+	        	oilTank[i].died = false;
 	        	entities.add(oilTank[i]);
 	        }
 	        entities.add(player);
@@ -680,11 +758,13 @@ public class Game{
 				enemyTank[i].setPositionToMap(i+5, 4);
 				enemyTank[i].setBodyAngle(39);
 				enemyTank[i].showHP = false;
+				enemyTank[i].died = false;
 				entities.add(enemyTank[i]);
 			}
 			turret.setHP(50);
 			turret.setPositionToMap(15, 4);
 			turret.showHP = false;
+			turret.died = false;
 			entities.add(turret);
 			numEnemy = enemyTank.length + 1;
 			break;

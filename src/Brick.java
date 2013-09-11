@@ -40,6 +40,7 @@ import org.newdawn.slick.opengl.Texture;
 	public void collidedWith(Entity other) {
 		if(other instanceof Bullet){
 			shoted = true;
+			game.soundManager.playEffect(game.SOUND_SHOT_BRICK);
 		}
 	}
 }
