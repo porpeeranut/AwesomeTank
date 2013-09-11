@@ -1,9 +1,8 @@
-add sound,change windows size
+
 
 add effect to loadResource
 
 menu pic +contras 20,20
-menu
 กด esc,menu -> เกม pause
 เชคตาย
 sound effect เรียกใน class effect

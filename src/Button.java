@@ -20,6 +20,7 @@ import org.newdawn.slick.opengl.TextureLoader;
 public class Button {
 	
 	protected Texture button;
+	protected Texture button_onMouseOver;
 	protected Game.CurrentButton thisButton;
 	private float TexCoordWidth;
 	private float TexCoordHeight;
@@ -32,18 +33,23 @@ public class Button {
 		switch(thisButton){
     		case MENU:
     			button = loadTexture("menu.png");
+    			button_onMouseOver = loadTexture("menu_onMouseOver.png");
     			break;
     		case PLAY:
     			button = loadTexture("play.png");
+    			button_onMouseOver = loadTexture("play_onMouseOver.png");
     			break;
     		case PAUSE:
     			button = loadTexture("pause.png");
+    			button_onMouseOver = loadTexture("pause_onMouseOver.png");
     			break;
     		case BACKTOUPGRADE:
     			button = loadTexture("bckToUpgrd.png");
+    			button_onMouseOver = loadTexture("bckToUpgrd_onMouseOver.png");
     			break;
     		case LV1:
     			button = loadTexture("LV1.png");
+    			button_onMouseOver = loadTexture("LV1_onMouseOver.png");
     			break;
 		}
 		width = button.getImageWidth();
@@ -64,15 +70,13 @@ public class Button {
 		button.bind();
 		TexCoordWidth = button.getWidth();
 		TexCoordHeight = button.getHeight();
-		glColor4f(1f, 1f, 1f, (float) Math.sin(Math.toRadians(60)));
 		basicDraw();
-		glColor3f(1f,1f,1f);
 	}
 	
 	public void draw_OnMouseOver() {
-		button.bind();
-		TexCoordWidth = button.getWidth();
-		TexCoordHeight = button.getHeight();
+		button_onMouseOver.bind();
+		TexCoordWidth = button_onMouseOver.getWidth();
+		TexCoordHeight = button_onMouseOver.getHeight();
 		basicDraw();
 	}
 	
