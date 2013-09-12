@@ -51,6 +51,18 @@ public class Button {
     			button = loadTexture("LV1.png");
     			button_onMouseOver = loadTexture("LV1_onMouseOver.png");
     			break;
+    		case CONTINUE:
+    			button = loadTexture("continue.png");
+    			button_onMouseOver = loadTexture("continue_onMouseOver.png");
+    			break;
+    		case BCK_TO_MENU_YES:
+    			button = loadTexture("yes.png");
+    			button_onMouseOver = loadTexture("yes_onMouseOver.png");
+    			break;
+    		case BCK_TO_MENU_NO:
+    			button = loadTexture("no.png");
+    			button_onMouseOver = loadTexture("no_onMouseOver.png");
+    			break;
 		}
 		width = button.getImageWidth();
 		height = button.getImageHeight();

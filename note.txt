@@ -1,8 +1,8 @@
-add select gun bar
+
+
 add lv complete state
 add lv failed state
-add pause state
-add back to menu state
+fix select gun bar
 
 กด esc,menu -> เกม pause
 เชคตาย
