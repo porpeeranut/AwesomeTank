@@ -1,17 +1,14 @@
+add select gun bar
+add lv complete state
+add lv failed state
+add pause state
+add back to menu state
 
-
-add effect to loadResource
-
-menu pic +contras 20,20
 กด esc,menu -> เกม pause
 เชคตาย
-sound effect เรียกใน class effect
-select gun bar
 Wground
-next level
 enemytank ตายดรอปตังค์ 
 sound
-จอสั่น
 
 ## feature
 gold

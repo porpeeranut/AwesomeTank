@@ -217,6 +217,8 @@ public class Game{
         		entities.removeAll(removeList);
         		removeList.clear();
         		
+        		if(state == State.PAUSE)
+        			glColor3f(0.5f, 0.5f, 0.5f);
                 //draw
                 map.draw();
                 for ( Entity entity : entities ) {
@@ -225,6 +227,7 @@ public class Game{
                 	else*/
                 		entity.draw();
     			}
+                glColor3f(1, 1, 1);
                 button_In_PLAY_state();
     			break;
     		}
@@ -363,9 +366,10 @@ public class Game{
     	    		}else if(btn[1].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	    			soundManager.playEffect(SOUND_RELEASE);
     	    			if(currentButton == CurrentButton.PLAY){
+    	    				background = loadTexture("selectGunBar.png");
 	        				btn = new Button[2];            	        		
-	        				btn[0] = new Button(this,CurrentButton.MENU,120,600);
-            				btn[1] = new Button(this,CurrentButton.PAUSE,520,600);
+	        				btn[0] = new Button(this,CurrentButton.MENU,93,610);
+            				btn[1] = new Button(this,CurrentButton.PAUSE,573,610);
             				SetGame(1);
             				soundManager.playEffect(SOUND_PLAY);
             				state = State.PLAY;
@@ -379,10 +383,11 @@ public class Game{
 	}
 	
 	private void button_In_PLAY_state() {
+		glMatrixMode(GL_PROJECTION);
+        glLoadIdentity();
+		glOrtho(0 ,640 ,650 ,0 ,-1 , 1);
+		drawSelectGunBar(background);
 		for(int i = 0;i < btn.length;i++){
-			glMatrixMode(GL_PROJECTION);
-            glLoadIdentity();
-			glOrtho(0 ,640 ,650 ,0 ,-1 , 1);
 			if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()))
 				btn[i].draw_OnMouseOver();
     		else
@@ -801,6 +806,22 @@ public class Game{
     	}
     	return null;
     }
+	
+	public void drawSelectGunBar(Texture tex) {
+		glPushMatrix();
+		background.bind();
+        glBegin(GL_QUADS);
+        	glTexCoord2f(0,0);
+        	glVertex2f(22 ,570);//upper left
+        	glTexCoord2f(background.getWidth(),0);
+        	glVertex2f(618 ,570);//upper right
+        	glTexCoord2f(background.getWidth(),background.getHeight());
+        	glVertex2f(618 ,650);//bottom right
+        	glTexCoord2f(0,background.getHeight());
+        	glVertex2f(22 ,650);//bottom left
+        glEnd();
+        glPopMatrix();
+	}
 	
 	public void drawBackground(Texture tex) {
 		glPushMatrix();
