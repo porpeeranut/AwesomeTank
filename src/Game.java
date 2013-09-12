@@ -31,6 +31,7 @@ public class Game{
 	private CurrentButton currentButton = CurrentButton.NONE;
 	private Texture background;
 	private Texture pauseLabel;
+	private Texture backToMenuLabel;
 	private static ArrayList<Entity> entities = new ArrayList<Entity>();
 	private static ArrayList<Entity> removeList = new ArrayList<Entity>();
     public Map map;
@@ -376,9 +377,9 @@ public class Game{
 	        				btn = new Button[5];            	        		
 	        				btn[0] = new Button(this,CurrentButton.MENU,93,610);
             				btn[1] = new Button(this,CurrentButton.PAUSE,573,610);
-            				btn[2] = new Button(this,CurrentButton.CONTINUE,320,270);
-            				btn[3] = new Button(this,CurrentButton.BCK_TO_MENU_YES,250,290);
-            				btn[4] = new Button(this,CurrentButton.BCK_TO_MENU_NO,390,290);
+            				btn[2] = new Button(this,CurrentButton.CONTINUE,320,300);
+            				btn[3] = new Button(this,CurrentButton.BCK_TO_MENU_YES,250,400);
+            				btn[4] = new Button(this,CurrentButton.BCK_TO_MENU_NO,390,400);
             				SetGame(1);
             				soundManager.playEffect(SOUND_PLAY);
             				state = State.PLAY;
@@ -411,6 +412,7 @@ public class Game{
     			btn[2].draw();
 		}
 		if(state == State.BACKTOMENU){
+			drawBackToMenuLabel();
 			for(int i = 3;i <= 4;i++){
 				if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()))
 					btn[i].draw_OnMouseOver();
@@ -501,42 +503,6 @@ public class Game{
     	}
 	}
 	
-	private void button_In_PAUSE_state() {
-		glMatrixMode(GL_PROJECTION);
-        glLoadIdentity();
-		glOrtho(0 ,640 ,650 ,0 ,-1 , 1);
-		drawPauseLabel();
-		if(btn[2].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()))
-			btn[2].draw_OnMouseOver();
-		else
-			btn[2].draw();
-		while (Mouse.next()) {
-    	    if (Mouse.getEventButtonState()) {
-    	        switch (Mouse.getEventButton()) {
-    	        case 0:
-    	        	if(btn[2].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
-    	        		soundManager.playEffect(SOUND_CLICK);
-    	        		currentButton = CurrentButton.CONTINUE;
-    	        	} else
-    	    			currentButton = CurrentButton.NONE;
-	        		break;
-    	        }
-    	    } else {	// mouse release
-    	    	switch (Mouse.getEventButton()) {
-    	    	case 0:
-    	    		if(btn[2].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
-    	    			soundManager.playEffect(SOUND_RELEASE);
-    	    			if(currentButton == CurrentButton.CONTINUE){
-	        				state = State.PLAY;
-    	    			}            	        		
-    	    		} else
-    	    			currentButton = CurrentButton.NONE;
-        			break;
-    	    	}
-    	    }
-    	}
-	}
-
 	private void input() {
     	switch(state){
     	case INTRO:
@@ -807,6 +773,7 @@ public class Game{
     private void loadResource() {
     	background = loadTexture("intro.png");
     	pauseLabel = loadTexture("pauseLabel.png");
+    	backToMenuLabel = loadTexture("backToMenuLabel.png");
     	player = new MyTank(this,200);
     	brick = new Brick[11];
     	bmWall = new BombWall[8];
@@ -935,6 +902,22 @@ public class Game{
         	glVertex2f(400 ,246);//bottom right
         	glTexCoord2f(0,pauseLabel.getHeight());
         	glVertex2f(240 ,246);//bottom left
+        glEnd();
+        glPopMatrix();
+	}
+	
+	private void drawBackToMenuLabel() {
+		glPushMatrix();
+		backToMenuLabel.bind();
+        glBegin(GL_QUADS);
+        	glTexCoord2f(0,0);
+        	glVertex2f(160 ,256);//upper left
+        	glTexCoord2f(backToMenuLabel.getWidth(),0);
+        	glVertex2f(480 ,256);//upper right
+        	glTexCoord2f(backToMenuLabel.getWidth(),backToMenuLabel.getHeight());
+        	glVertex2f(480 ,450);//bottom right
+        	glTexCoord2f(0,backToMenuLabel.getHeight());
+        	glVertex2f(160 ,450);//bottom left
         glEnd();
         glPopMatrix();
 	}
