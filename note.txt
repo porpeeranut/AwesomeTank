@@ -1,7 +1,9 @@
 
+fix draw in class Game
 add lv complete state
 add lv failed state
 fix select gun bar
+fix gun pic
 
 กด esc,menu -> เกม pause
 เชคตาย
