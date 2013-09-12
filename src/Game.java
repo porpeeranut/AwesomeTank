@@ -36,6 +36,9 @@ public class Game{
 	private Texture pauseLabel;
 	private Texture backToMenuLabel;
 	private Texture lvCompleteLabel;
+	private int lvCompleteLabel_X;
+	private int lvCompleteLabel_Y;
+	private int timeShowlvCompleteLabel;
 	private static ArrayList<Entity> entities = new ArrayList<Entity>();
 	private static ArrayList<Entity> removeList = new ArrayList<Entity>();
     public Map map;
@@ -49,6 +52,7 @@ public class Game{
     private int maxSpeed = 20,speed = 2;
     private boolean keyControlRelease;
     private static long timerTicksPerSecond = Sys.getTimerResolution();
+    private long delta;
     private long lastLoopTime = getTime();
     private long lastFpsTime;
     private int fps;
@@ -135,7 +139,7 @@ public class Game{
         	//clear screen
             glClear(GL_COLOR_BUFFER_BIT);
             
-            long delta = getTime() - lastLoopTime;
+            delta = getTime() - lastLoopTime;
     		lastLoopTime = getTime();
     		lastFpsTime += delta;
     		fps++;
@@ -417,7 +421,26 @@ public class Game{
 	    			btn[i].draw();
 			}
 		}if(state == State.LVCOMPLETE){
-			draw(lvCompleteLabel, 320, 250, 361, 92);
+			timeShowlvCompleteLabel += delta;
+			if(timeShowlvCompleteLabel > 50 && timeShowlvCompleteLabel < 200){
+				lvCompleteLabel_Y += 3;
+			} else if(timeShowlvCompleteLabel >= 1700 && timeShowlvCompleteLabel < 1900){
+				lvCompleteLabel_X -= (1900 - timeShowlvCompleteLabel)/20;
+			} else if(timeShowlvCompleteLabel >= 1900 && timeShowlvCompleteLabel < 2400){
+				lvCompleteLabel_X += (timeShowlvCompleteLabel-1900)/10;
+			} else if(timeShowlvCompleteLabel > 2400){
+				timeShowlvCompleteLabel = 0;
+				lvCompleteLabel_X = 0;
+				lvCompleteLabel_Y = 0;
+				btn = new Button[2];            	        		
+				btn[0] = new Button(this,CurrentButton.MENU,120,600);
+				btn[1] = new Button(this,CurrentButton.PLAY,520,600);
+				glMatrixMode(GL_PROJECTION);
+                glLoadIdentity();
+				glOrtho(0 ,640 ,650 ,0 ,-1 , 1);
+				state = State.UPGRADE;
+			}
+			draw(lvCompleteLabel, 320+lvCompleteLabel_X, 250+lvCompleteLabel_Y, 361, 92);
 		}
 		while (Mouse.next()) {
     	    if (Mouse.getEventButtonState()) {
@@ -840,7 +863,8 @@ public class Game{
 			turret.showHP = false;
 			turret.died = false;
 			entities.add(turret);
-			numEnemy = enemyTank.length + 1;
+			//numEnemy = enemyTank.length + 1;
+			numEnemy = 1;
 			break;
 		case 2:
 			map.createMap(2);
