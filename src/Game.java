@@ -23,7 +23,7 @@ public class Game{
 	private static enum State {
 		INTRO,UPGRADE,SELECT_LEVEL,PLAY,BACKTOMENU,PAUSE,LVCOMPLETE,LVFAILED;
 	}
-	private State state = State.INTRO;
+	private static State state = State.INTRO;
 	public static enum CurrentButton {
 		NONE,MENU,PLAY,PAUSE,BACKTOUPGRADE,LV1,CONTINUE,BCK_TO_MENU_YES,BCK_TO_MENU_NO;
 	}
@@ -36,6 +36,7 @@ public class Game{
 	private Texture pauseLabel;
 	private Texture backToMenuLabel;
 	private Texture lvCompleteLabel;
+	private Texture lvFailedLabel;
 	private int lvCompleteLabel_X;
 	private int lvCompleteLabel_Y;
 	private int timeShowlvCompleteLabel;
@@ -420,7 +421,8 @@ public class Game{
 	    		else
 	    			btn[i].draw();
 			}
-		}if(state == State.LVCOMPLETE){
+		}
+		if(state == State.LVCOMPLETE){
 			timeShowlvCompleteLabel += delta;
 			if(timeShowlvCompleteLabel > 50 && timeShowlvCompleteLabel < 200){
 				lvCompleteLabel_Y += 3;
@@ -441,6 +443,28 @@ public class Game{
 				state = State.UPGRADE;
 			}
 			draw(lvCompleteLabel, 320+lvCompleteLabel_X, 250+lvCompleteLabel_Y, 361, 92);
+		}
+		if(state == State.LVFAILED){
+			timeShowlvCompleteLabel += delta;
+			if(timeShowlvCompleteLabel > 50 && timeShowlvCompleteLabel < 200){
+				lvCompleteLabel_Y += 3;
+			} else if(timeShowlvCompleteLabel >= 1700 && timeShowlvCompleteLabel < 1900){
+				lvCompleteLabel_X -= (1900 - timeShowlvCompleteLabel)/20;
+			} else if(timeShowlvCompleteLabel >= 1900 && timeShowlvCompleteLabel < 2400){
+				lvCompleteLabel_X += (timeShowlvCompleteLabel-1900)/10;
+			} else if(timeShowlvCompleteLabel > 2400){
+				timeShowlvCompleteLabel = 0;
+				lvCompleteLabel_X = 0;
+				lvCompleteLabel_Y = 0;
+				btn = new Button[2];            	        		
+				btn[0] = new Button(this,CurrentButton.MENU,120,600);
+				btn[1] = new Button(this,CurrentButton.PLAY,520,600);
+				glMatrixMode(GL_PROJECTION);
+                glLoadIdentity();
+				glOrtho(0 ,640 ,650 ,0 ,-1 , 1);
+				state = State.UPGRADE;
+			}
+			draw(lvFailedLabel, 320+lvCompleteLabel_X, 250+lvCompleteLabel_Y, 361, 92);
 		}
 		while (Mouse.next()) {
     	    if (Mouse.getEventButtonState()) {
@@ -662,53 +686,6 @@ public class Game{
         	Display.destroy();
             System.exit(0);
         }
-        
-        /*if(keyControlRelease) {
-        	//Display.setTitle("ss");
-        	if(speed > 0)
-        		speed -= 5;
-        }*/
-        
-        /*while (Keyboard.next()) {
-            if (Keyboard.getEventKeyState()) {
-                if (Keyboard.getEventKey() == Keyboard.KEY_W) {
-                	//########################################
-                	if(speed < maxSpeed)
-                    	speed += 5;
-                    box.move(0, -speed);
-                    keyControlRelease = false; 
-                	Display.setTitle("w pres");
-                	player.move(0, -5);
-                }
-                if (Keyboard.getEventKey() == Keyboard.KEY_S) {
-                	keyControlRelease = false;
-                	player.move(0, 5);
-                }
-                if (Keyboard.getEventKey() == Keyboard.KEY_D) {
-                	keyControlRelease = false;
-                	player.move(5, 0);
-                }
-                if (Keyboard.getEventKey() == Keyboard.KEY_A) {
-                	keyControlRelease = false;
-                	player.move(-5, 0);
-                }
-            }
-            else {
-                if (Keyboard.getEventKey() == Keyboard.KEY_W) {
-                	Display.setTitle("w release");
-                	keyControlRelease = true;
-                }
-                if (Keyboard.getEventKey() == Keyboard.KEY_S) {
-                	keyControlRelease = true;
-                }
-                if (Keyboard.getEventKey() == Keyboard.KEY_D) {
-                	keyControlRelease = true;
-                }
-                if (Keyboard.getEventKey() == Keyboard.KEY_A) {
-                	keyControlRelease = true;
-                }
-            }
-        }*/
 	}
     
     private void setCamera(){
@@ -788,6 +765,8 @@ public class Game{
 	}
     
     public static void removeEntity(Entity entity) {
+    	if(entity instanceof MyTank)
+    		state = State.LVFAILED;
 		removeList.add(entity);
 	}
     
@@ -799,7 +778,8 @@ public class Game{
     	pauseLabel = loadTexture("pauseLabel.png");
     	backToMenuLabel = loadTexture("backToMenuLabel.png");
     	lvCompleteLabel = loadTexture("LVcomplete.png");
-    	player = new MyTank(this,200);
+    	lvFailedLabel = loadTexture("LVfailed.png");
+    	player = new MyTank(this,20);
     	brick = new Brick[11];
     	bmWall = new BombWall[8];
     	oilTank = new OilTank[3];
