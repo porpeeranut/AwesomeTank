@@ -216,7 +216,7 @@ public abstract class TankEntity extends Entity {
 	}
 	
 	public void setBodyAngle(int bodyAngle) {
-		this.bodyAngle = bodyAngle%360;
+		this.bodyAngle = bodyAngle % 360 - bodyAngle % deltaAng;
 	}
 	
 	public void draw() {

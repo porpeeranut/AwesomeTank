@@ -1,12 +1,12 @@
 
+add myHPbar
 fix select gun bar
 fix gun pic
 
-กด esc,menu -> เกม pause
-เชคตาย
 Wground
 enemytank ตายดรอปตังค์ 
 sound
+bot ถ้าโดนยินแล้ว active ตลอด (path โคตรยาว) (ดักเกรียนใช้ rocket)
 
 ## feature
 gold

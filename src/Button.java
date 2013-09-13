@@ -21,6 +21,7 @@ public class Button {
 	
 	protected Texture button;
 	protected Texture button_onMouseOver;
+	protected Texture button_clicked;
 	protected Game.CurrentButton thisButton;
 	private float TexCoordWidth;
 	private float TexCoordHeight;
@@ -42,6 +43,12 @@ public class Button {
     		case PAUSE:
     			button = loadTexture("pause.png");
     			button_onMouseOver = loadTexture("pause_onMouseOver.png");
+    			button_clicked = loadTexture("pause_clicked.png");
+    			break;
+    		case HELP:
+    			button = loadTexture("help.png");
+    			button_onMouseOver = loadTexture("help_onMouseOver.png");
+    			button_clicked = loadTexture("help_clicked.png");
     			break;
     		case BACKTOUPGRADE:
     			button = loadTexture("bckToUpgrd.png");
@@ -87,6 +94,13 @@ public class Button {
 	
 	public void draw_OnMouseOver() {
 		button_onMouseOver.bind();
+		TexCoordWidth = button_onMouseOver.getWidth();
+		TexCoordHeight = button_onMouseOver.getHeight();
+		basicDraw();
+	}
+	
+	public void draw_Clicked() {
+		button_clicked.bind();
 		TexCoordWidth = button_onMouseOver.getWidth();
 		TexCoordHeight = button_onMouseOver.getHeight();
 		basicDraw();

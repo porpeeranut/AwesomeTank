@@ -79,8 +79,19 @@ public abstract class Entity {
 	public void damage(int damage) {
 		this.HP -= damage;
 	}
+	
+	public void reset() {
+		dx = 0;
+		dy = 0;
+		showHP = false;
+    	shoted = false;
+    	touchedBombEffect = false;
+    	died = false;
+	}
+	
 	public void setHP(int HP) {
 		this.HP = HP;
+		this.maxHP = HP;
 	}
 
 	public void setDX(float dx) {
