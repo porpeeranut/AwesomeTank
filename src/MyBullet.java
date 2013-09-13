@@ -45,6 +45,7 @@ public class MyBullet extends Bullet {
 				game.soundManager.playEffect(game.SOUND_BOMB_BRICK);
 			}
 			if(other instanceof EnemyTank){
+				System.out.println(((EnemyTank) other).died);
 				if(!((EnemyTank) other).died){
 					((EnemyTank) other).died = true;
 					game.soundManager.playEffect(game.SOUND_BOMB_TANK);

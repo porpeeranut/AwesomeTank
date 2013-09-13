@@ -38,6 +38,9 @@ public class Game{
 	private Texture backToMenuLabel;
 	private Texture lvCompleteLabel;
 	private Texture lvFailedLabel;
+	private Texture HPpipe;
+	private Texture HPred;
+	private Texture HPblue;
 	private int Label_X;
 	private int Label_Y;
 	private int timeShowLabel;
@@ -173,6 +176,7 @@ public class Game{
     		case BACKTOMENU:
     		case LVCOMPLETE:
     		case LVFAILED:
+    			Display.setTitle(String.valueOf(numEnemy));
     			if(numEnemy <= 0 && state != State.LVFAILED){
     				state = State.LVCOMPLETE;
         		}
@@ -274,7 +278,7 @@ public class Game{
     
     private void move_to_PLAY_state() {
     	btn = new Button[7];            	        		
-    	btn[0] = new Button(this,CurrentButton.MENU,93,610);
+    	btn[0] = new Button(this,CurrentButton.MENU,113,610);
     	btn[1] = new Button(this,CurrentButton.PAUSE,533,610);
     	btn[2] = new Button(this,CurrentButton.CONTINUE,320,350);
     	btn[3] = new Button(this,CurrentButton.BCK_TO_MENU_YES,250,350);
@@ -414,6 +418,7 @@ public class Game{
         glLoadIdentity();
 		glOrtho(0 ,640 ,650 ,0 ,-1 , 1);
 		draw(selectGunBar, 320, 610, 592, 81);
+		drawHPpipe(340,630,260,21);
 		// ########### btn menu ###########
 		if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()))
 			btn[0].draw_OnMouseOver();
@@ -815,6 +820,9 @@ public class Game{
     	backToMenuLabel = loadTexture("backToMenuLabel.png");
     	lvCompleteLabel = loadTexture("LVcomplete.png");
     	lvFailedLabel = loadTexture("LVfailed.png");
+    	HPpipe = loadTexture("HPpipe.png");
+		HPred = loadTexture("HPred.png");
+		HPblue = loadTexture("HPblue.png");
     	player = new MyTank(this,20);
     	brick = new Brick[11];
     	bmWall = new BombWall[8];
@@ -841,7 +849,7 @@ public class Game{
     	camera_y_tmp = 0;
     	switch (LV) {
 		case 1:
-			player.setHP(2220);
+			player.setHP(220);
 	        player.setPositionToMap(2,3);
 	        player.reset();
 	        player.setGun(player.gunType.MINIGUN);
@@ -876,8 +884,8 @@ public class Game{
 			turret.setPositionToMap(15, 4);
 			turret.reset();
 			entities.add(turret);
-			//numEnemy = enemyTank.length + 1;
-			numEnemy = 1;
+			numEnemy = enemyTank.length + 1;
+			//numEnemy = 1;
 			break;
 		case 2:
 			map.createMap(2);
@@ -927,6 +935,43 @@ public class Game{
         	glVertex2f(x-width/2 ,y+height/2);//bottom left
         glEnd();
         glPopMatrix();
+	}
+	
+	public void drawHPpipe(int x,int y,int width,int height) {
+		HPred.bind();
+		glPushMatrix();
+		glBegin(GL_QUADS);
+			glVertex2f(x-width/2 ,y-height/2);
+			glVertex2f((x-width/2)+(width-2)*player.HP/player.maxHP ,y-height/2);
+			glVertex2f((x-width/2)+(width-2)*player.HP/player.maxHP ,y+height/2);
+			glVertex2f(x-width/2 ,y+height/2);
+		glEnd();
+		glPopMatrix();
+		
+		HPblue.bind();
+		glPushMatrix();
+		glBegin(GL_QUADS);
+			glVertex2f((x-width/2)+(width-2)*player.HP/player.maxHP ,y-height/2);
+			glVertex2f(x+width/2 ,y-height/2);
+			glVertex2f(x+width/2 ,y+height/2);
+			glVertex2f((x-width/2)+(width-2)*player.HP/player.maxHP ,y+height/2);
+		glEnd();
+		glPopMatrix();
+		
+		HPpipe.bind();
+		glPushMatrix();
+		glBegin(GL_QUADS);
+			glTexCoord2f(0,0);
+			glVertex2f(x-width/2 ,y-height/2);
+			glTexCoord2f(HPpipe.getWidth(),0);
+			glVertex2f(x+width/2 ,y-height/2);
+			glTexCoord2f(HPpipe.getWidth(),HPpipe.getHeight());
+			glVertex2f(x+width/2 ,y+height/2);
+			glTexCoord2f(0,HPpipe.getHeight());
+			glVertex2f(x-width/2 ,y+height/2);
+		glEnd();
+		glPopMatrix();
+		y += height/2;
 	}
    
     public static void main(String[] args) throws IOException, LWJGLException {

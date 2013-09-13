@@ -1,7 +1,5 @@
 
 public class EnemyTank extends TankEntity {
-	
-	protected boolean died = false;
 
 	public EnemyTank(Game ingame,int hp) {
 		super(ingame);

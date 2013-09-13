@@ -1,6 +1,6 @@
 
-add myHPbar
 fix select gun bar
+add button in upgrade state
 fix gun pic
 
 Wground
@@ -18,8 +18,6 @@ box drop item(+HP,freeze)
 
 --------------------------
 ## upgrd
-menu
-play
 upgrd_armor
 upgrd_speed
 upgrd_minigun
@@ -28,14 +26,9 @@ upgrd_cannongun
 upgrd_rocket
 
 ##select LV
-backToUpgrd
 lv1	// set unlock
 lv2
 
-##play
-menu
-pause
---------------------------
 
 
 

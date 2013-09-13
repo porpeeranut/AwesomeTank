@@ -32,7 +32,7 @@ public abstract class Entity {
 	protected Texture Shot;
 	protected Texture HPbar;
 	protected Texture HPred;
-	protected Texture HPblk;
+	protected Texture HPblue;
 	protected int HP;
 	protected int maxHP;
 	protected boolean showHP;
@@ -47,7 +47,7 @@ public abstract class Entity {
 	public Entity() {
 		HPbar = loadTexture("HPbar.png");
 		HPred = loadTexture("HPred.png");
-		HPblk = loadTexture("HPblk.png");
+		HPblue = loadTexture("HPblue.png");
 	}
 
 	public void move(long delta) {
@@ -191,7 +191,7 @@ public abstract class Entity {
 		glEnd();
 		glPopMatrix();
 		
-		HPblk.bind();
+		HPblue.bind();
 		glPushMatrix();
 		glBegin(GL_QUADS);
 			glVertex2f((x-(halfSize-1))+(width-2)*HP/maxHP ,y-(height/12.8f));
