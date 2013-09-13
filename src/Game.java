@@ -41,6 +41,18 @@ public class Game{
 	private Texture HPpipe;
 	private Texture HPred;
 	private Texture HPblue;
+	private Texture labelMinigun;
+	private Texture labelShotgun;
+	private Texture labelCannon;
+	private Texture labelRocket;
+	private Texture labelMinigun_unuse;
+	private Texture labelShotgun_unuse;
+	private Texture labelCannon_unuse;
+	private Texture labelRocket_unuse;
+	private Texture labelMinigun_lock;
+	private Texture labelShotgun_lock;
+	private Texture labelCannon_lock;
+	private Texture labelRocket_lock;
 	private int Label_X;
 	private int Label_Y;
 	private int timeShowLabel;
@@ -176,7 +188,7 @@ public class Game{
     		case BACKTOMENU:
     		case LVCOMPLETE:
     		case LVFAILED:
-    			Display.setTitle(String.valueOf(numEnemy));
+    			Display.setTitle(String.valueOf(state));
     			if(numEnemy <= 0 && state != State.LVFAILED){
     				state = State.LVCOMPLETE;
         		}
@@ -278,7 +290,7 @@ public class Game{
     
     private void move_to_PLAY_state() {
     	btn = new Button[7];            	        		
-    	btn[0] = new Button(this,CurrentButton.MENU,113,610);
+    	btn[0] = new Button(this,CurrentButton.MENU,143,610);
     	btn[1] = new Button(this,CurrentButton.PAUSE,533,610);
     	btn[2] = new Button(this,CurrentButton.CONTINUE,320,350);
     	btn[3] = new Button(this,CurrentButton.BCK_TO_MENU_YES,250,350);
@@ -417,13 +429,41 @@ public class Game{
 		glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
 		glOrtho(0 ,640 ,650 ,0 ,-1 , 1);
-		draw(selectGunBar, 320, 610, 592, 81);
-		drawHPpipe(340,630,260,21);
+		draw(selectGunBar, 330, 610, 542, 81);
+		drawHPpipe(360,635,260,21);
 		// ########### btn menu ###########
 		if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()))
 			btn[0].draw_OnMouseOver();
 		else
 			btn[0].draw();
+		// ########### gun label ###########
+		if(!player.unlockGun.get(player.gunType.MINIGUN)){
+			draw(labelMinigun_lock, 258,600,44,42);
+		} else if(player.gunType == player.gunType.MINIGUN){
+			draw(labelMinigun, 258,600,44,42);
+		} else
+			draw(labelMinigun_unuse, 258,600,44,42);
+		
+		if(!player.unlockGun.get(player.gunType.SHOTGUN)){
+			draw(labelShotgun_lock, 327,600,44,42);
+		} else if(player.gunType == player.gunType.SHOTGUN){
+			draw(labelShotgun, 327,600,44,42);
+		} else
+			draw(labelShotgun_unuse, 327,600,44,42);
+		
+		if(!player.unlockGun.get(player.gunType.CANNON)){
+			draw(labelCannon_lock, 392,600,44,42);
+		} else if(player.gunType == player.gunType.CANNON){
+			draw(labelCannon, 392,600,44,42);
+		} else
+			draw(labelCannon_unuse, 392,600,44,42);
+		
+		if(!player.unlockGun.get(player.gunType.ROCKET)){
+			draw(labelRocket_lock, 462,600,44,42);
+		} else if(player.gunType == player.gunType.ROCKET){
+			draw(labelRocket, 462,600,44,42);
+		} else
+			draw(labelRocket_unuse, 462,600,44,42);
 		// ########### btn pause ###########
 		if(state == State.PAUSE){
 			btn[1].draw_Clicked();
@@ -644,19 +684,15 @@ public class Game{
         	    if (Keyboard.getEventKeyState()) {
         	        switch (Keyboard.getEventKey()) {
         	        	case Keyboard.KEY_1:
-        	        		soundManager.playEffect(SOUND_CHANGE_GUN);
         	        		player.setGun(player.gunType.MINIGUN);
         	        		break;
         	        	case Keyboard.KEY_2:
-        	        		soundManager.playEffect(SOUND_CHANGE_GUN);
         	        		player.setGun(player.gunType.SHOTGUN);
         	        		break;
         	        	case Keyboard.KEY_3:
-        	        		soundManager.playEffect(SOUND_CHANGE_GUN);
         	        		player.setGun(player.gunType.CANNON);
         	        		break;
         	        	case Keyboard.KEY_4:
-        	        		soundManager.playEffect(SOUND_CHANGE_GUN);
         	        		player.setGun(player.gunType.ROCKET);
         	        		break;
         	        }
@@ -823,6 +859,18 @@ public class Game{
     	HPpipe = loadTexture("HPpipe.png");
 		HPred = loadTexture("HPred.png");
 		HPblue = loadTexture("HPblue.png");
+		labelMinigun = loadTexture("labelMinigun.png");
+		labelShotgun = loadTexture("labelShotgun.png");
+		labelCannon = loadTexture("labelCannon.png");
+		labelRocket = loadTexture("labelRocket.png");
+		labelMinigun_unuse = loadTexture("labelMinigun_unuse.png");
+		labelShotgun_unuse = loadTexture("labelShotgun_unuse.png");
+		labelCannon_unuse = loadTexture("labelCannon_unuse.png");
+		labelRocket_unuse = loadTexture("labelRocket_unuse.png");
+		labelMinigun_lock = loadTexture("labelMinigun_lock.png");
+		labelShotgun_lock = loadTexture("labelShotgun_lock.png");
+		labelCannon_lock = loadTexture("labelCannon_lock.png");
+		labelRocket_lock = loadTexture("labelRocket_lock.png");
     	player = new MyTank(this,20);
     	brick = new Brick[11];
     	bmWall = new BombWall[8];

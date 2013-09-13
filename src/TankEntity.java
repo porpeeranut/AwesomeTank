@@ -37,7 +37,7 @@ public abstract class TankEntity extends Entity {
 		MINIGUN,SHOTGUN,RICOCHET,CANNON,ROCKET,LASER;
 	}
 	protected GunType gunType = GunType.MINIGUN;
-	// unlockGun true = unlock
+	/** unlockGun true = unlock */
 	public HashMap<GunType, Boolean> unlockGun = new HashMap<GunType, Boolean>();
 	private boolean changeGun = false;
 	private int gunSizeIndex = 0;
@@ -75,7 +75,7 @@ public abstract class TankEntity extends Entity {
 		}
 		myRocketBullet = new MyRocketBullet(game, 2, 50);
 		unlockGun.put(gunType.MINIGUN, true);
-		unlockGun.put(gunType.SHOTGUN, true);
+		unlockGun.put(gunType.SHOTGUN, false);
 		unlockGun.put(gunType.RICOCHET, false);
 		unlockGun.put(gunType.CANNON, true);
 		unlockGun.put(gunType.ROCKET, true);
@@ -126,6 +126,7 @@ public abstract class TankEntity extends Entity {
 	
 	public void setGun(GunType gunT) {
 		if(unlockGun.get(gunT)){
+			game.soundManager.playEffect(game.SOUND_CHANGE_GUN);
 			gunType = gunT;
 			changeGun = true;
 			switch(gunType){
