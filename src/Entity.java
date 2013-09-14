@@ -77,7 +77,9 @@ public abstract class Entity {
 	}
 	
 	public void damage(int damage) {
-		this.HP -= damage;
+		HP -= damage;
+		if(HP < 0)
+			HP = 0;
 	}
 	
 	public void reset() {
@@ -213,7 +215,7 @@ public abstract class Entity {
         return y;
 	}
 
-	/** (1,1) to (mapWIDTH, mapHEIGHT)*/
+	/** (0,0) to (mapWIDTH, mapHEIGHT)*/
 	public void setPositionToMap(int x,int y){
         this.x = x*game.map.TILE_SIZE + game.map.TILE_SIZE/2;
         this.y = y*game.map.TILE_SIZE + game.map.TILE_SIZE/2;

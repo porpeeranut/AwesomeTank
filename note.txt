@@ -1,5 +1,6 @@
 
-fix select gun bar
+lock level
+
 add button in upgrade state
 fix gun pic
 
