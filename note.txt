@@ -1,6 +1,5 @@
-add button lv
 
-lock level
+lock button level
 
 sound BGM
 fix gun pic

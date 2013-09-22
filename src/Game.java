@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
+import java.util.HashMap;
  
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -28,6 +29,7 @@ public class Game{
 		NONE,MENU,PLAY,PAUSE,HELP,BACKTOUPGRADE,CONTINUE,BCK_TO_MENU_YES,BCK_TO_MENU_NO,
 		LV1,LV2,LV3,LV4,LV5,LV6,LV7,LV8,LV9,LV10;
 	}
+	public HashMap<Integer, Boolean> unlockLV = new HashMap<Integer, Boolean>();
 	public static int maxLevel = 10;
 	private Button[] btn;
 	private CurrentButton currentButton = CurrentButton.NONE;
@@ -141,6 +143,12 @@ public class Game{
 		SOUND_PLAY		= soundManager.addSound("play.wav");
 
 		map = new Map();
+		for(int i = 1;i <= maxLevel;i++){
+			if(i == 1 || i == 5)
+				unlockLV.put(i, true);
+			else
+				unlockLV.put(i, false);
+		}
 		loadResource();
 		
         //initialization opengl code
@@ -393,11 +401,20 @@ public class Game{
 	}
 
 	private void button_In_SELECT_LEVEL_state() {
-		for(int i = 0;i < btn.length;i++){
-			if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()))
-    			btn[i].draw_OnMouseOver();
-    		else
-    			btn[i].draw();
+		// button BACKTOUPGRADE
+		if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()))
+			btn[0].draw_OnMouseOver();
+		else
+			btn[0].draw();
+		// button LV1 - LVmax
+		for(int i = 1;i < btn.length;i++){
+			if(unlockLV.get(i)){
+				if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()))
+					btn[i].draw_OnMouseOver();
+				else
+					btn[i].draw();
+			} else
+				btn[i].draw_LVlock();
 		}
 		while (Mouse.next()) {
     	    if (Mouse.getEventButtonState()) {
@@ -405,7 +422,7 @@ public class Game{
     	        case 0:
     	        	boolean btnLVclicked = false;
     	        	for(int i = 1;i <= maxLevel;i++){
-    	    			if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    			if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()) && unlockLV.get(i)){
     	    				soundManager.playEffect(SOUND_CLICK);
     	    				switch(i){
     	    				case 1:
@@ -457,7 +474,7 @@ public class Game{
     	    	case 0:
     	    		boolean btnLVreleased = false;
     	        	for(int i = 1;i <= maxLevel;i++){
-    	    			if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    			if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()) && unlockLV.get(i)){
     	    				soundManager.playEffect(SOUND_RELEASE);
     	    				btnLVreleased = true;
     	    				if(currentButton == CurrentButton.LV1 || currentButton == CurrentButton.LV2 || 
@@ -962,7 +979,7 @@ public class Game{
     	camera_x_tmp = 0;
     	camera_y_tmp = 0;
     	switch (LV) {
-		case 21:
+		case 1:
 			map.createMap(1);
 			player.setHP(220);
 	        player.setPositionToMap(2,3);
@@ -1165,7 +1182,7 @@ public class Game{
 			entities.add(turret[0]);
 	        numEnemy = enemyTank.length + 1;
 			break;
-		case 1:
+		case 5:
 			map.createMap(5);
 			player.setHP(220);
 	        player.setPositionToMap(2,2);

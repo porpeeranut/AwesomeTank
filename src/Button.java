@@ -22,6 +22,7 @@ public class Button {
 	protected Texture button;
 	protected Texture button_onMouseOver;
 	protected Texture button_clicked;
+	protected Texture button_LVlock;
 	protected Game.CurrentButton thisButton;
 	private float TexCoordWidth;
 	private float TexCoordHeight;
@@ -72,6 +73,7 @@ public class Button {
 				System.out.println("asdaf");
 				button = loadTexture("LV"+i+".png");
     			button_onMouseOver = loadTexture("LV"+i+"_onMouseOver.png");
+    			button_LVlock = loadTexture("LV"+i+"_lock.png");
 			}
 		}
 		//System.out.println(thisButton);
@@ -107,6 +109,13 @@ public class Button {
 		button_clicked.bind();
 		TexCoordWidth = button_onMouseOver.getWidth();
 		TexCoordHeight = button_onMouseOver.getHeight();
+		basicDraw();
+	}
+	
+	public void draw_LVlock() {
+		button_LVlock.bind();
+		TexCoordWidth = button_LVlock.getWidth();
+		TexCoordHeight = button_LVlock.getHeight();
 		basicDraw();
 	}
 	
