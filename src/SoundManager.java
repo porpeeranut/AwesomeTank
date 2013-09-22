@@ -87,6 +87,12 @@ public class SoundManager {
     // return index for this sound
   	return bufferIndex++;
   }
+  
+  public void stopPlayingSound() {
+	  scratchBuffer.position(0).limit(sources.length);
+      scratchBuffer.put(sources).flip();
+      AL10.alSourceStop(scratchBuffer);
+  }
 
   public void destroy() {
     if(soundOutput) {

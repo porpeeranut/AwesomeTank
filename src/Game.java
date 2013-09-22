@@ -30,6 +30,7 @@ public class Game{
 		LV1,LV2,LV3,LV4,LV5,LV6,LV7,LV8,LV9,LV10;
 	}
 	public HashMap<Integer, Boolean> unlockLV = new HashMap<Integer, Boolean>();
+	private int currentLevel;
 	public static int maxLevel = 10;
 	private Button[] btn;
 	private CurrentButton currentButton = CurrentButton.NONE;
@@ -92,6 +93,10 @@ public class Game{
     public static int SOUND_RELEASE;
     public static int SOUND_PLAY;
     
+    public static int SOUND_BGM_INTRO;
+    public static int SOUND_BGM_PLAY;
+    public static int CURRENT_SOUND;
+    
     public float initBulletX,initBulletY;
     
 	private EnemyTank[] enemyTank;
@@ -141,10 +146,13 @@ public class Game{
 		SOUND_CLICK		= soundManager.addSound("mouse_click.wav");
 		SOUND_RELEASE	= soundManager.addSound("mouse_release.wav");
 		SOUND_PLAY		= soundManager.addSound("play.wav");
+		
+		SOUND_BGM_INTRO		= soundManager.addSound("BGM_intro.wav");
+		SOUND_BGM_PLAY		= soundManager.addSound("BGM_play.wav");
 
 		map = new Map();
 		for(int i = 1;i <= maxLevel;i++){
-			if(i == 1 || i == 5)
+			if(i == 1)
 				unlockLV.put(i, true);
 			else
 				unlockLV.put(i, false);
@@ -178,6 +186,17 @@ public class Game{
     			fps = 0;
     		}
     		
+    		switch(state){
+    		case INTRO:
+    		case UPGRADE:
+    		case SELECT_LEVEL:
+    			if(!soundManager.isPlayingSound() || CURRENT_SOUND != SOUND_BGM_INTRO){
+    				soundManager.stopPlayingSound();
+    				soundManager.playSound(SOUND_BGM_INTRO);
+    				CURRENT_SOUND = SOUND_BGM_INTRO;
+    			}
+    			break;
+    		}
     		
     		switch(state){
         	case INTRO:
@@ -198,9 +217,15 @@ public class Game{
     		case BACKTOMENU:
     		case LVCOMPLETE:
     		case LVFAILED:
-    			Display.setTitle(String.valueOf(state));
+    			if(!soundManager.isPlayingSound() || CURRENT_SOUND != SOUND_BGM_PLAY){
+    				soundManager.stopPlayingSound();
+    				soundManager.playSound(SOUND_BGM_PLAY);
+    				CURRENT_SOUND = SOUND_BGM_PLAY;
+    			}
     			if(numEnemy <= 0 && state != State.LVFAILED){
     				state = State.LVCOMPLETE;
+    				if(currentLevel < maxLevel)
+    					unlockLV.put(currentLevel+1, true);
         		}
         		initBulletX = (float)(player.x-Math.cos(0.0174532925*gunRotation)*player.width/1.5);
         		initBulletY = (float)(player.y-Math.sin(0.0174532925*gunRotation)*player.height/1.5);
@@ -211,7 +236,7 @@ public class Game{
         			if(state != State.LVCOMPLETE && state != State.LVFAILED)
         				input();
             		
-                    if(!soundManager.isPlayingSound()){
+                    //if(!soundManager.isPlayingSound()){
                     	for (int p = 0; p < entities.size(); p++) {
                     		Entity entity = entities.get(p);
                         	if(entity instanceof MyTank)
@@ -236,7 +261,7 @@ public class Game{
             					}
             				}
             			}
-                    }
+                    //}
                     
                     // check collisions and move
             		for (int p = 0; p < entities.size(); p++) {
@@ -797,7 +822,7 @@ public class Game{
         	player.setGun(player.gunType.LASER);
         */
         
-        if(!soundManager.isPlayingSound()){
+        //if(!soundManager.isPlayingSound()){
         	if(!btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())
         			&& !btn[1].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())
         			&& !btn[5].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
@@ -831,7 +856,7 @@ public class Game{
 	            	player.Fire(initBulletX,initBulletY,gunRotation);
 	            }
         	}
-        }
+        //}
         if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
         	/*soundManager.destroy();
         	Display.destroy();
@@ -978,6 +1003,7 @@ public class Game{
     	entities.clear();
     	camera_x_tmp = 0;
     	camera_y_tmp = 0;
+    	currentLevel = LV;
     	switch (LV) {
 		case 1:
 			map.createMap(1);
@@ -1019,7 +1045,7 @@ public class Game{
 	        	oilTank[i].reset();
 	        	//entities.add(oilTank[i]);
 	        }
-			for (int i = 0; i < enemyTank.length; i++) {
+			for (int i = 0; i < 5; i++) {
 				enemyTank[i].setHP(50);
 				enemyTank[i].setPositionToMap(i+5, 4);
 				enemyTank[i].setBodyAngle(39);
@@ -1030,7 +1056,7 @@ public class Game{
 			turret[0].setPositionToMap(14, 3);
 			turret[0].reset();
 			entities.add(turret[0]);
-			numEnemy = enemyTank.length + 1;
+			numEnemy = 5 + 1;
 			//numEnemy = 1;
 			break;
 		case 2:
@@ -1070,11 +1096,18 @@ public class Game{
 	        	oilTank[i].reset();
 	        	entities.add(oilTank[i]);
 	        }
+	        for (int i = 0; i < 5; i++) {
+				enemyTank[i].setHP(50);
+				enemyTank[i].setPositionToMap(i+5, 4);
+				enemyTank[i].setBodyAngle(39);
+				enemyTank[i].reset();
+				entities.add(enemyTank[i]);
+			}
 	        turret[0].setHP(50);
 			turret[0].setPositionToMap(2, 8);
 			turret[0].reset();
 			entities.add(turret[0]);
-	        numEnemy = enemyTank.length + 1;
+	        numEnemy = 5 + 1;
 			break;
 		case 3:
 			map.createMap(3);
@@ -1123,11 +1156,18 @@ public class Game{
 	        	oilTank[i].reset();
 	        	entities.add(oilTank[i]);
 	        }
+	        for (int i = 0; i < 5; i++) {
+				enemyTank[i].setHP(50);
+				enemyTank[i].setPositionToMap(i+5, 4);
+				enemyTank[i].setBodyAngle(39);
+				enemyTank[i].reset();
+				entities.add(enemyTank[i]);
+			}
 	        turret[0].setHP(50);
 			turret[0].setPositionToMap(2, 8);
 			turret[0].reset();
 			entities.add(turret[0]);
-	        numEnemy = enemyTank.length + 1;
+	        numEnemy = 5 + 1;
 			break;
 		case 4:
 			map.createMap(4);
@@ -1176,11 +1216,18 @@ public class Game{
 	        	oilTank[i].reset();
 	        	entities.add(oilTank[i]);
 	        }
+	        for (int i = 0; i < 5; i++) {
+				enemyTank[i].setHP(50);
+				enemyTank[i].setPositionToMap(i+5, 5);
+				enemyTank[i].setBodyAngle(39);
+				enemyTank[i].reset();
+				entities.add(enemyTank[i]);
+			}
 	        turret[0].setHP(50);
 			turret[0].setPositionToMap(10, 2);
 			turret[0].reset();
 			entities.add(turret[0]);
-	        numEnemy = enemyTank.length + 1;
+	        numEnemy = 5 + 1;
 			break;
 		case 5:
 			map.createMap(5);
@@ -1240,6 +1287,13 @@ public class Game{
 	        	oilTank[i].reset();
 	        	entities.add(oilTank[i]);
 	        }
+	        for (int i = 0; i < 5; i++) {
+				enemyTank[i].setHP(50);
+				enemyTank[i].setPositionToMap(i+5, 4);
+				enemyTank[i].setBodyAngle(39);
+				enemyTank[i].reset();
+				entities.add(enemyTank[i]);
+			}
 	        turret[0].setPositionToMap(8, 4);
 	        turret[1].setPositionToMap(10, 4);
 	        turret[2].setPositionToMap(11, 16);
@@ -1248,7 +1302,260 @@ public class Game{
 				turret[i].reset();
 				entities.add(turret[i]);
 	        }
-	        numEnemy = enemyTank.length + 1;
+	        numEnemy = 5 + 3;
+			break;
+			//#####################################################################
+			//#####################################################################
+			//#####################################################################
+		case 6:
+			map.createMap(6);
+			player.setHP(220);
+	        player.setPositionToMap(2,2);
+	        player.reset();
+	        player.setGun(player.gunType.MINIGUN);
+	        player.rocketReleased = false;
+	        entities.add(player);
+	        brick[0].setPositionToMap(6, 1);
+	        brick[1].setPositionToMap(6, 2);
+	        brick[2].setPositionToMap(6, 3);
+	        brick[3].setPositionToMap(6, 4);
+	        brick[4].setPositionToMap(4, 8);
+	        brick[5].setPositionToMap(5, 8);
+	        brick[6].setPositionToMap(6, 8);
+	        for(int i = 0;i < 7;i++){
+	        	brick[i].setHP(30);
+	        	brick[i].reset();
+	        	entities.add(brick[i]);
+	        }
+			bmWall[0].setPositionToMap(4, 2);
+	        bmWall[1].setPositionToMap(4, 3);
+	        bmWall[2].setPositionToMap(4, 1);
+	        for(int i = 0;i < 3;i++){
+	        	bmWall[i].setHP(30);
+	        	bmWall[i].reset();
+	        	entities.add(bmWall[i]);
+	        }
+	        oilTank[0].setPositionToMap(2, 6);
+	        oilTank[1].setPositionToMap(4, 6);
+	        oilTank[2].setPositionToMap(6, 6);
+	        oilTank[3].setPositionToMap(8, 6);
+	        for(int i = 0;i < 4;i++){
+	        	oilTank[i].setHP(15);
+	        	oilTank[i].reset();
+	        	entities.add(oilTank[i]);
+	        }
+	        for (int i = 0; i < 5; i++) {
+				enemyTank[i].setHP(50);
+				enemyTank[i].setPositionToMap(i+5, 4);
+				enemyTank[i].setBodyAngle(39);
+				enemyTank[i].reset();
+				entities.add(enemyTank[i]);
+			}
+	        turret[0].setHP(50);
+			turret[0].setPositionToMap(2, 8);
+			turret[0].reset();
+			entities.add(turret[0]);
+	        numEnemy = 5 + 1;
+			break;
+		case 7:
+			map.createMap(7);
+			player.setHP(220);
+	        player.setPositionToMap(2,2);
+	        player.reset();
+	        player.setGun(player.gunType.MINIGUN);
+	        player.rocketReleased = false;
+	        entities.add(player);
+	        brick[0].setPositionToMap(6, 1);
+	        brick[1].setPositionToMap(6, 2);
+	        brick[2].setPositionToMap(6, 3);
+	        brick[3].setPositionToMap(6, 4);
+	        brick[4].setPositionToMap(4, 8);
+	        brick[5].setPositionToMap(5, 8);
+	        brick[6].setPositionToMap(6, 8);
+	        for(int i = 0;i < 7;i++){
+	        	brick[i].setHP(30);
+	        	brick[i].reset();
+	        	entities.add(brick[i]);
+	        }
+			bmWall[0].setPositionToMap(4, 2);
+	        bmWall[1].setPositionToMap(4, 3);
+	        bmWall[2].setPositionToMap(4, 1);
+	        for(int i = 0;i < 3;i++){
+	        	bmWall[i].setHP(30);
+	        	bmWall[i].reset();
+	        	entities.add(bmWall[i]);
+	        }
+	        oilTank[0].setPositionToMap(2, 6);
+	        oilTank[1].setPositionToMap(4, 6);
+	        oilTank[2].setPositionToMap(6, 6);
+	        oilTank[3].setPositionToMap(8, 6);
+	        for(int i = 0;i < 4;i++){
+	        	oilTank[i].setHP(15);
+	        	oilTank[i].reset();
+	        	entities.add(oilTank[i]);
+	        }
+	        for (int i = 0; i < 5; i++) {
+				enemyTank[i].setHP(50);
+				enemyTank[i].setPositionToMap(i+5, 4);
+				enemyTank[i].setBodyAngle(39);
+				enemyTank[i].reset();
+				entities.add(enemyTank[i]);
+			}
+	        turret[0].setHP(50);
+			turret[0].setPositionToMap(2, 8);
+			turret[0].reset();
+			entities.add(turret[0]);
+	        numEnemy = 5 + 1;
+			break;
+		case 8:
+			map.createMap(8);
+			player.setHP(220);
+	        player.setPositionToMap(2,2);
+	        player.reset();
+	        player.setGun(player.gunType.MINIGUN);
+	        player.rocketReleased = false;
+	        entities.add(player);
+	        brick[0].setPositionToMap(6, 1);
+	        brick[1].setPositionToMap(6, 2);
+	        brick[2].setPositionToMap(6, 3);
+	        brick[3].setPositionToMap(6, 4);
+	        brick[4].setPositionToMap(4, 8);
+	        brick[5].setPositionToMap(5, 8);
+	        brick[6].setPositionToMap(6, 8);
+	        for(int i = 0;i < 7;i++){
+	        	brick[i].setHP(30);
+	        	brick[i].reset();
+	        	entities.add(brick[i]);
+	        }
+			bmWall[0].setPositionToMap(4, 2);
+	        bmWall[1].setPositionToMap(4, 3);
+	        bmWall[2].setPositionToMap(4, 1);
+	        for(int i = 0;i < 3;i++){
+	        	bmWall[i].setHP(30);
+	        	bmWall[i].reset();
+	        	entities.add(bmWall[i]);
+	        }
+	        oilTank[0].setPositionToMap(2, 6);
+	        oilTank[1].setPositionToMap(4, 6);
+	        oilTank[2].setPositionToMap(6, 6);
+	        oilTank[3].setPositionToMap(8, 6);
+	        for(int i = 0;i < 4;i++){
+	        	oilTank[i].setHP(15);
+	        	oilTank[i].reset();
+	        	entities.add(oilTank[i]);
+	        }
+	        for (int i = 0; i < 5; i++) {
+				enemyTank[i].setHP(50);
+				enemyTank[i].setPositionToMap(i+5, 4);
+				enemyTank[i].setBodyAngle(39);
+				enemyTank[i].reset();
+				entities.add(enemyTank[i]);
+			}
+	        turret[0].setHP(50);
+			turret[0].setPositionToMap(2, 8);
+			turret[0].reset();
+			entities.add(turret[0]);
+	        numEnemy = 5 + 1;
+			break;
+		case 9:
+			map.createMap(9);
+			player.setHP(220);
+	        player.setPositionToMap(2,2);
+	        player.reset();
+	        player.setGun(player.gunType.MINIGUN);
+	        player.rocketReleased = false;
+	        entities.add(player);
+	        brick[0].setPositionToMap(6, 1);
+	        brick[1].setPositionToMap(6, 2);
+	        brick[2].setPositionToMap(6, 3);
+	        brick[3].setPositionToMap(6, 4);
+	        brick[4].setPositionToMap(4, 8);
+	        brick[5].setPositionToMap(5, 8);
+	        brick[6].setPositionToMap(6, 8);
+	        for(int i = 0;i < 7;i++){
+	        	brick[i].setHP(30);
+	        	brick[i].reset();
+	        	entities.add(brick[i]);
+	        }
+			bmWall[0].setPositionToMap(4, 2);
+	        bmWall[1].setPositionToMap(4, 3);
+	        bmWall[2].setPositionToMap(4, 1);
+	        for(int i = 0;i < 3;i++){
+	        	bmWall[i].setHP(30);
+	        	bmWall[i].reset();
+	        	entities.add(bmWall[i]);
+	        }
+	        oilTank[0].setPositionToMap(2, 6);
+	        oilTank[1].setPositionToMap(4, 6);
+	        oilTank[2].setPositionToMap(6, 6);
+	        oilTank[3].setPositionToMap(8, 6);
+	        for(int i = 0;i < 4;i++){
+	        	oilTank[i].setHP(15);
+	        	oilTank[i].reset();
+	        	entities.add(oilTank[i]);
+	        }
+	        for (int i = 0; i < 5; i++) {
+				enemyTank[i].setHP(50);
+				enemyTank[i].setPositionToMap(i+5, 4);
+				enemyTank[i].setBodyAngle(39);
+				enemyTank[i].reset();
+				entities.add(enemyTank[i]);
+			}
+	        turret[0].setHP(50);
+			turret[0].setPositionToMap(2, 8);
+			turret[0].reset();
+			entities.add(turret[0]);
+	        numEnemy = 5 + 1;
+			break;
+		case 10:
+			map.createMap(10);
+			player.setHP(220);
+	        player.setPositionToMap(2,2);
+	        player.reset();
+	        player.setGun(player.gunType.MINIGUN);
+	        player.rocketReleased = false;
+	        entities.add(player);
+	        brick[0].setPositionToMap(6, 1);
+	        brick[1].setPositionToMap(6, 2);
+	        brick[2].setPositionToMap(6, 3);
+	        brick[3].setPositionToMap(6, 4);
+	        brick[4].setPositionToMap(4, 8);
+	        brick[5].setPositionToMap(5, 8);
+	        brick[6].setPositionToMap(6, 8);
+	        for(int i = 0;i < 7;i++){
+	        	brick[i].setHP(30);
+	        	brick[i].reset();
+	        	entities.add(brick[i]);
+	        }
+			bmWall[0].setPositionToMap(4, 2);
+	        bmWall[1].setPositionToMap(4, 3);
+	        bmWall[2].setPositionToMap(4, 1);
+	        for(int i = 0;i < 3;i++){
+	        	bmWall[i].setHP(30);
+	        	bmWall[i].reset();
+	        	entities.add(bmWall[i]);
+	        }
+	        oilTank[0].setPositionToMap(2, 6);
+	        oilTank[1].setPositionToMap(4, 6);
+	        oilTank[2].setPositionToMap(6, 6);
+	        oilTank[3].setPositionToMap(8, 6);
+	        for(int i = 0;i < 4;i++){
+	        	oilTank[i].setHP(15);
+	        	oilTank[i].reset();
+	        	entities.add(oilTank[i]);
+	        }
+	        for (int i = 0; i < 5; i++) {
+				enemyTank[i].setHP(50);
+				enemyTank[i].setPositionToMap(i+5, 4);
+				enemyTank[i].setBodyAngle(39);
+				enemyTank[i].reset();
+				entities.add(enemyTank[i]);
+			}
+	        turret[0].setHP(50);
+			turret[0].setPositionToMap(2, 8);
+			turret[0].reset();
+			entities.add(turret[0]);
+	        numEnemy = 5 + 1;
 			break;
 		}
     }
