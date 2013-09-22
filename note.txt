@@ -1,13 +1,15 @@
+add button lv
 
 lock level
 
-add button in upgrade state
+sound BGM
 fix gun pic
-
 Wground
-enemytank ตายดรอปตังค์ 
-sound
 bot ถ้าโดนยินแล้ว active ตลอด (path โคตรยาว) (ดักเกรียนใช้ rocket)
+box drop item(+HP,freeze)
+
+add button in upgrade state
+enemytank ตายดรอปตังค์ 
 
 ## feature
 gold
@@ -15,7 +17,6 @@ movement speed
 visibility
 turret speed
 armor
-box drop item(+HP,freeze)
 
 --------------------------
 ## upgrd

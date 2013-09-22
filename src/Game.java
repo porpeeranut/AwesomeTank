@@ -25,8 +25,10 @@ public class Game{
 	}
 	private static State state = State.INTRO;
 	public static enum CurrentButton {
-		NONE,MENU,PLAY,PAUSE,HELP,BACKTOUPGRADE,LV1,CONTINUE,BCK_TO_MENU_YES,BCK_TO_MENU_NO;
+		NONE,MENU,PLAY,PAUSE,HELP,BACKTOUPGRADE,CONTINUE,BCK_TO_MENU_YES,BCK_TO_MENU_NO,
+		LV1,LV2,LV3,LV4,LV5,LV6,LV7,LV8,LV9,LV10;
 	}
+	public static int maxLevel = 10;
 	private Button[] btn;
 	private CurrentButton currentButton = CurrentButton.NONE;
 	private Texture backgndIntro;
@@ -59,7 +61,6 @@ public class Game{
 	private static ArrayList<Entity> entities = new ArrayList<Entity>();
 	private static ArrayList<Entity> removeList = new ArrayList<Entity>();
     public Map map;
-    private int level = 1;
     public MyTank player;
     static private int camera_x,camera_y,camera_w,camera_h;
     static private int camera_x_tmp,camera_y_tmp;
@@ -283,13 +284,23 @@ public class Game{
     }
     
     private void move_to_SELECT_LEVEL_state() {
-    	btn = new Button[2];            	        		
+    	btn = new Button[11];            	        		
     	btn[0] = new Button(this,CurrentButton.BACKTOUPGRADE,320,600);
     	btn[1] = new Button(this,CurrentButton.LV1,100,200);
+    	btn[2] = new Button(this,CurrentButton.LV2,200,200);
+    	btn[3] = new Button(this,CurrentButton.LV3,300,200);
+    	btn[4] = new Button(this,CurrentButton.LV4,400,200);
+    	btn[5] = new Button(this,CurrentButton.LV5,500,200);
+    	btn[6] = new Button(this,CurrentButton.LV6,100,300);
+    	btn[7] = new Button(this,CurrentButton.LV7,200,300);
+    	btn[8] = new Button(this,CurrentButton.LV8,300,300);
+    	btn[9] = new Button(this,CurrentButton.LV9,400,300);
+    	btn[10] = new Button(this,CurrentButton.LV10,500,300);
     	state = State.SELECT_LEVEL;
     }
     
-    private void move_to_PLAY_state() {
+    private void move_to_PLAY_state(int lv) {
+    	SetGame(lv);
     	btn = new Button[7];            	        		
     	btn[0] = new Button(this,CurrentButton.MENU,143,610);
     	btn[1] = new Button(this,CurrentButton.PAUSE,533,610);
@@ -298,7 +309,6 @@ public class Game{
     	btn[4] = new Button(this,CurrentButton.BCK_TO_MENU_NO,390,350);
     	btn[5] = new Button(this,CurrentButton.HELP,570,610);
     	btn[6] = new Button(this,CurrentButton.PLAY,320,450);
-    	SetGame(1);
     	soundManager.playEffect(SOUND_PLAY);
     	state = State.PLAY;
     }
@@ -393,13 +403,50 @@ public class Game{
     	    if (Mouse.getEventButtonState()) {
     	        switch (Mouse.getEventButton()) {
     	        case 0:
+    	        	boolean btnLVclicked = false;
+    	        	for(int i = 1;i <= maxLevel;i++){
+    	    			if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    				soundManager.playEffect(SOUND_CLICK);
+    	    				switch(i){
+    	    				case 1:
+    	    					currentButton = CurrentButton.LV1;
+    	    					break;
+    	    				case 2:
+    	    					currentButton = CurrentButton.LV2;
+    	    					break;
+    	    				case 3:
+    	    					currentButton = CurrentButton.LV3;
+    	    					break;
+    	    				case 4:
+    	    					currentButton = CurrentButton.LV4;
+    	    					break;
+    	    				case 5:
+    	    					currentButton = CurrentButton.LV5;
+    	    					break;
+    	    				case 6:
+    	    					currentButton = CurrentButton.LV6;
+    	    					break;
+    	    				case 7:
+    	    					currentButton = CurrentButton.LV7;
+    	    					break;
+    	    				case 8:
+    	    					currentButton = CurrentButton.LV8;
+    	    					break;
+    	    				case 9:
+    	    					currentButton = CurrentButton.LV9;
+    	    					break;
+    	    				case 10:
+    	    					currentButton = CurrentButton.LV10;
+    	    					break;
+    	    				}
+    	    				btnLVclicked = true;
+    	    			}
+    	    		}
     	        	if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	        		soundManager.playEffect(SOUND_CLICK);
     	        		currentButton = CurrentButton.BACKTOUPGRADE;
     	        	}
-    	        	else if(btn[1].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
-    	        		soundManager.playEffect(SOUND_CLICK);
-    	        		currentButton = CurrentButton.PLAY;
+    	        	else if(btnLVclicked){
     	        	}
     	    		else
     	    			currentButton = CurrentButton.NONE;
@@ -408,16 +455,27 @@ public class Game{
     	    } else {	// mouse release
     	    	switch (Mouse.getEventButton()) {
     	    	case 0:
+    	    		boolean btnLVreleased = false;
+    	        	for(int i = 1;i <= maxLevel;i++){
+    	    			if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    				soundManager.playEffect(SOUND_RELEASE);
+    	    				btnLVreleased = true;
+    	    				if(currentButton == CurrentButton.LV1 || currentButton == CurrentButton.LV2 || 
+    	    						currentButton == CurrentButton.LV3 || currentButton == CurrentButton.LV4 || 
+    	    						currentButton == CurrentButton.LV5 || currentButton == CurrentButton.LV6 || 
+    	    						currentButton == CurrentButton.LV7 || currentButton == CurrentButton.LV8 || 
+    	    						currentButton == CurrentButton.LV9 || currentButton == CurrentButton.LV10){
+        	    				move_to_PLAY_state(i);
+        	    				break;
+        	    			}
+    	    			}
+    	    		}
     	    		if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	    			soundManager.playEffect(SOUND_RELEASE);
     	    			if(currentButton == CurrentButton.BACKTOUPGRADE){
     	    				move_to_UPGRADE_state();
     	    			}            	        		
-    	    		}else if(btn[1].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
-    	    			soundManager.playEffect(SOUND_RELEASE);
-    	    			if(currentButton == CurrentButton.PLAY){
-    	    				move_to_PLAY_state();
-    	    			}
+    	    		}else if(btnLVreleased){
     	    		} else
     	    			currentButton = CurrentButton.NONE;
         			break;

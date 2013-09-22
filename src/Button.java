@@ -54,10 +54,6 @@ public class Button {
     			button = loadTexture("bckToUpgrd.png");
     			button_onMouseOver = loadTexture("bckToUpgrd_onMouseOver.png");
     			break;
-    		case LV1:
-    			button = loadTexture("LV1.png");
-    			button_onMouseOver = loadTexture("LV1_onMouseOver.png");
-    			break;
     		case CONTINUE:
     			button = loadTexture("continue.png");
     			button_onMouseOver = loadTexture("continue_onMouseOver.png");
@@ -71,6 +67,14 @@ public class Button {
     			button_onMouseOver = loadTexture("no_onMouseOver.png");
     			break;
 		}
+		for(int i = 1;i <= game.maxLevel;i++){
+			if(thisButton.toString().equals("LV"+String.valueOf(i))){
+				System.out.println("asdaf");
+				button = loadTexture("LV"+i+".png");
+    			button_onMouseOver = loadTexture("LV"+i+"_onMouseOver.png");
+			}
+		}
+		//System.out.println(thisButton);
 		width = button.getImageWidth();
 		height = button.getImageHeight();
 		game = ingame;
