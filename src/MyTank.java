@@ -2,6 +2,8 @@ import org.newdawn.slick.opengl.Texture;
 
 
 public class MyTank extends TankEntity {
+	
+	public static int gold;
 
 	public MyTank(Game ingame,int hp) {
 		super(ingame);
@@ -22,6 +24,11 @@ public class MyTank extends TankEntity {
 		HP += hp;
 		if(HP > maxHP)
 			HP = maxHP;
+	}
+	
+	public void gotGold(int gl) {
+		gold += gl;
+		System.out.println(gl+" "+gold);
 	}
 	
 	@Override

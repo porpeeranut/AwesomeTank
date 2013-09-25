@@ -96,6 +96,11 @@ public abstract class Entity {
 		this.maxHP = HP;
 	}
 
+	public void setXY(float x,float y) {
+		this.x = x;
+		this.y = y;
+	}
+	
 	public void setDX(float dx) {
 		this.dx = dx;
 	}

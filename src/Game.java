@@ -30,7 +30,7 @@ public class Game{
 		LV1,LV2,LV3,LV4,LV5,LV6,LV7,LV8,LV9,LV10;
 	}
 	public HashMap<Integer, Boolean> unlockLV = new HashMap<Integer, Boolean>();
-	private int currentLevel;
+	public static int currentLevel;
 	public static int maxLevel = 10;
 	private Button[] btn;
 	private CurrentButton currentButton = CurrentButton.NONE;
@@ -95,6 +95,7 @@ public class Game{
     public static int SOUND_RELEASE;
     public static int SOUND_PLAY;
     public static int SOUND_GOT_HP_POTION;
+    public static int SOUND_GOT_GOLD;
     
     public static int SOUND_BGM_INTRO;
     public static int SOUND_BGM_PLAY;
@@ -111,6 +112,8 @@ public class Game{
 	private BombWall[] bmWall;
 	private OilTank[] oilTank;
 	private Turret[] turret;
+	public static Gold[] gold;
+	public static int goldIndex;
     
     static{
     	//initial world size
@@ -153,6 +156,7 @@ public class Game{
 		SOUND_RELEASE	= soundManager.addSound("mouse_release.wav");
 		SOUND_PLAY		= soundManager.addSound("play.wav");
 		SOUND_GOT_HP_POTION	= soundManager.addSound("gotHP.wav");
+		SOUND_GOT_GOLD	= soundManager.addSound("gotGold.wav");
 		
 		SOUND_BGM_INTRO		= soundManager.addSound("BGM_intro.wav");
 		SOUND_BGM_PLAY		= soundManager.addSound("BGM_play.wav");
@@ -240,7 +244,7 @@ public class Game{
         		if(state != State.BACKTOMENU && state != State.PAUSE && state != State.HELP){
         			player.setDX(0);
         	        player.setDY(0);
-        			if(state != State.LVCOMPLETE && state != State.LVFAILED)
+        			if(state != State.LVFAILED)
         				input();
             		
                     //if(!soundManager.isPlayingSound()){
@@ -988,6 +992,7 @@ public class Game{
     	oilTank = new OilTank[8];
     	enemyTank = new EnemyTank[15];
     	turret = new Turret[6];
+    	gold = new Gold[200];
     	for(int i = 0;i < brick.length;i++){
         	brick[i] = new Brick(this,30);
     	}
@@ -1008,6 +1013,9 @@ public class Game{
     	}
     	for(int i = 0;i < turret.length;i++){
     		turret[i] = new Turret(this, 50);
+    	}
+    	for(int i = 0;i < gold.length;i++){
+    		gold[i] = new Gold(this);
     	}
 	}
     

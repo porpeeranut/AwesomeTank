@@ -1,5 +1,5 @@
 
-box drop item(+HP,freeze,gold)
+box drop item(gold)
 add money font
 fix gun pic
 bot ถ้าโดนยินแล้ว active ตลอด (path โคตรยาว) (ดักเกรียนใช้ rocket)
@@ -10,14 +10,6 @@ add button in upgrade state
 enemytank ตายดรอปตังค์
 show money not more than 99999
 
-## feature
-gold
-movement speed
-visibility
-turret speed
-armor
-
---------------------------
 ## upgrd
 upgrd_armor
 upgrd_speed
@@ -26,7 +18,10 @@ upgrd_shotgun
 upgrd_cannongun
 upgrd_rocket
 
-
+--------------------------
+## feature
+visibility
+turret speed
 
 
 

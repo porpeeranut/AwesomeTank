@@ -70,7 +70,6 @@ public class Button {
 		}
 		for(int i = 1;i <= game.maxLevel;i++){
 			if(thisButton.toString().equals("LV"+String.valueOf(i))){
-				System.out.println("asdaf");
 				button = loadTexture("LV"+i+".png");
     			button_onMouseOver = loadTexture("LV"+i+"_onMouseOver.png");
     			button_LVlock = loadTexture("LV"+i+"_lock.png");

@@ -6,6 +6,8 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
+import java.util.Random;
+
 import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 
@@ -45,9 +47,12 @@ public class Bullet extends Entity {
 
 	@Override
 	public void collidedWith(Entity other){
+		int amount = new Random().nextInt(15) + 5;	// random 5 to 15
+		int i;
 		if (used|| other instanceof Bullet 
 				|| other instanceof Effect
-				|| other instanceof HPpotion) {
+				|| other instanceof HPpotion
+				|| other instanceof Gold) {
 			return;
 		}
 		if(this instanceof MyBullet && other instanceof MyTank)
@@ -88,7 +93,22 @@ public class Bullet extends Entity {
 					game.addEntity(new BombEffect_basic(game,other.x,other.y));
 					
 					//############ random item ############################
-					game.addEntity(new HPpotion(game,other.x,other.y));
+					//game.addEntity(new HPpotion(game,other.x,other.y));
+					
+					for(i = game.goldIndex;i < amount+game.goldIndex;i++){
+						if(i >= game.gold.length){
+							amount += game.goldIndex - i;
+							game.goldIndex = 0;
+							i = 0;
+						}
+						game.gold[i].setXY((int)other.x,(int)other.y);
+						game.gold[i].setDX(new Random().nextInt(7) - 3);	// random -3 to 3
+						game.gold[i].setDY(new Random().nextInt(7) - 3);
+						game.addEntity(game.gold[i]);
+						System.out.println(i);
+					}
+					game.goldIndex = i;
+					
 					game.soundManager.playEffect(game.SOUND_BOMB_BOX);
 				}
 			} else if(other instanceof EnemyTank || other instanceof Turret || other instanceof MyTank){
@@ -97,6 +117,22 @@ public class Bullet extends Entity {
 					game.addEntity(new BombEffect_basic(game,other.x,other.y));
 					game.soundManager.playEffect(game.SOUND_BOMB_TANK);
 					game.numEnemy--;
+					
+					if(!(other instanceof MyTank)){
+						for(i = game.goldIndex;i < amount+game.goldIndex;i++){
+							if(i >= game.gold.length){
+								amount += game.goldIndex - i;
+								game.goldIndex = 0;
+								i = 0;
+							}
+							game.gold[i].setXY((int)other.x,(int)other.y);
+							game.gold[i].setDX(new Random().nextInt(7) - 3);	// random -3 to 3
+							game.gold[i].setDY(new Random().nextInt(7) - 3);
+							game.addEntity(game.gold[i]);
+							System.out.println(i);
+						}
+						game.goldIndex = i;
+					}
 				}
 			} else {
 				game.addEntity(new BombEffect_basic(game,other.x,other.y));
