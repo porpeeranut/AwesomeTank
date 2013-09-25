@@ -11,7 +11,7 @@ import static org.lwjgl.opengl.GL11.glVertex2f;
 import org.newdawn.slick.Color;
 import org.newdawn.slick.opengl.Texture;
 
-	public class Brick extends Entity {
+public class Brick extends Entity {
 	
 	protected Texture brick;
 

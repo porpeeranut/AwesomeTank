@@ -1,13 +1,15 @@
 
-fix gun pic
+ยุบ MyBullet เข้า Bullet
+box drop item(+HP,freeze,gold)
+add money font
 Wground
+fix gun pic
 bot ถ้าโดนยินแล้ว active ตลอด (path โคตรยาว) (ดักเกรียนใช้ rocket)
-box drop item(+HP,freeze)
 clear warnings
 
 add button in upgrade state
 enemytank ตายดรอปตังค์
-show money
+show money not more than 99999
 
 ## feature
 gold

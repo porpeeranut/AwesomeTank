@@ -85,13 +85,16 @@ public class Game{
     public static int SOUND_FIRE_ROCKET;
     public static int SOUND_CHANGE_GUN;
     public static int SOUND_SHOT_BRICK;
+    public static int SOUND_SHOT_BOX;
     public static int SOUND_SHOT_TANK;
     public static int SOUND_BOMB_TANK;
     public static int SOUND_BOMB_BRICK;
+    public static int SOUND_BOMB_BOX;
     public static int SOUND_BOMB_OILTANK;
     public static int SOUND_CLICK;
     public static int SOUND_RELEASE;
     public static int SOUND_PLAY;
+    public static int SOUND_GOT_HP_POTION;
     
     public static int SOUND_BGM_INTRO;
     public static int SOUND_BGM_PLAY;
@@ -104,6 +107,7 @@ public class Game{
 	
 	private Brick[] brick;
 	private Brick_2[] brick_2;
+	private Box[] box;
 	private BombWall[] bmWall;
 	private OilTank[] oilTank;
 	private Turret[] turret;
@@ -139,13 +143,16 @@ public class Game{
 		SOUND_FIRE_ROCKET   = soundManager.addSound("fire_rocket.wav");
 		SOUND_CHANGE_GUN	= soundManager.addSound("changeGun.wav");
 		SOUND_SHOT_BRICK	= soundManager.addSound("shot_brick.wav");
+		SOUND_SHOT_BOX	= soundManager.addSound("shot_box.wav");
 		SOUND_SHOT_TANK	= soundManager.addSound("shot_tank.wav");
 		SOUND_BOMB_TANK	= soundManager.addSound("bomb_tank.wav");
 		SOUND_BOMB_BRICK	= soundManager.addSound("bomb_brick.wav");
+		SOUND_BOMB_BOX	= soundManager.addSound("bomb_box.wav");
 		SOUND_BOMB_OILTANK	= soundManager.addSound("bomb_oil.wav");
 		SOUND_CLICK		= soundManager.addSound("mouse_click.wav");
 		SOUND_RELEASE	= soundManager.addSound("mouse_release.wav");
 		SOUND_PLAY		= soundManager.addSound("play.wav");
+		SOUND_GOT_HP_POTION	= soundManager.addSound("gotHP.wav");
 		
 		SOUND_BGM_INTRO		= soundManager.addSound("BGM_intro.wav");
 		SOUND_BGM_PLAY		= soundManager.addSound("BGM_play.wav");
@@ -975,6 +982,7 @@ public class Game{
     	player = new MyTank(this,20);
     	brick = new Brick[27];
     	brick_2 = new Brick_2[31];
+    	box = new Box[27];
     	bmWall = new BombWall[11];
     	oilTank = new OilTank[8];
     	enemyTank = new EnemyTank[15];
@@ -984,6 +992,9 @@ public class Game{
     	}
     	for(int i = 0;i < brick_2.length;i++){
         	brick_2[i] = new Brick_2(this,30);
+    	}
+    	for(int i = 0;i < box.length;i++){
+    		box[i] = new Box(this,15);
     	}
     	for(int i = 0;i < bmWall.length;i++){
         	bmWall[i] = new BombWall(this,30);
@@ -1026,6 +1037,13 @@ public class Game{
 	        	brick[i].setHP(30);
 	        	brick[i].reset();
 	        	entities.add(brick[i]);
+	        }
+	        box[0].setPositionToMap(8, 2);
+	        box[1].setPositionToMap(9, 2);
+	        for(int i = 0;i < 2;i++){
+	        	box[i].setHP(15);
+	        	box[i].reset();
+	        	entities.add(box[i]);
 	        }
 	        bmWall[0].setPositionToMap(4, 2);
 	        bmWall[1].setPositionToMap(4, 3);
@@ -1148,6 +1166,13 @@ public class Game{
 	        	brick[i].setHP(30);
 	        	brick[i].reset();
 	        	entities.add(brick[i]);
+	        }
+	        box[0].setPositionToMap(1, 1);
+	        box[1].setPositionToMap(1, 2);
+	        for(int i = 0;i < 2;i++){
+	        	box[i].setHP(15);
+	        	box[i].reset();
+	        	entities.add(box[i]);
 	        }
 	        oilTank[0].setPositionToMap(4, 5);
 	        oilTank[1].setPositionToMap(6, 5);

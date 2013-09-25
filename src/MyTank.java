@@ -18,6 +18,12 @@ public class MyTank extends TankEntity {
 		Shot = loadTexture("MyShot.png");
 	}
 	
+	public void gotHPpotion(int hp) {
+		HP += hp;
+		if(HP > maxHP)
+			HP = maxHP;
+	}
+	
 	@Override
 	public void collidedWith(Entity other) {
 		if (other instanceof EnemyBullet) {

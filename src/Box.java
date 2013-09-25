@@ -1,13 +1,13 @@
 import org.newdawn.slick.opengl.Texture;
 
-public class OilTank extends Entity {
+public class Box extends Entity {
 	
-	protected Texture oiltank;
+	protected Texture box;
 
-	public OilTank(Game ingame,int hp) {
+	public Box(Game ingame,int hp) {
 		game = ingame;
-		oiltank = loadTexture("oiltank.png");
-		Shot = loadTexture("oiltankShot.png");
+		box = loadTexture("box.png");
+		Shot = loadTexture("boxShot.png");
 		width = (int)(game.map.TILE_SIZE*0.6);
         height = (int)(game.map.TILE_SIZE*0.6);
 		halfSize = width/2;
@@ -16,7 +16,7 @@ public class OilTank extends Entity {
 	}
 	
 	public void draw() {
-		super.draw(oiltank);
+		super.draw(box);
 		if(shoted){
 			super.draw(Shot);
 		}
@@ -29,7 +29,7 @@ public class OilTank extends Entity {
 	public void collidedWith(Entity other) {
 		if(other instanceof Bullet){
 			shoted = true;
-			game.soundManager.playEffect(game.SOUND_SHOT_TANK);
+			game.soundManager.playEffect(game.SOUND_SHOT_BOX);
 		}
 	}
 }

@@ -9,7 +9,8 @@ public class MyBullet extends Bullet {
 	public void collidedWith(Entity other) {
 		if (used || other instanceof MyTank
 				|| other instanceof Bullet 
-				|| other instanceof Effect) {
+				|| other instanceof Effect
+				|| other instanceof HPpotion) {
 			return;
 		}
 		setDX(0);
@@ -29,23 +30,31 @@ public class MyBullet extends Bullet {
 		if(other.getHP() <= 0){
 			game.removeEntity(other);
 			if(other instanceof BombWall){
-				game.addEntity(new BombEffect_BombWall(game,other.x,other.y));
-				game.soundManager.playEffect(game.SOUND_BOMB_BRICK);
 				if(!((BombWall) other).died){
 					((BombWall) other).died = true;
+					game.addEntity(new BombEffect_BombWall(game,other.x,other.y));
+					game.soundManager.playEffect(game.SOUND_BOMB_BRICK);
 				}
 			} else if (other instanceof OilTank){
-				game.addEntity(new BombEffect_OilTank(game,other.x,other.y));
-				game.soundManager.playEffect(game.SOUND_BOMB_OILTANK);
 				if(!((OilTank) other).died){
 					((OilTank) other).died = true;
+					game.addEntity(new BombEffect_OilTank(game,other.x,other.y));
+					game.soundManager.playEffect(game.SOUND_BOMB_OILTANK);
 				}
-			} else {
+			} else if (other instanceof Box){
+				if(!((Box) other).died){
+					((Box) other).died = true;
+					game.addEntity(new BombEffect_basic(game,other.x,other.y));
+					
+					//############ random item ############################
+					game.addEntity(new HPpotion(game,other.x,other.y));
+					game.soundManager.playEffect(game.SOUND_BOMB_BOX);
+				}
+			}  else {
 				game.addEntity(new BombEffect_basic(game,other.x,other.y));
 				game.soundManager.playEffect(game.SOUND_BOMB_BRICK);
 			}
 			if(other instanceof EnemyTank){
-				System.out.println(((EnemyTank) other).died);
 				if(!((EnemyTank) other).died){
 					((EnemyTank) other).died = true;
 					game.soundManager.playEffect(game.SOUND_BOMB_TANK);
