@@ -1,10 +1,9 @@
 
-ยุบ MyBullet เข้า Bullet
 box drop item(+HP,freeze,gold)
 add money font
-Wground
 fix gun pic
 bot ถ้าโดนยินแล้ว active ตลอด (path โคตรยาว) (ดักเกรียนใช้ rocket)
+Wground
 clear warnings
 
 add button in upgrade state

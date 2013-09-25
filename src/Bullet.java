@@ -10,7 +10,7 @@ import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 
 
-public abstract class Bullet extends Entity {
+public class Bullet extends Entity {
 	
 	public int moveSpeed;
 	public int attack;
@@ -43,5 +43,65 @@ public abstract class Bullet extends Entity {
 		super.draw(bull);
 	}
 
-	public abstract void collidedWith(Entity other);
+	@Override
+	public void collidedWith(Entity other){
+		if (used|| other instanceof Bullet 
+				|| other instanceof Effect
+				|| other instanceof HPpotion) {
+			return;
+		}
+		if(this instanceof MyBullet && other instanceof MyTank)
+			return;
+		if(this instanceof EnemyBullet && other instanceof EnemyTank)
+			return;
+		setDX(0);
+		setDY(0);
+		used = true;
+		game.removeEntity(this);
+		if(this instanceof MyCannonBullet || this instanceof MyRocketBullet){
+			game.addEntity(new BombEffect_BigBullet(game,x,y));
+			game.soundManager.playEffect(game.SOUND_BOMB_TANK);
+			if(this instanceof MyRocketBullet)
+				game.player.rocketReleased = false;
+		} else {
+			game.addEntity(new BulletShotEffect(game,x,y));
+		}
+			
+		other.damage(attack);
+		if(other.getHP() <= 0){
+			game.removeEntity(other);
+			if(other instanceof BombWall){
+				if(!((BombWall) other).died){
+					((BombWall) other).died = true;
+					game.addEntity(new BombEffect_BombWall(game,other.x,other.y));
+					game.soundManager.playEffect(game.SOUND_BOMB_BRICK);
+				}
+			} else if (other instanceof OilTank){
+				if(!((OilTank) other).died){
+					((OilTank) other).died = true;
+					game.addEntity(new BombEffect_OilTank(game,other.x,other.y));
+					game.soundManager.playEffect(game.SOUND_BOMB_OILTANK);
+				}
+			} else if (other instanceof Box){
+				if(!((Box) other).died){
+					((Box) other).died = true;
+					game.addEntity(new BombEffect_basic(game,other.x,other.y));
+					
+					//############ random item ############################
+					game.addEntity(new HPpotion(game,other.x,other.y));
+					game.soundManager.playEffect(game.SOUND_BOMB_BOX);
+				}
+			} else if(other instanceof EnemyTank || other instanceof Turret || other instanceof MyTank){
+				if(!other.died){
+					other.died = true;
+					game.addEntity(new BombEffect_basic(game,other.x,other.y));
+					game.soundManager.playEffect(game.SOUND_BOMB_TANK);
+					game.numEnemy--;
+				}
+			} else {
+				game.addEntity(new BombEffect_basic(game,other.x,other.y));
+				game.soundManager.playEffect(game.SOUND_BOMB_BRICK);
+			}
+		}
+	}
 }

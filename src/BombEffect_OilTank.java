@@ -16,8 +16,8 @@ public class BombEffect_OilTank extends Effect{
 		for(int i = 1;i <= 6;i++){
 			bombEffect[i-1] = loadTexture("BombEffect_1/"+i+".png");
 		}
-		width = (int)(ingame.map.TILE_SIZE*5);
-        height = (int)(ingame.map.TILE_SIZE*5);
+		width = (int)(ingame.map.TILE_SIZE*3);
+        height = (int)(ingame.map.TILE_SIZE*3);
 		halfSize = width/2;
 	}
 	
@@ -38,7 +38,9 @@ public class BombEffect_OilTank extends Effect{
 
 	@Override
 	public void collidedWith(Entity other) {
-		if (other instanceof Bullet || other instanceof Effect) {
+		if (other instanceof Bullet 
+				|| other instanceof Effect
+				|| other instanceof HPpotion) {
 			return;
 		}
 		if(!other.touchedBombEffect){
@@ -57,20 +59,24 @@ public class BombEffect_OilTank extends Effect{
 					((OilTank) other).died = true;
 					game.addEntity(new BombEffect_OilTank(game,other.x,other.y));
 				}
+			} else if (other instanceof Box){
+				if(!((Box) other).died){
+					((Box) other).died = true;
+					game.addEntity(new BombEffect_basic(game,other.x,other.y));
+					
+					//############ random item ############################
+					game.addEntity(new HPpotion(game,other.x,other.y));
+				}
+			} else if(other instanceof EnemyTank || other instanceof Turret || other instanceof MyTank){
+				if(!other.died){
+					other.died = true;
+					game.addEntity(new BombEffect_basic(game,other.x,other.y));
+					game.soundManager.playEffect(game.SOUND_BOMB_TANK);
+					game.numEnemy--;
+				}
 			} else {
 				game.addEntity(new BombEffect_basic(game,other.x,other.y));
-			}
-			if(other instanceof EnemyTank){
-				if(!((EnemyTank) other).died){
-					((EnemyTank) other).died = true;
-					game.numEnemy--;
-				}
-			}
-			if(other instanceof Turret){
-				if(!((Turret) other).died){
-					((Turret) other).died = true;
-					game.numEnemy--;
-				}
+				game.soundManager.playEffect(game.SOUND_BOMB_BRICK);
 			}
 		}
 	}

@@ -7,7 +7,6 @@ import static org.lwjgl.opengl.GL11.glColor3f;
 
 import org.newdawn.slick.opengl.Texture;
 
-
 public class BulletShotEffect extends Effect {
 	
 	protected Texture shotEffect;
@@ -32,7 +31,11 @@ public class BulletShotEffect extends Effect {
 
         glColor4f(1f, 1f, 1f, (float) Math.sin(Math.toRadians(fade)));
         super.draw(shotEffect);
-        glColor3f(1f, 1f, 1f);
+        if(game.state == Game.State.PAUSE || game.state == Game.State.BACKTOMENU || game.state == Game.State.HELP || 
+        		game.state == Game.State.LVCOMPLETE || game.state == Game.State.LVFAILED)
+			glColor3f(0.5f, 0.5f, 0.5f);
+        else
+        	glColor3f(1f, 1f, 1f);
         glPopMatrix();
         
         ang += 10;

@@ -21,10 +21,10 @@ import org.newdawn.slick.opengl.TextureLoader;
 import de.matthiasmann.twl.utils.PNGDecoder;
  
 public class Game{
-	private static enum State {
+	public static enum State {
 		INTRO,UPGRADE,SELECT_LEVEL,PLAY,BACKTOMENU,PAUSE,HELP,LVCOMPLETE,LVFAILED;
 	}
-	private static State state = State.INTRO;
+	public static State state = State.INTRO;
 	public static enum CurrentButton {
 		NONE,MENU,PLAY,PAUSE,HELP,BACKTOUPGRADE,CONTINUE,BCK_TO_MENU_YES,BCK_TO_MENU_NO,
 		LV1,LV2,LV3,LV4,LV5,LV6,LV7,LV8,LV9,LV10;
@@ -303,6 +303,7 @@ public class Game{
                 	else*/
                 		entity.draw();
     			}
+                
                 button_In_PLAY_state();
                 glColor3f(1, 1, 1);
     			break;
@@ -1168,7 +1169,7 @@ public class Game{
 	        	entities.add(brick[i]);
 	        }
 	        box[0].setPositionToMap(1, 1);
-	        box[1].setPositionToMap(1, 2);
+	        box[1].setPositionToMap(3, 4);
 	        for(int i = 0;i < 2;i++){
 	        	box[i].setHP(15);
 	        	box[i].reset();
