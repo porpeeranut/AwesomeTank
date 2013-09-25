@@ -6,10 +6,10 @@ public class Box extends Entity {
 
 	public Box(Game ingame,int hp) {
 		game = ingame;
-		box = loadTexture("box.png");
-		Shot = loadTexture("boxShot.png");
-		width = (int)(game.map.TILE_SIZE*0.6);
-        height = (int)(game.map.TILE_SIZE*0.6);
+		box = Game.loadTexture("box.png");
+		Shot = Game.loadTexture("boxShot.png");
+		width = (int)(Map.TILE_SIZE*0.6);
+        height = (int)(Map.TILE_SIZE*0.6);
 		halfSize = width/2;
 		HP = hp;
 		maxHP = HP;
@@ -29,7 +29,7 @@ public class Box extends Entity {
 	public void collidedWith(Entity other) {
 		if(other instanceof Bullet){
 			shoted = true;
-			game.soundManager.playEffect(game.SOUND_SHOT_BOX);
+			Game.soundManager.playEffect(Game.SOUND_SHOT_BOX);
 		}
 	}
 }

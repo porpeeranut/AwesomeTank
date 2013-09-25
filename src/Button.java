@@ -1,20 +1,12 @@
 import static org.lwjgl.opengl.GL11.GL_QUADS;
 import static org.lwjgl.opengl.GL11.glBegin;
-import static org.lwjgl.opengl.GL11.glColor3f;
-import static org.lwjgl.opengl.GL11.glColor4f;
 import static org.lwjgl.opengl.GL11.glEnd;
 import static org.lwjgl.opengl.GL11.glPopMatrix;
 import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
 
 
 public class Button {
@@ -33,46 +25,48 @@ public class Button {
 	public Button(Game ingame,Game.CurrentButton btn,float x,float y) {
 		thisButton = btn;
 		switch(thisButton){
-    		case MENU:
-    			button = loadTexture("menu.png");
-    			button_onMouseOver = loadTexture("menu_onMouseOver.png");
-    			break;
-    		case PLAY:
-    			button = loadTexture("play.png");
-    			button_onMouseOver = loadTexture("play_onMouseOver.png");
-    			break;
-    		case PAUSE:
-    			button = loadTexture("pause.png");
-    			button_onMouseOver = loadTexture("pause_onMouseOver.png");
-    			button_clicked = loadTexture("pause_clicked.png");
-    			break;
-    		case HELP:
-    			button = loadTexture("help.png");
-    			button_onMouseOver = loadTexture("help_onMouseOver.png");
-    			button_clicked = loadTexture("help_clicked.png");
-    			break;
-    		case BACKTOUPGRADE:
-    			button = loadTexture("bckToUpgrd.png");
-    			button_onMouseOver = loadTexture("bckToUpgrd_onMouseOver.png");
-    			break;
-    		case CONTINUE:
-    			button = loadTexture("continue.png");
-    			button_onMouseOver = loadTexture("continue_onMouseOver.png");
-    			break;
-    		case BCK_TO_MENU_YES:
-    			button = loadTexture("yes.png");
-    			button_onMouseOver = loadTexture("yes_onMouseOver.png");
-    			break;
-    		case BCK_TO_MENU_NO:
-    			button = loadTexture("no.png");
-    			button_onMouseOver = loadTexture("no_onMouseOver.png");
-    			break;
+		case MENU:
+			button = Game.loadTexture("menu.png");
+			button_onMouseOver = Game.loadTexture("menu_onMouseOver.png");
+			break;
+		case PLAY:
+			button = Game.loadTexture("play.png");
+			button_onMouseOver = Game.loadTexture("play_onMouseOver.png");
+			break;
+		case PAUSE:
+			button = Game.loadTexture("pause.png");
+			button_onMouseOver = Game.loadTexture("pause_onMouseOver.png");
+			button_clicked = Game.loadTexture("pause_clicked.png");
+			break;
+		case HELP:
+			button = Game.loadTexture("help.png");
+			button_onMouseOver = Game.loadTexture("help_onMouseOver.png");
+			button_clicked = Game.loadTexture("help_clicked.png");
+			break;
+		case BACKTOUPGRADE:
+			button = Game.loadTexture("bckToUpgrd.png");
+			button_onMouseOver = Game.loadTexture("bckToUpgrd_onMouseOver.png");
+			break;
+		case CONTINUE:
+			button = Game.loadTexture("continue.png");
+			button_onMouseOver = Game.loadTexture("continue_onMouseOver.png");
+			break;
+		case BCK_TO_MENU_YES:
+			button = Game.loadTexture("yes.png");
+			button_onMouseOver = Game.loadTexture("yes_onMouseOver.png");
+			break;
+		case BCK_TO_MENU_NO:
+			button = Game.loadTexture("no.png");
+			button_onMouseOver = Game.loadTexture("no_onMouseOver.png");
+			break;
+		default:
+			break;
 		}
-		for(int i = 1;i <= game.maxLevel;i++){
+		for(int i = 1;i <= Game.maxLevel;i++){
 			if(thisButton.toString().equals("LV"+String.valueOf(i))){
-				button = loadTexture("LV"+i+".png");
-    			button_onMouseOver = loadTexture("LV"+i+"_onMouseOver.png");
-    			button_LVlock = loadTexture("LV"+i+"_lock.png");
+				button = Game.loadTexture("LVbutton/LV"+i+".png");
+    			button_onMouseOver = Game.loadTexture("LVbutton/LV"+i+"_onMouseOver.png");
+    			button_LVlock = Game.loadTexture("LVbutton/LV"+i+"_lock.png");
 			}
 		}
 		//System.out.println(thisButton);
@@ -132,15 +126,4 @@ public class Button {
 		glEnd();
 		glPopMatrix();
 	}
-
-	protected Texture loadTexture(String key){
-    	try {
-            return TextureLoader.getTexture("PNG", new FileInputStream(new File("res/"+key)));
-    	} catch (FileNotFoundException e) {
-            e.printStackTrace();
-    	} catch (IOException e) {
-            e.printStackTrace();
-    	}
-    	return null;
-    }
 }

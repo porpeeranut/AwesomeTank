@@ -10,10 +10,10 @@ import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URL;
 import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Random;
  
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
@@ -70,8 +70,7 @@ public class Game{
     static final int WORLD_W,WORLD_H;
     private float gunRotation = 0;
     float bodyAng = 0;
-    private int maxSpeed = 20,speed = 2;
-    private boolean keyControlRelease;
+    private int speed = 2;
     private static long timerTicksPerSecond = Sys.getTimerResolution();
     private long delta;
     private long lastLoopTime = getTime();
@@ -207,6 +206,8 @@ public class Game{
     				CURRENT_SOUND = SOUND_BGM_INTRO;
     			}
     			break;
+			default:
+				break;
     		}
     		
     		switch(state){
@@ -240,7 +241,7 @@ public class Game{
         		}
         		initBulletX = (float)(player.x-Math.cos(0.0174532925*gunRotation)*player.width/1.5);
         		initBulletY = (float)(player.y-Math.sin(0.0174532925*gunRotation)*player.height/1.5);
-               
+        		
         		if(state != State.BACKTOMENU && state != State.PAUSE && state != State.HELP){
         			player.setDX(0);
         	        player.setDY(0);
@@ -255,7 +256,7 @@ public class Game{
                         	else
                         		entity.move(delta);
                         	if(entity instanceof Bullet){
-            					if(map.blocked((int)entity.x/map.TILE_SIZE, (int)entity.y/map.TILE_SIZE)){
+            					if(map.blocked((int)entity.x/Map.TILE_SIZE, (int)entity.y/Map.TILE_SIZE)){
             						if(entity instanceof MyCannonBullet || entity instanceof MyRocketBullet){
             							entities.add(new BombEffect_BigBullet(this,entity.x,entity.y));
             							soundManager.playEffect(SOUND_BOMB_TANK);
@@ -302,9 +303,11 @@ public class Game{
                 //draw
                 map.draw();
                 for ( Entity entity : entities ) {
-                	/*if(entity instanceof MyTank)
-                		player.draw();
-                	else*/
+                	if(!(entity instanceof Effect))
+                		entity.draw();
+    			}
+                for ( Entity entity : entities ) {
+                	if(entity instanceof Effect)
                 		entity.draw();
     			}
                 
@@ -550,30 +553,30 @@ public class Game{
 		else
 			btn[0].draw();
 		// ########### gun label ###########
-		if(!player.unlockGun.get(player.gunType.MINIGUN)){
+		if(!player.unlockGun.get(TankEntity.GunType.MINIGUN)){
 			draw(labelMinigun_lock, 258,600,44,42);
-		} else if(player.gunType == player.gunType.MINIGUN){
+		} else if(player.gunType == TankEntity.GunType.MINIGUN){
 			draw(labelMinigun, 258,600,44,42);
 		} else
 			draw(labelMinigun_unuse, 258,600,44,42);
 		
-		if(!player.unlockGun.get(player.gunType.SHOTGUN)){
+		if(!player.unlockGun.get(TankEntity.GunType.SHOTGUN)){
 			draw(labelShotgun_lock, 327,600,44,42);
-		} else if(player.gunType == player.gunType.SHOTGUN){
+		} else if(player.gunType == TankEntity.GunType.SHOTGUN){
 			draw(labelShotgun, 327,600,44,42);
 		} else
 			draw(labelShotgun_unuse, 327,600,44,42);
 		
-		if(!player.unlockGun.get(player.gunType.CANNON)){
+		if(!player.unlockGun.get(TankEntity.GunType.CANNON)){
 			draw(labelCannon_lock, 392,600,44,42);
-		} else if(player.gunType == player.gunType.CANNON){
+		} else if(player.gunType == TankEntity.GunType.CANNON){
 			draw(labelCannon, 392,600,44,42);
 		} else
 			draw(labelCannon_unuse, 392,600,44,42);
 		
-		if(!player.unlockGun.get(player.gunType.ROCKET)){
+		if(!player.unlockGun.get(TankEntity.GunType.ROCKET)){
 			draw(labelRocket_lock, 462,600,44,42);
-		} else if(player.gunType == player.gunType.ROCKET){
+		} else if(player.gunType == TankEntity.GunType.ROCKET){
 			draw(labelRocket, 462,600,44,42);
 		} else
 			draw(labelRocket_unuse, 462,600,44,42);
@@ -797,16 +800,16 @@ public class Game{
         	    if (Keyboard.getEventKeyState()) {
         	        switch (Keyboard.getEventKey()) {
         	        	case Keyboard.KEY_1:
-        	        		player.setGun(player.gunType.MINIGUN);
+        	        		player.setGun(TankEntity.GunType.MINIGUN);
         	        		break;
         	        	case Keyboard.KEY_2:
-        	        		player.setGun(player.gunType.SHOTGUN);
+        	        		player.setGun(TankEntity.GunType.SHOTGUN);
         	        		break;
         	        	case Keyboard.KEY_3:
-        	        		player.setGun(player.gunType.CANNON);
+        	        		player.setGun(TankEntity.GunType.CANNON);
         	        		break;
         	        	case Keyboard.KEY_4:
-        	        		player.setGun(player.gunType.ROCKET);
+        	        		player.setGun(TankEntity.GunType.ROCKET);
         	        		break;
         	        }
         	    }
@@ -838,7 +841,7 @@ public class Game{
         	if(!btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())
         			&& !btn[1].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())
         			&& !btn[5].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
-        		if(player.gunType == player.gunType.ROCKET){
+        		if(player.gunType == TankEntity.GunType.ROCKET){
 	        		while (Mouse.next()) {
 	            	    if (Mouse.getEventButtonState()) {
 	            	        switch (Mouse.getEventButton()) {
@@ -882,7 +885,7 @@ public class Game{
     	float mouseX = (Mouse.getX() - camera_w/2)*0.5f;
     	float mouseY = (Mouse.getY() - camera_h/2)*0.5f;
     	
-    	String str = String.valueOf(gunRotation);
+    	//String str = String.valueOf(gunRotation);
     	
     	// Mouse.getX(),Mouse.getY() position (0,0) at bottom left
     	//Display.setTitle(str);
@@ -1030,7 +1033,7 @@ public class Game{
 			player.setHP(220);
 	        player.setPositionToMap(2,3);
 	        player.reset();
-	        player.setGun(player.gunType.MINIGUN);
+	        player.setGun(TankEntity.GunType.MINIGUN);
 	        player.rocketReleased = false;
 	        entities.add(player);
 	        brick[0].setPositionToMap(9, 1);
@@ -1091,7 +1094,7 @@ public class Game{
 			player.setHP(220);
 	        player.setPositionToMap(2,2);
 	        player.reset();
-	        player.setGun(player.gunType.MINIGUN);
+	        player.setGun(TankEntity.GunType.MINIGUN);
 	        player.rocketReleased = false;
 	        entities.add(player);
 	        brick[0].setPositionToMap(6, 1);
@@ -1141,7 +1144,7 @@ public class Game{
 			player.setHP(220);
 	        player.setPositionToMap(5,12);
 	        player.reset();
-	        player.setGun(player.gunType.MINIGUN);
+	        player.setGun(TankEntity.GunType.MINIGUN);
 	        player.rocketReleased = false;
 	        entities.add(player);
 	        brick[0].setPositionToMap(4, 1);
@@ -1208,7 +1211,7 @@ public class Game{
 			player.setHP(220);
 	        player.setPositionToMap(1,2);
 	        player.reset();
-	        player.setGun(player.gunType.MINIGUN);
+	        player.setGun(TankEntity.GunType.MINIGUN);
 	        player.rocketReleased = false;
 	        entities.add(player);
 	        brick[0].setPositionToMap(4, 1);
@@ -1268,7 +1271,7 @@ public class Game{
 			player.setHP(220);
 	        player.setPositionToMap(2,2);
 	        player.reset();
-	        player.setGun(player.gunType.MINIGUN);
+	        player.setGun(TankEntity.GunType.MINIGUN);
 	        player.rocketReleased = false;
 	        entities.add(player);
 	        brick_2[0].setPositionToMap(6, 2);
@@ -1346,7 +1349,7 @@ public class Game{
 			player.setHP(220);
 	        player.setPositionToMap(2,2);
 	        player.reset();
-	        player.setGun(player.gunType.MINIGUN);
+	        player.setGun(TankEntity.GunType.MINIGUN);
 	        player.rocketReleased = false;
 	        entities.add(player);
 	        brick[0].setPositionToMap(6, 1);
@@ -1396,7 +1399,7 @@ public class Game{
 			player.setHP(220);
 	        player.setPositionToMap(2,2);
 	        player.reset();
-	        player.setGun(player.gunType.MINIGUN);
+	        player.setGun(TankEntity.GunType.MINIGUN);
 	        player.rocketReleased = false;
 	        entities.add(player);
 	        brick[0].setPositionToMap(6, 1);
@@ -1446,7 +1449,7 @@ public class Game{
 			player.setHP(220);
 	        player.setPositionToMap(2,2);
 	        player.reset();
-	        player.setGun(player.gunType.MINIGUN);
+	        player.setGun(TankEntity.GunType.MINIGUN);
 	        player.rocketReleased = false;
 	        entities.add(player);
 	        brick[0].setPositionToMap(6, 1);
@@ -1496,7 +1499,7 @@ public class Game{
 			player.setHP(220);
 	        player.setPositionToMap(2,2);
 	        player.reset();
-	        player.setGun(player.gunType.MINIGUN);
+	        player.setGun(TankEntity.GunType.MINIGUN);
 	        player.rocketReleased = false;
 	        entities.add(player);
 	        brick[0].setPositionToMap(6, 1);
@@ -1546,7 +1549,7 @@ public class Game{
 			player.setHP(220);
 	        player.setPositionToMap(2,2);
 	        player.reset();
-	        player.setGun(player.gunType.MINIGUN);
+	        player.setGun(TankEntity.GunType.MINIGUN);
 	        player.rocketReleased = false;
 	        entities.add(player);
 	        brick[0].setPositionToMap(6, 1);
@@ -1594,6 +1597,24 @@ public class Game{
 		}
     }
     
+    public void dropGold(int x, int y) {
+    	int amount = new Random().nextInt(15) + 5;	// random 5 to 15
+		int i;
+		for(i = goldIndex;i < amount + goldIndex;i++){
+			if(i >= gold.length){
+				amount += goldIndex - i;
+				goldIndex = 0;
+				i = 0;
+			}
+			gold[i].setXY(x, y);
+			gold[i].setDX(new Random().nextInt(7) - 3);	// random -3 to 3
+			gold[i].setDY(new Random().nextInt(7) - 3);
+			addEntity(gold[i]);
+			System.out.println(i);
+		}
+		goldIndex = i;
+    }
+    
     public static long getTime() {
 		return (Sys.getTime() * 1000) / timerTicksPerSecond;
 	}
@@ -1611,16 +1632,27 @@ public class Game{
         }
     }
 	
-	private Texture loadTexture(String key){
-    	try {
-            return TextureLoader.getTexture("PNG", new FileInputStream(new File("res/"+key)));
+	public static Texture loadTexture(String key){
+		/*try {
+			PNGDecoder decoder = new PNGDecoder(new FileInputStream("res/"+key));
+		} catch (FileNotFoundException e1) {
+			e1.printStackTrace();
+		} catch (IOException e1) {
+			e1.printStackTrace();
+		}*/
+		try {
+			if(key.indexOf(".jpg") != -1){
+				return TextureLoader.getTexture("JPG", new FileInputStream(new File("res/"+key)));
+			}
+			else
+				return TextureLoader.getTexture("PNG", new FileInputStream(new File("res/"+key)));
     	} catch (FileNotFoundException e) {
             e.printStackTrace();
     	} catch (IOException e) {
             e.printStackTrace();
     	}
     	return null;
-    }
+	}
 	
 	public void draw(Texture tex,int x,int y,int width,int height) {
 		glPushMatrix();

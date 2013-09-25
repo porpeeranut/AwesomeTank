@@ -3,9 +3,6 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glRotatef;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 
-import org.newdawn.slick.opengl.Texture;
-
-
 public class MyRocketBullet extends MyBullet {
 	
 	private long lastFrameChange;
@@ -15,8 +12,8 @@ public class MyRocketBullet extends MyBullet {
 		super(ingame,"rocket.png");
 		moveSpeed = speed;
 		attack = atck;
-		width = (int)(ingame.map.TILE_SIZE*0.43);
-        height = (int)(ingame.map.TILE_SIZE*0.14);
+		width = (int)(Map.TILE_SIZE*0.43);
+        height = (int)(Map.TILE_SIZE*0.14);
 	}
 	
 	public void move(long delta) {
@@ -26,7 +23,7 @@ public class MyRocketBullet extends MyBullet {
 			lastFrameChange = 0;
 			initBulletX = (float)(x+Math.cos(0.0174532925*game.player.gunAngle)*width/1.5);
     		initBulletY = (float)(y+Math.sin(0.0174532925*game.player.gunAngle)*height/1.5);
-			game.addEntity(new Effect_smoke(game,initBulletX,initBulletY));
+			Game.addEntity(new Effect_smoke(game,initBulletX,initBulletY));
 		}
 		super.move(delta);
 	}

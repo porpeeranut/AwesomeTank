@@ -8,10 +8,10 @@ public class Gold extends Entity {
 
 	public Gold(Game ingame) {
 		game = ingame;
-		gold = loadTexture("gold.png");
+		gold = Game.loadTexture("gold.png");
 		float ratio = (float) (new Random().nextFloat() * (0.25 - 0.15) + 0.15);	// random 0.15-0.25
-		width = (int)(game.map.TILE_SIZE*ratio);
-		height = (int)(game.map.TILE_SIZE*ratio);
+		width = (int)(Map.TILE_SIZE*ratio);
+		height = (int)(Map.TILE_SIZE*ratio);
 		halfSize = width/2;
 	}
 	
@@ -28,9 +28,10 @@ public class Gold extends Entity {
 	@Override
 	public void collidedWith(Entity other) {
 		if(other instanceof MyTank){
-			((MyTank) other).gotGold(game.currentLevel * (new Random().nextInt(20) +10));	// random 10-30
-			game.soundManager.playEffect(game.SOUND_GOT_GOLD);
-			game.removeEntity(this);
+			System.out.print(Game.currentLevel);
+			((MyTank) other).gotGold(Game.currentLevel * (new Random().nextInt(5) +5));	// random 5-10
+			Game.soundManager.playEffect(Game.SOUND_GOT_GOLD);
+			Game.removeEntity(this);
 		}
 	}
 }

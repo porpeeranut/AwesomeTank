@@ -1,6 +1,5 @@
 import org.newdawn.slick.opengl.Texture;
 
-
 public class BombEffect_BombWall extends Effect {
 	
 	private Texture[] bombEffect = new Texture[6];
@@ -13,10 +12,10 @@ public class BombEffect_BombWall extends Effect {
 		this.x = x;
 		this.y = y;
 		for(int i = 1;i <= 6;i++){
-			bombEffect[i-1] = loadTexture("BombEffect_1/"+i+".png");
+			bombEffect[i-1] = Game.loadTexture("BombEffect_1/"+i+".png");
 		}
-		width = (int)(ingame.map.TILE_SIZE*2);
-        height = (int)(ingame.map.TILE_SIZE*2);
+		width = (int)(Map.TILE_SIZE*2);
+        height = (int)(Map.TILE_SIZE*2);
 		halfSize = width/2;
 	}
 	
@@ -26,7 +25,7 @@ public class BombEffect_BombWall extends Effect {
 			lastFrameChange = 0;
 			frameNumber++;
 			if (frameNumber >= bombEffect.length) {
-				game.removeEntity(this);
+				Game.removeEntity(this);
 			}
 		}
 	}
@@ -38,10 +37,10 @@ public class BombEffect_BombWall extends Effect {
 	@Override
 	public void collidedWith(Entity other) {
 		if(other instanceof BombWall){
-			game.removeEntity(other);
+			Game.removeEntity(other);
 			if(!((BombWall) other).died){
 				((BombWall) other).died = true;
-				game.addEntity(new BombEffect_BombWall(game,other.x,other.y));
+				Game.addEntity(new BombEffect_BombWall(game,other.x,other.y));
 			}
 		}
 	}

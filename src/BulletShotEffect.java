@@ -17,9 +17,9 @@ public class BulletShotEffect extends Effect {
 		game = ingame;
 		this.x = x;
 		this.y = y;
-		shotEffect = loadTexture("shotEffect.png");
-		width = (int)(ingame.map.TILE_SIZE*0.3);
-        height = (int)(ingame.map.TILE_SIZE*0.3);
+		shotEffect = Game.loadTexture("shotEffect.png");
+		width = (int)(Map.TILE_SIZE*0.3);
+        height = (int)(Map.TILE_SIZE*0.3);
 		halfSize = width/2;
 	}
 	
@@ -31,8 +31,8 @@ public class BulletShotEffect extends Effect {
 
         glColor4f(1f, 1f, 1f, (float) Math.sin(Math.toRadians(fade)));
         super.draw(shotEffect);
-        if(game.state == Game.State.PAUSE || game.state == Game.State.BACKTOMENU || game.state == Game.State.HELP || 
-        		game.state == Game.State.LVCOMPLETE || game.state == Game.State.LVFAILED)
+        if(Game.state == Game.State.PAUSE || Game.state == Game.State.BACKTOMENU || Game.state == Game.State.HELP || 
+        		Game.state == Game.State.LVCOMPLETE || Game.state == Game.State.LVFAILED)
 			glColor3f(0.5f, 0.5f, 0.5f);
         else
         	glColor3f(1f, 1f, 1f);
@@ -42,7 +42,7 @@ public class BulletShotEffect extends Effect {
         if(fade > 0)
         	fade -= 10;
         if(fade == 0)
-        	game.removeEntity(this);
+        	Game.removeEntity(this);
 	}
 
 	@Override

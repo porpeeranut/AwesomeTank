@@ -23,11 +23,11 @@ public class Effect_smoke extends Effect {
 		this.x = x;
 		this.y = y;
 		if(new Random().nextInt(2) == 1)
-			smoke = loadTexture("smoke1.png");
+			smoke = Game.loadTexture("smoke1.png");
 		else
-			smoke = loadTexture("smoke2.png");
-		width = (int)(ingame.map.TILE_SIZE*0.38);
-        height = (int)(ingame.map.TILE_SIZE*0.38);
+			smoke = Game.loadTexture("smoke2.png");
+		width = (int)(Map.TILE_SIZE*0.38);
+        height = (int)(Map.TILE_SIZE*0.38);
 		halfSize = width/2;
 		angle = new Random().nextInt(360);
 	}
@@ -38,7 +38,7 @@ public class Effect_smoke extends Effect {
 			lastFrameChange = 0;
 			fade -= 15;
 			if (fade < 0) {
-				game.removeEntity(this);
+				Game.removeEntity(this);
 			}
 		}
 	}

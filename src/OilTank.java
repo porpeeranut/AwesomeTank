@@ -6,10 +6,10 @@ public class OilTank extends Entity {
 
 	public OilTank(Game ingame,int hp) {
 		game = ingame;
-		oiltank = loadTexture("oiltank.png");
-		Shot = loadTexture("oiltankShot.png");
-		width = (int)(game.map.TILE_SIZE*0.6);
-        height = (int)(game.map.TILE_SIZE*0.6);
+		oiltank = Game.loadTexture("oiltank.png");
+		Shot = Game.loadTexture("oiltankShot.png");
+		width = (int)(Map.TILE_SIZE*0.6);
+        height = (int)(Map.TILE_SIZE*0.6);
 		halfSize = width/2;
 		HP = hp;
 		maxHP = HP;
@@ -29,7 +29,7 @@ public class OilTank extends Entity {
 	public void collidedWith(Entity other) {
 		if(other instanceof Bullet){
 			shoted = true;
-			game.soundManager.playEffect(game.SOUND_SHOT_TANK);
+			Game.soundManager.playEffect(Game.SOUND_SHOT_TANK);
 		}
 	}
 }

@@ -13,10 +13,10 @@ public class BombEffect_BigBullet extends Effect {
 		this.x = x;
 		this.y = y;
 		for(int i = 1;i <= 6;i++){
-			bombEffect[i-1] = loadTexture("BombEffect_1/"+i+".png");
+			bombEffect[i-1] = Game.loadTexture("BombEffect_1/"+i+".png");
 		}
-		width = (int)(ingame.map.TILE_SIZE*3);
-        height = (int)(ingame.map.TILE_SIZE*3);
+		width = (int)(Map.TILE_SIZE*3);
+        height = (int)(Map.TILE_SIZE*3);
 		halfSize = width/2;
 	}
 	
@@ -26,7 +26,7 @@ public class BombEffect_BigBullet extends Effect {
 			lastFrameChange = 0;
 			frameNumber++;
 			if (frameNumber >= bombEffect.length) {
-				game.removeEntity(this);
+				Game.removeEntity(this);
 			}
 		}
 	}

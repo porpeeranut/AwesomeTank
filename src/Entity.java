@@ -6,19 +6,8 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
-
 import org.lwjgl.util.Rectangle;
-import org.newdawn.slick.Color;
-import org.newdawn.slick.geom.Polygon;
-import org.newdawn.slick.geom.Shape;
-import org.newdawn.slick.geom.Transform;
 import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
-
 
 public abstract class Entity {
 	/** center x,y */
@@ -45,9 +34,9 @@ public abstract class Entity {
 	protected int BombTime = 0;
 
 	public Entity() {
-		HPbar = loadTexture("HPbar.png");
-		HPred = loadTexture("HPred.png");
-		HPblue = loadTexture("HPblue.png");
+		HPbar = Game.loadTexture("HPbar.png");
+		HPred = Game.loadTexture("HPred.png");
+		HPblue = Game.loadTexture("HPblue.png");
 	}
 
 	public void move(long delta) {
@@ -56,10 +45,10 @@ public abstract class Entity {
 	}
 	
 	public boolean validLocation(float nx, float ny) {
-		int nxN = (int)(nx-halfSize)/game.map.TILE_SIZE;
-		int nyN = (int)(ny-halfSize)/game.map.TILE_SIZE;
-		int nxP = (int)(nx+halfSize)/game.map.TILE_SIZE;
-		int nyP = (int)(ny+halfSize)/game.map.TILE_SIZE;
+		int nxN = (int)(nx-halfSize)/Map.TILE_SIZE;
+		int nyN = (int)(ny-halfSize)/Map.TILE_SIZE;
+		int nxP = (int)(nx+halfSize)/Map.TILE_SIZE;
+		int nyP = (int)(ny+halfSize)/Map.TILE_SIZE;
 		
 		if (game.map.blocked(nxN, nyN)) {
 			return false;
@@ -155,12 +144,12 @@ public abstract class Entity {
 		}
 		if(touchedBombEffect){
 			showHP = true;
-			if(BombTime < 200){
+			/*if(BombTime < 200){
 				BombTime++;
 			} else {
 				BombTime = 0;
 				touchedBombEffect = false;
-			}
+			}*/
 		}
 		if(showHP){
 			if(HPshowTime < 100){
@@ -222,21 +211,10 @@ public abstract class Entity {
 
 	/** (0,0) to (mapWIDTH, mapHEIGHT)*/
 	public void setPositionToMap(int x,int y){
-        this.x = x*game.map.TILE_SIZE + game.map.TILE_SIZE/2;
-        this.y = y*game.map.TILE_SIZE + game.map.TILE_SIZE/2;
+        this.x = x*Map.TILE_SIZE + Map.TILE_SIZE/2;
+        this.y = y*Map.TILE_SIZE + Map.TILE_SIZE/2;
 	}
 	
-	protected Texture loadTexture(String key){
-    	try {
-            return TextureLoader.getTexture("PNG", new FileInputStream(new File("res/"+key)));
-    	} catch (FileNotFoundException e) {
-            e.printStackTrace();
-    	} catch (IOException e) {
-            e.printStackTrace();
-    	}
-    	return null;
-    }
-
 	public boolean collidesWith(Entity other) {
 		/*Polygon rect1 = new Polygon(new float[]{(x - width/2), (y - height/2),
 												(x + width/2), (y - height/2),

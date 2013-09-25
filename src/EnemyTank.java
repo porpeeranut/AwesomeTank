@@ -5,16 +5,16 @@ public class EnemyTank extends TankEntity {
 		super(ingame);
 		HP = hp;
 		maxHP = HP;
-		gun = loadTexture("EnemyGun.png");
-		body = loadTexture("EnemyBody.png");
-		Shot = loadTexture("EnemyShot.png");
+		gun = Game.loadTexture("EnemyGun.png");
+		body = Game.loadTexture("EnemyBody.png");
+		Shot = Game.loadTexture("EnemyShot.png");
 	}
 
 	@Override
 	public void collidedWith(Entity other) {
 		if(other instanceof Bullet){
 			shoted = true;
-			game.soundManager.playEffect(game.SOUND_SHOT_TANK);
+			Game.soundManager.playEffect(Game.SOUND_SHOT_TANK);
 		}
 	}
 

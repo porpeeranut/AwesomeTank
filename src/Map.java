@@ -7,17 +7,10 @@ import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glTranslatef;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
-import java.awt.Color;
-import java.awt.Graphics2D;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileNotFoundException;
-import java.io.IOException;
 import java.util.HashMap;
 import java.util.Random;
 
 import org.newdawn.slick.opengl.Texture;
-import org.newdawn.slick.opengl.TextureLoader;
 
 public class Map {
 	private HashMap<String, Texture> textureTable = new HashMap<String, Texture>();
@@ -52,23 +45,13 @@ public class Map {
 		return tmp;
 	}
 	
-	private Texture loadTexture(String name) throws FileNotFoundException, IOException{
-		return TextureLoader.getTexture("JPG", new FileInputStream(new File("res/"+name)));
-	}
-	
 	public Map() {
 		createMap(1);
-		try {
-			textureTable.put(String.valueOf(100*(int)NULL),loadTexture("null.jpg"));
-			for(int i = 1;i <= 14;i++)
-				textureTable.put(String.valueOf(i),loadTexture("ground"+i+".jpg"));
-			for(int i = 1;i <= 9;i++)
-				textureTable.put(String.valueOf(i+100),loadTexture("block"+i+".jpg"));
-	    } catch (FileNotFoundException e) { 
-	        e.printStackTrace();
-	    } catch (IOException e) {
-	        e.printStackTrace();
-	    }
+		textureTable.put(String.valueOf(100*(int)NULL),Game.loadTexture("map/null.jpg"));
+		for(int i = 1;i <= 14;i++)
+			textureTable.put(String.valueOf(i),Game.loadTexture("map/ground"+i+".jpg"));
+		for(int i = 1;i <= 9;i++)
+			textureTable.put(String.valueOf(i+100),Game.loadTexture("map/block"+i+".jpg"));
 	}
 	
 	public void draw() {

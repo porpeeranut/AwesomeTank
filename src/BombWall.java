@@ -7,10 +7,10 @@ public class BombWall extends Entity {
 
 	public BombWall(Game ingame,int hp) {
 		game = ingame;
-		bombWall = loadTexture("bombWall.png");
-		Shot = loadTexture("bombWallShot.png");
-		width = game.map.TILE_SIZE;
-        height = game.map.TILE_SIZE;
+		bombWall = Game.loadTexture("bombWall.png");
+		Shot = Game.loadTexture("bombWallShot.png");
+		width = Map.TILE_SIZE;
+        height = Map.TILE_SIZE;
 		halfSize = width/2;
 		HP = hp;
 		maxHP = HP;
@@ -30,7 +30,7 @@ public class BombWall extends Entity {
 	public void collidedWith(Entity other) {
 		if(other instanceof Bullet){
 			shoted = true;
-			game.soundManager.playEffect(game.SOUND_SHOT_BRICK);
+			Game.soundManager.playEffect(Game.SOUND_SHOT_BRICK);
 		}
 	}
 }

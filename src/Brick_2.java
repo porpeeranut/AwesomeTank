@@ -7,10 +7,10 @@ public class Brick_2 extends Entity {
 
 	public Brick_2(Game ingame,int hp) {
 		game = ingame;
-		brick = loadTexture("brick_2.jpg");
-		Shot = loadTexture("brick_2Shot.jpg");
-		width = game.map.TILE_SIZE;
-        height = game.map.TILE_SIZE;
+		brick = Game.loadTexture("brick_2.jpg");
+		Shot = Game.loadTexture("brick_2Shot.jpg");
+		width = Map.TILE_SIZE;
+        height = Map.TILE_SIZE;
 		halfSize = width/2;
 		HP = hp;
 		maxHP = HP;
@@ -30,7 +30,7 @@ public class Brick_2 extends Entity {
 	public void collidedWith(Entity other) {
 		if(other instanceof Bullet){
 			shoted = true;
-			game.soundManager.playEffect(game.SOUND_SHOT_BRICK);
+			Game.soundManager.playEffect(Game.SOUND_SHOT_BRICK);
 		}
 	}
 }

@@ -1,23 +1,21 @@
-import org.newdawn.slick.opengl.Texture;
-
 
 public class MyTank extends TankEntity {
 	
-	public static int gold;
+	public static int myGold;
 
 	public MyTank(Game ingame,int hp) {
 		super(ingame);
 		HP = hp;
 		maxHP = HP;
-		gun1 = loadTexture("MyGun1.png");
-		gun2 = loadTexture("MyGun2.png");
-		gun3 = loadTexture("MyGun3.png");
-		gun4 = loadTexture("MyGun4.png");
-		gun5 = loadTexture("MyGun5.png");
-		gun6 = loadTexture("MyGun6.png");
+		gun1 = Game.loadTexture("MyGun1.png");
+		gun2 = Game.loadTexture("MyGun2.png");
+		gun3 = Game.loadTexture("MyGun3.png");
+		gun4 = Game.loadTexture("MyGun4.png");
+		gun5 = Game.loadTexture("MyGun5.png");
+		gun6 = Game.loadTexture("MyGun6.png");
 		gun = gun1;
-		body = loadTexture("MyBody.png");
-		Shot = loadTexture("MyShot.png");
+		body = Game.loadTexture("MyBody.png");
+		Shot = Game.loadTexture("MyShot.png");
 	}
 	
 	public void gotHPpotion(int hp) {
@@ -27,15 +25,15 @@ public class MyTank extends TankEntity {
 	}
 	
 	public void gotGold(int gl) {
-		gold += gl;
-		System.out.println(gl+" "+gold);
+		myGold += gl;
+		System.out.println(" "+gl+" "+myGold);
 	}
 	
 	@Override
 	public void collidedWith(Entity other) {
 		if (other instanceof EnemyBullet) {
 			shoted = true;
-			game.soundManager.playEffect(game.SOUND_SHOT_TANK);
+			Game.soundManager.playEffect(Game.SOUND_SHOT_TANK);
 		} 
 		if(!(other instanceof Bullet) && !(other instanceof Effect)){
 			/*float tmp = xPreMove;
