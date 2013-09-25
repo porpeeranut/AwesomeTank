@@ -31,7 +31,6 @@ public abstract class Entity {
 	protected boolean shoted;
 	protected int shotFade = 90;
 	protected boolean touchedBombEffect;
-	protected int BombTime = 0;
 
 	public Entity() {
 		HPbar = Game.loadTexture("HPbar.png");
@@ -144,12 +143,6 @@ public abstract class Entity {
 		}
 		if(touchedBombEffect){
 			showHP = true;
-			/*if(BombTime < 200){
-				BombTime++;
-			} else {
-				BombTime = 0;
-				touchedBombEffect = false;
-			}*/
 		}
 		if(showHP){
 			if(HPshowTime < 100){

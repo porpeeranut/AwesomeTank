@@ -1598,7 +1598,7 @@ public class Game{
     }
     
     public void dropGold(int x, int y) {
-    	int amount = new Random().nextInt(15) + 5;	// random 5 to 15
+    	int amount = new Random().nextInt(10) + 5;	// random 5 to 15
 		int i;
 		for(i = goldIndex;i < amount + goldIndex;i++){
 			if(i >= gold.length){
@@ -1610,7 +1610,6 @@ public class Game{
 			gold[i].setDX(new Random().nextInt(7) - 3);	// random -3 to 3
 			gold[i].setDY(new Random().nextInt(7) - 3);
 			addEntity(gold[i]);
-			System.out.println(i);
 		}
 		goldIndex = i;
     }
