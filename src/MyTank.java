@@ -2,6 +2,9 @@
 public class MyTank extends TankEntity {
 	
 	public static int myGold;
+	public static int profit;
+	public static boolean gotGold;
+	protected int profitBarShowTime;
 
 	public MyTank(Game ingame,int hp) {
 		super(ingame);
@@ -25,8 +28,9 @@ public class MyTank extends TankEntity {
 	}
 	
 	public void gotGold(int gl) {
-		myGold += gl;
-		System.out.println(" "+gl+" "+myGold);
+		profit += gl;
+		gotGold = true;
+		System.out.println(" "+gl+" "+profit);
 	}
 	
 	@Override

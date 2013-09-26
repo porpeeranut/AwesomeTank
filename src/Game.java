@@ -44,6 +44,8 @@ public class Game{
 	private Texture backToMenuLabel;
 	private Texture lvCompleteLabel;
 	private Texture lvFailedLabel;
+	private Texture profitLabel;
+	private Texture profitMiniLabel;
 	private Texture HPpipe;
 	private Texture HPred;
 	private Texture HPblue;
@@ -62,6 +64,7 @@ public class Game{
 	private Texture number;
 	private int Label_X;
 	private int Label_Y;
+	private int miniLabel_Y;
 	private int timeShowLabel;
 	private static ArrayList<Entity> entities = new ArrayList<Entity>();
 	private static ArrayList<Entity> removeList = new ArrayList<Entity>();
@@ -219,7 +222,7 @@ public class Game{
     			break;
         	case UPGRADE:
         		draw(moneyBackgnd,camera_w/2,camera_h/2,camera_w,camera_h);
-        		drawMoney();
+        		drawMoney(String.valueOf(MyTank.myGold), 498, 85, 1);
         		draw(backgndUpgrade,camera_w/2,camera_h/2,camera_w,camera_h);
         		button_In_UPGRADE_state();
     			break;
@@ -549,6 +552,11 @@ public class Game{
 		glMatrixMode(GL_PROJECTION);
         glLoadIdentity();
 		glOrtho(0 ,640 ,650 ,0 ,-1 , 1);
+		
+		setTimeToShowProfitMiniLabel();
+		draw(profitMiniLabel, 170, 585-miniLabel_Y, 209, 26);
+		drawMoney(String.valueOf(MyTank.profit), 270, 576-miniLabel_Y, 0.7f);
+		
 		draw(selectGunBar, 330, 610, 542, 81);
 		drawHPpipe(360,635,260,21);
 		// ########### btn menu ###########
@@ -631,12 +639,16 @@ public class Game{
 			}
 		}
 		if(state == State.LVCOMPLETE){
-			setTimeToShowLabel();
-			draw(lvCompleteLabel, 320+Label_X, 250+Label_Y, 361, 92);
+			setTimeToShowEndgameLabel();
+			draw(lvCompleteLabel, 320+Label_X, 150+Label_Y, 361, 92);
+			draw(profitLabel, 320-Label_X, 490-Label_Y, 359, 74);
+			drawMoney(String.valueOf(MyTank.profit), 455-Label_X, 480-Label_Y, 1);
 		}
 		if(state == State.LVFAILED){
-			setTimeToShowLabel();
-			draw(lvFailedLabel, 320+Label_X, 250+Label_Y, 361, 92);
+			setTimeToShowEndgameLabel();
+			draw(lvFailedLabel, 320+Label_X, 150+Label_Y, 361, 92);
+			draw(profitLabel, 320-Label_X, 490-Label_Y, 359, 74);
+			drawMoney(String.valueOf(MyTank.profit), 455-Label_X, 480-Label_Y, 1);
 		}
 		while (Mouse.next()) {
     	    if (Mouse.getEventButtonState()) {
@@ -719,6 +731,7 @@ public class Game{
     	        		if(btn[3].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
         	        		soundManager.playEffect(SOUND_RELEASE);
         	        		if(currentButton == CurrentButton.BCK_TO_MENU_YES){
+        	        			MyTank.profit = 0;
         	        			move_to_UPGRADE_state();
         	    			}
         	        	} else if(btn[4].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
@@ -735,18 +748,20 @@ public class Game{
     	}
 	}
 	
-	private void setTimeToShowLabel() {
+	private void setTimeToShowEndgameLabel() {
 		timeShowLabel += delta;
-		if(timeShowLabel > 50 && timeShowLabel < 200){
+		if(timeShowLabel > 50 && timeShowLabel < 250){
 			Label_Y += 3;
-		} else if(timeShowLabel >= 1700 && timeShowLabel < 1900){
-			Label_X -= (1900 - timeShowLabel)/20;
-		} else if(timeShowLabel >= 1900 && timeShowLabel < 2400){
-			Label_X += (timeShowLabel-1900)/10;
-		} else if(timeShowLabel > 2400){
+		} else if(timeShowLabel >= 2400 && timeShowLabel < 2600){
+			Label_X -= (2600 - timeShowLabel)/20;
+		} else if(timeShowLabel >= 2600 && timeShowLabel < 3100){
+			Label_X += (timeShowLabel-2600)/10;
+		} else if(timeShowLabel > 3100){
 			timeShowLabel = 0;
 			Label_X = 0;
 			Label_Y = 0;
+			MyTank.myGold += MyTank.profit;
+			MyTank.profit = 0;
 			btn = new Button[2];            	        		
 			btn[0] = new Button(this,CurrentButton.MENU,120,600);
 			btn[1] = new Button(this,CurrentButton.PLAY,520,600);
@@ -754,6 +769,18 @@ public class Game{
             glLoadIdentity();
 			glOrtho(0 ,640 ,650 ,0 ,-1 , 1);
 			state = State.UPGRADE;
+		}
+	}
+	
+	private void setTimeToShowProfitMiniLabel() {
+		if(MyTank.gotGold){
+			if(miniLabel_Y < 27){
+				miniLabel_Y += 3;
+			}
+		} else {
+			if(miniLabel_Y > 0){
+				miniLabel_Y -= 3;
+			}
 		}
 	}
 
@@ -977,6 +1004,8 @@ public class Game{
     	backToMenuLabel = loadTexture("backToMenuLabel.png");
     	lvCompleteLabel = loadTexture("LVcomplete.png");
     	lvFailedLabel = loadTexture("LVfailed.png");
+    	profitLabel = loadTexture("profitLabel.png");
+    	profitMiniLabel = loadTexture("profitMiniLabel.png");
     	HPpipe = loadTexture("HPpipe.png");
 		HPred = loadTexture("HPred.png");
 		HPblue = loadTexture("HPblue.png");
@@ -1675,11 +1704,10 @@ public class Game{
         glPopMatrix();
 	}
 	
-	private void drawMoney(){
-		String money = String.valueOf(player.myGold);
-		money += "14346666$";
+	private void drawMoney(String money, int x, int y,float size){
+		money += "$";
 		float left = 0,right = 0;
-		int x = 498,index;
+		int index;
 		number.bind();
 		glPushMatrix();
         glTranslatef(0, 0, 0);
@@ -1736,17 +1764,17 @@ public class Game{
             	break;
             }
             glTexCoord2f(right, 0);
-            glVertex2f(x, 85);
+            glVertex2f(x, y);
             
             glTexCoord2f(left, 0);
-            glVertex2f(x - (right-left)*256, 85);
+            glVertex2f(x - (right-left)*256*size, y);
             
             glTexCoord2f(left, 0 + number.getHeight());
-            glVertex2f(x - (right-left)*256, 85 + number.getImageHeight());
+            glVertex2f(x - (right-left)*256*size, y + number.getImageHeight()*size);
             
             glTexCoord2f(right, 0 + number.getHeight());
-            glVertex2f(x, 85 + number.getImageHeight());
-            x -= (right-left)*256;
+            glVertex2f(x, y + number.getImageHeight()*size);
+            x -= (right-left)*256*size;
         }
         glEnd();
         glPopMatrix();

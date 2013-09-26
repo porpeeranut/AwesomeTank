@@ -220,6 +220,16 @@ public abstract class TankEntity extends Entity {
         if(shoted){
 			super.draw(Shot);
 		}
+        if(this instanceof MyTank){
+        	if(((MyTank)(this)).gotGold){
+        		if(((MyTank)(this)).profitBarShowTime < 150){
+        			((MyTank)(this)).profitBarShowTime++;
+    			} else {
+    				((MyTank)(this)).profitBarShowTime = 0;
+    				((MyTank)(this)).gotGold = false;
+    			}
+        	}
+		}
     	
 		glTranslatef(x, y, 0);
         glRotatef(gunAngle - bodyAngle, 0f, 0f, 1f);
