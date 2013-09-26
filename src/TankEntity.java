@@ -32,14 +32,22 @@ public abstract class TankEntity extends Entity {
 	private int gunSizeIndex = 0;
 	private int[] gunSize = new int[]{ 8,-6,-2,2,6,10,14,14,14,12,12,10,10,8,8,6,6,4,4,6,6};
 	
-	protected long minigunFiringInterval = 100;	// ms
+	protected long minigunFiringInterval = 180;	// ms
 	protected long shotgunFiringInterval = 600;	// ms
 	protected long cannonFiringInterval = 800;	// ms
 	protected boolean rocketReleased;
 	protected long lastFire;
-	private int minigunBulIndex = 0;
-	private int shotgunBulIndex = 0;
-	private int cannonBulIndex = 0;
+	private int minigunBulIndex;
+	private int shotgunBulIndex;
+	private int cannonBulIndex;
+	protected int minigunAttck = 5;
+	protected int shotgunAttck = 5;
+	protected int cannonAttck = 50;
+	protected int rocketAttck = 50;
+	protected int minigun_currentLV = 1;
+	protected int shotgun_currentLV;
+	protected int cannon_currentLV;
+	protected int rocket_currentLV;
 	private MyMinigunBullet[] myBullets;
 	private MyShotgunBullet[] myShotgunBullets;
 	private MyCannonBullet[] myCannonBullets;
@@ -152,6 +160,7 @@ public abstract class TankEntity extends Entity {
 			bullet = myBullets[minigunBulIndex ++ % myBullets.length];
 			minigunBulIndex %= myBullets.length;
 			bullet.reinitialize(initBulletX,initBulletY ,(float)-Math.cos(0.0174532925*gunRotation)*bullet.moveSpeed, (float)-Math.sin(0.0174532925*gunRotation)*bullet.moveSpeed);
+			bullet.attack = minigunAttck;
 			Game.addEntity(bullet);
 			Game.soundManager.playEffect(Game.SOUND_FIRE_MINIGUN);
 			break;
@@ -166,6 +175,7 @@ public abstract class TankEntity extends Entity {
 				float ranDX = (float)-Math.cos(0.0174532925*(gunRotation + new Random().nextInt(30)-15))*bullet.moveSpeed*(new Random().nextInt(3)+6)*0.1f;
 				float ranDY = (float)-Math.sin(0.0174532925*(gunRotation + new Random().nextInt(30)-15))*bullet.moveSpeed*(new Random().nextInt(3)+6)*0.1f;
 				bullet.reinitialize(initBulletX,initBulletY ,ranDX, ranDY);
+				bullet.attack = shotgunAttck;
 				Game.addEntity(bullet);
 			}
 			Game.soundManager.playEffect(Game.SOUND_FIRE_SHOTGUN);
@@ -180,6 +190,7 @@ public abstract class TankEntity extends Entity {
 			bullet = myCannonBullets[cannonBulIndex ++ % myCannonBullets.length];
 			cannonBulIndex %= myCannonBullets.length;
 			bullet.reinitialize(initBulletX,initBulletY ,(float)-Math.cos(0.0174532925*gunRotation)*bullet.moveSpeed, (float)-Math.sin(0.0174532925*gunRotation)*bullet.moveSpeed);
+			bullet.attack = cannonAttck;
 			Game.addEntity(bullet);
 			Game.soundManager.playEffect(Game.SOUND_FIRE_CANNON);
 			break;
@@ -192,6 +203,7 @@ public abstract class TankEntity extends Entity {
 			} else {
 				rocketReleased = true;
 				myRocketBullet.reinitialize(initBulletX,initBulletY ,0, 0);
+				myRocketBullet.attack = rocketAttck;
 				Game.addEntity(myRocketBullet);
 				Game.soundManager.playEffect(Game.SOUND_FIRE_ROCKET);
 			}
@@ -221,12 +233,12 @@ public abstract class TankEntity extends Entity {
 			super.draw(Shot);
 		}
         if(this instanceof MyTank){
-        	if(((MyTank)(this)).gotGold){
+        	if(MyTank.gotGold){
         		if(((MyTank)(this)).profitBarShowTime < 150){
         			((MyTank)(this)).profitBarShowTime++;
     			} else {
     				((MyTank)(this)).profitBarShowTime = 0;
-    				((MyTank)(this)).gotGold = false;
+    				MyTank.gotGold = false;
     			}
         	}
 		}

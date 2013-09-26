@@ -27,7 +27,8 @@ public class Game{
 	public static State state = State.INTRO;
 	public static enum CurrentButton {
 		NONE,MENU,PLAY,PAUSE,HELP,BACKTOUPGRADE,CONTINUE,BCK_TO_MENU_YES,BCK_TO_MENU_NO,
-		LV1,LV2,LV3,LV4,LV5,LV6,LV7,LV8,LV9,LV10;
+		LV1,LV2,LV3,LV4,LV5,LV6,LV7,LV8,LV9,LV10,
+		UPGRD_MINIGUN,UPGRD_SHOTGUN,UPGRD_CANNON,UPGRD_ROCKET;
 	}
 	public HashMap<Integer, Boolean> unlockLV = new HashMap<Integer, Boolean>();
 	public static int currentLevel;
@@ -62,6 +63,8 @@ public class Game{
 	private Texture labelCannon_lock;
 	private Texture labelRocket_lock;
 	private Texture number;
+	private Texture number_no_gold;
+	private boolean not_enough_gold;
 	private int Label_X;
 	private int Label_Y;
 	private int miniLabel_Y;
@@ -69,7 +72,7 @@ public class Game{
 	private static ArrayList<Entity> entities = new ArrayList<Entity>();
 	private static ArrayList<Entity> removeList = new ArrayList<Entity>();
     public Map map;
-    public MyTank player;
+    public static MyTank player;
     static private int camera_x,camera_y,camera_w,camera_h;
     static private int camera_x_tmp,camera_y_tmp;
     static final int WORLD_W,WORLD_H;
@@ -100,6 +103,8 @@ public class Game{
     public static int SOUND_PLAY;
     public static int SOUND_GOT_HP_POTION;
     public static int SOUND_GOT_GOLD;
+    public static int SOUND_UPGRADE;
+    public static int SOUND_NO_MONEY;
     
     public static int SOUND_BGM_INTRO;
     public static int SOUND_BGM_PLAY;
@@ -161,6 +166,8 @@ public class Game{
 		SOUND_PLAY		= soundManager.addSound("play.wav");
 		SOUND_GOT_HP_POTION	= soundManager.addSound("gotHP.wav");
 		SOUND_GOT_GOLD	= soundManager.addSound("gotGold.wav");
+		SOUND_UPGRADE	= soundManager.addSound("upgrade.wav");
+	    SOUND_NO_MONEY	= soundManager.addSound("noMoney.wav");
 		
 		SOUND_BGM_INTRO		= soundManager.addSound("BGM_intro.wav");
 		SOUND_BGM_PLAY		= soundManager.addSound("BGM_play.wav");
@@ -237,7 +244,6 @@ public class Game{
     		case LVCOMPLETE:
     		case LVFAILED:
     			if(!soundManager.isPlayingSound() || CURRENT_SOUND != SOUND_BGM_PLAY){
-    				soundManager.stopPlayingSound();
     				soundManager.playSound(SOUND_BGM_PLAY);
     				CURRENT_SOUND = SOUND_BGM_PLAY;
     			}
@@ -262,6 +268,12 @@ public class Game{
                         		player.move(delta, bodyAng);
                         	else
                         		entity.move(delta);
+                        	if(entity instanceof Gold){
+                        		if(map.blocked((int)entity.x/Map.TILE_SIZE, (int)entity.y/Map.TILE_SIZE)){
+                        			entity.setDX(0);
+            						entity.setDY(0);
+                        		}
+                        	}
                         	if(entity instanceof Bullet){
             					if(map.blocked((int)entity.x/Map.TILE_SIZE, (int)entity.y/Map.TILE_SIZE)){
             						if(entity instanceof MyCannonBullet || entity instanceof MyRocketBullet){
@@ -332,9 +344,13 @@ public class Game{
     }
     
     private void move_to_UPGRADE_state() {
-    	btn = new Button[2];            	        		
+    	btn = new Button[6];            	        		
 		btn[0] = new Button(this,CurrentButton.MENU,120,600);
 		btn[1] = new Button(this,CurrentButton.PLAY,520,600);
+		btn[2] = new Button(this,CurrentButton.UPGRD_MINIGUN,334,254);
+		btn[3] = new Button(this,CurrentButton.UPGRD_SHOTGUN,444,254);
+		btn[4] = new Button(this,CurrentButton.UPGRD_CANNON,334,378);
+		btn[5] = new Button(this,CurrentButton.UPGRD_ROCKET,444,378);
 		state = State.UPGRADE;
     }
     
@@ -364,6 +380,7 @@ public class Game{
     	btn[4] = new Button(this,CurrentButton.BCK_TO_MENU_NO,390,350);
     	btn[5] = new Button(this,CurrentButton.HELP,570,610);
     	btn[6] = new Button(this,CurrentButton.PLAY,320,450);
+    	soundManager.stopPlayingSound();
     	soundManager.playEffect(SOUND_PLAY);
     	state = State.PLAY;
     }
@@ -382,8 +399,7 @@ public class Game{
     	        	if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	        		soundManager.playEffect(SOUND_CLICK);
     	        		currentButton = CurrentButton.PLAY;
-    	        	}
-    	        	else
+    	        	} else
             			currentButton = CurrentButton.NONE;
 	        		break;
     	        }
@@ -417,12 +433,22 @@ public class Game{
     	        	if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	        		soundManager.playEffect(SOUND_CLICK);
     	        		currentButton = CurrentButton.MENU;
-    	        	}
-    	        	else if(btn[1].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	        	} else if(btn[1].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	        		soundManager.playEffect(SOUND_CLICK);
     	        		currentButton = CurrentButton.PLAY;
-    	        	}
-    	    		else
+    	        	} else if(btn[2].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	        		soundManager.playEffect(SOUND_CLICK);
+    	        		currentButton = CurrentButton.UPGRD_MINIGUN;
+    	        	} else if(btn[3].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	        		soundManager.playEffect(SOUND_CLICK);
+    	        		currentButton = CurrentButton.UPGRD_SHOTGUN;
+    	        	} else if(btn[4].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	        		soundManager.playEffect(SOUND_CLICK);
+    	        		currentButton = CurrentButton.UPGRD_CANNON;
+    	        	} else if(btn[5].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	        		soundManager.playEffect(SOUND_CLICK);
+    	        		currentButton = CurrentButton.UPGRD_ROCKET;
+    	        	} else
     	    			currentButton = CurrentButton.NONE;
 	        		break;
     	        }
@@ -434,10 +460,29 @@ public class Game{
     	    			if(currentButton == CurrentButton.MENU){
     	    				state = State.INTRO;
     	    			}            	        		
-    	    		}else if(btn[1].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    		} else if(btn[1].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	    			soundManager.playEffect(SOUND_RELEASE);
     	    			if(currentButton == CurrentButton.PLAY){
     	    				move_to_SELECT_LEVEL_state();
+    	    			}
+    	    		} else if(btn[2].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    			if(currentButton == CurrentButton.UPGRD_MINIGUN){
+    	    				if(MyTank.myGold > btn[2].priceToUpgrd){
+    	    					btn[2].upgrade();
+    	    					soundManager.playEffect(SOUND_UPGRADE);
+    	    				} else {
+    	    					not_enough_gold = true;
+    	    					soundManager.playEffect(SOUND_NO_MONEY);
+    	    				}
+    	    			}
+    	    		} else if(btn[3].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    			if(currentButton == CurrentButton.UPGRD_SHOTGUN){
+    	    			}
+    	    		} else if(btn[4].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    			if(currentButton == CurrentButton.UPGRD_CANNON){
+    	    			}
+    	    		} else if(btn[5].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    			if(currentButton == CurrentButton.UPGRD_ROCKET){
     	    			}
     	    		} else
     	    			currentButton = CurrentButton.NONE;
@@ -509,10 +554,8 @@ public class Game{
     	        	if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	        		soundManager.playEffect(SOUND_CLICK);
     	        		currentButton = CurrentButton.BACKTOUPGRADE;
-    	        	}
-    	        	else if(btnLVclicked){
-    	        	}
-    	    		else
+    	        	} else if(btnLVclicked){
+    	        	} else
     	    			currentButton = CurrentButton.NONE;
 	        		break;
     	        }
@@ -539,7 +582,7 @@ public class Game{
     	    			if(currentButton == CurrentButton.BACKTOUPGRADE){
     	    				move_to_UPGRADE_state();
     	    			}            	        		
-    	    		}else if(btnLVreleased){
+    	    		} else if(btnLVreleased){
     	    		} else
     	    			currentButton = CurrentButton.NONE;
         			break;
@@ -762,13 +805,10 @@ public class Game{
 			Label_Y = 0;
 			MyTank.myGold += MyTank.profit;
 			MyTank.profit = 0;
-			btn = new Button[2];            	        		
-			btn[0] = new Button(this,CurrentButton.MENU,120,600);
-			btn[1] = new Button(this,CurrentButton.PLAY,520,600);
+			move_to_UPGRADE_state();
 			glMatrixMode(GL_PROJECTION);
             glLoadIdentity();
 			glOrtho(0 ,640 ,650 ,0 ,-1 , 1);
-			state = State.UPGRADE;
 		}
 	}
 	
@@ -933,8 +973,7 @@ public class Game{
         		if(camera_x > camera_x_tmp){
         			camera_x = camera_x_tmp + 5;
         			camera_x_tmp += 5;
-        		}
-        		else{
+        		} else {
         			camera_x = camera_x_tmp - 5;
         			camera_x_tmp -= 5;
         		}
@@ -945,23 +984,21 @@ public class Game{
         		if(camera_y > camera_y_tmp){
         			camera_y = camera_y_tmp + 5;
         			camera_y_tmp += 5;
-        		}
-        		else{
+        		} else {
         			camera_y = camera_y_tmp - 5;
         			camera_y_tmp -= 5;
         		}
         	} else {
             	camera_y_tmp = camera_y;
         	}
-    	} else{
+    	} else {
     		camera_x = (int)mouseX + (int)(player.get_centerX() - camera_w/2);
         	camera_y = -(int)mouseY + (int)(player.get_centerY() - camera_h/2);
         	if(Math.abs(camera_x_tmp - camera_x) > 25){
         		if(camera_x > camera_x_tmp){
         			camera_x = camera_x_tmp + 25;
         			camera_x_tmp += 25;
-        		}
-        		else{
+        		} else {
         			camera_x = camera_x_tmp - 25;
         			camera_x_tmp -= 25;
         		}
@@ -972,8 +1009,7 @@ public class Game{
         		if(camera_y > camera_y_tmp){
         			camera_y = camera_y_tmp + 25;
         			camera_y_tmp += 25;
-        		}
-        		else{
+        		} else {
         			camera_y = camera_y_tmp - 25;
         			camera_y_tmp -= 25;
         		}
@@ -1022,6 +1058,7 @@ public class Game{
 		labelCannon_lock = loadTexture("labelCannon_lock.png");
 		labelRocket_lock = loadTexture("labelRocket_lock.png");
 		number = loadTexture("number/num.png");
+		number_no_gold = loadTexture("number/num_noGold.png");
     	player = new MyTank(this,20);
     	brick = new Brick[27];
     	brick_2 = new Brick_2[31];
@@ -1677,8 +1714,7 @@ public class Game{
 		try {
 			if(key.indexOf(".jpg") != -1){
 				return TextureLoader.getTexture("JPG", new FileInputStream(new File("res/"+key)));
-			}
-			else
+			} else
 				return TextureLoader.getTexture("PNG", new FileInputStream(new File("res/"+key)));
     	} catch (FileNotFoundException e) {
             e.printStackTrace();
@@ -1708,7 +1744,12 @@ public class Game{
 		money += "$";
 		float left = 0,right = 0;
 		int index;
-		number.bind();
+		if(not_enough_gold){
+			number_no_gold.bind();
+			not_enough_gold = false;
+		}
+		else
+			number.bind();
 		glPushMatrix();
         glTranslatef(0, 0, 0);
         glBegin(GL_QUADS);
@@ -1762,7 +1803,7 @@ public class Game{
             	left = 194/256f;
             	right = 211/256f;
             	break;
-            }
+            }            
             glTexCoord2f(right, 0);
             glVertex2f(x, y);
             

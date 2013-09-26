@@ -21,8 +21,8 @@ public class MyRocketBullet extends MyBullet {
 		if (lastFrameChange > frameDuration) {
 			float initBulletX,initBulletY;
 			lastFrameChange = 0;
-			initBulletX = (float)(x+Math.cos(0.0174532925*game.player.gunAngle)*width/1.5);
-    		initBulletY = (float)(y+Math.sin(0.0174532925*game.player.gunAngle)*height/1.5);
+			initBulletX = (float)(x+Math.cos(0.0174532925*Game.player.gunAngle)*width/1.5);
+    		initBulletY = (float)(y+Math.sin(0.0174532925*Game.player.gunAngle)*height/1.5);
 			Game.addEntity(new Effect_smoke(game,initBulletX,initBulletY));
 		}
 		super.move(delta);
@@ -31,7 +31,7 @@ public class MyRocketBullet extends MyBullet {
 	public void draw() {
 		glPushMatrix();
 		glTranslatef(x, y, 0);
-        glRotatef(game.player.gunAngle, 0f, 0f, 1f);
+        glRotatef(Game.player.gunAngle, 0f, 0f, 1f);
         glTranslatef(-x, -y, 0);
         super.draw(bull);
         glPopMatrix();

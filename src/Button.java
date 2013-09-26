@@ -15,6 +15,12 @@ public class Button {
 	protected Texture button_onMouseOver;
 	protected Texture button_clicked;
 	protected Texture button_LVlock;
+	protected Texture upgrdLV0;
+	protected Texture upgrdLV1;
+	protected Texture upgrdLV2;
+	protected Texture upgrdLV3;
+	protected Texture upgrdLV4;
+	protected int priceToUpgrd;
 	protected Game.CurrentButton thisButton;
 	private float TexCoordWidth;
 	private float TexCoordHeight;
@@ -59,6 +65,113 @@ public class Button {
 			button = Game.loadTexture("no.png");
 			button_onMouseOver = Game.loadTexture("no_onMouseOver.png");
 			break;
+		case UPGRD_MINIGUN:
+			upgrdLV1 = Game.loadTexture("upgrd/upgrdMinigunLV1.png");
+			upgrdLV2 = Game.loadTexture("upgrd/upgrdMinigunLV2.png");
+			upgrdLV3 = Game.loadTexture("upgrd/upgrdMinigunLV3.png");
+			upgrdLV4 = Game.loadTexture("upgrd/upgrdMinigunLV4.png");
+			switch(Game.player.minigun_currentLV){
+			case 1:
+				button = upgrdLV1;
+				priceToUpgrd = 350;
+				break;
+			case 2:
+				button = upgrdLV2;
+				priceToUpgrd = 470;
+				break;
+			case 3:
+				button = upgrdLV3;
+				priceToUpgrd = 1100;
+				break;
+			case 4:
+				button = upgrdLV4;
+				break;
+			}
+			break;
+		case UPGRD_SHOTGUN:
+			upgrdLV0 = Game.loadTexture("upgrd/upgrdMinigunLV0.png");
+			upgrdLV1 = Game.loadTexture("upgrd/upgrdMinigunLV1.png");
+			upgrdLV2 = Game.loadTexture("upgrd/upgrdMinigunLV2.png");
+			upgrdLV3 = Game.loadTexture("upgrd/upgrdMinigunLV3.png");
+			upgrdLV4 = Game.loadTexture("upgrd/upgrdMinigunLV4.png");
+			switch(Game.player.shotgun_currentLV){
+			case 0:
+				button = upgrdLV0;
+				priceToUpgrd = 2750;
+				break;
+			case 1:
+				button = upgrdLV1;
+				priceToUpgrd = 1400;
+				break;
+			case 2:
+				button = upgrdLV2;
+				priceToUpgrd = 2000;
+				break;
+			case 3:
+				button = upgrdLV3;
+				priceToUpgrd = 2950;
+				break;
+			case 4:
+				button = upgrdLV4;
+				break;
+			}
+			break;
+		case UPGRD_CANNON:
+			upgrdLV0 = Game.loadTexture("upgrd/upgrdMinigunLV0.png");
+			upgrdLV1 = Game.loadTexture("upgrd/upgrdMinigunLV1.png");
+			upgrdLV2 = Game.loadTexture("upgrd/upgrdMinigunLV2.png");
+			upgrdLV3 = Game.loadTexture("upgrd/upgrdMinigunLV3.png");
+			upgrdLV4 = Game.loadTexture("upgrd/upgrdMinigunLV4.png");
+			switch(Game.player.cannon_currentLV){
+			case 0:
+				button = upgrdLV0;
+				priceToUpgrd = 16000;
+				break;
+			case 1:
+				button = upgrdLV1;
+				priceToUpgrd = 8000;
+				break;
+			case 2:
+				button = upgrdLV2;
+				priceToUpgrd = 12000;
+				break;
+			case 3:
+				button = upgrdLV3;
+				priceToUpgrd = 18000;
+				break;
+			case 4:
+				button = upgrdLV4;
+				break;
+			}
+			break;
+		case UPGRD_ROCKET:
+			upgrdLV0 = Game.loadTexture("upgrd/upgrdMinigunLV0.png");
+			upgrdLV1 = Game.loadTexture("upgrd/upgrdMinigunLV1.png");
+			upgrdLV2 = Game.loadTexture("upgrd/upgrdMinigunLV2.png");
+			upgrdLV3 = Game.loadTexture("upgrd/upgrdMinigunLV3.png");
+			upgrdLV4 = Game.loadTexture("upgrd/upgrdMinigunLV4.png");
+			switch(Game.player.rocket_currentLV){
+			case 0:
+				button = upgrdLV0;
+				priceToUpgrd = 16000;
+				break;
+			case 1:
+				button = upgrdLV1;
+				priceToUpgrd = 8000;
+				break;
+			case 2:
+				button = upgrdLV2;
+				priceToUpgrd = 12000;
+				break;
+			case 3:
+				button = upgrdLV3;
+				priceToUpgrd = 18000;
+				break;
+			case 4:
+				button = upgrdLV4;
+				break;
+			}
+			break;
 		default:
 			break;
 		}
@@ -76,12 +189,58 @@ public class Button {
 		this.x = x;
 		this.y = y;
 	}
+	
+	public void upgrade() {
+		MyTank.myGold -= priceToUpgrd;
+		switch(thisButton){
+		case UPGRD_MINIGUN:
+			switch(Game.player.minigun_currentLV){
+			case 1:
+				button = upgrdLV2;
+				priceToUpgrd = 470;
+				Game.player.minigunFiringInterval = 150;
+				Game.player.minigun_currentLV++;
+				break;
+			case 2:
+				button = upgrdLV3;
+				priceToUpgrd = 1100;
+				Game.player.minigunFiringInterval = 120;
+				Game.player.minigun_currentLV++;
+				break;
+			case 3:
+				button = upgrdLV4;
+				Game.player.minigunFiringInterval = 90;
+				Game.player.minigun_currentLV++;
+				break;
+			}
+			break;
+		case UPGRD_SHOTGUN:
+			break;
+		case UPGRD_CANNON:
+			break;
+		case UPGRD_ROCKET:
+			break;
+		default:
+			break;
+		}
+	}
 
 	public boolean On_Mouse_Over(int mousex,int mousey){
-		if(mousex > x-width/2 && mousex < x+width/2 && mousey > y-height/2 && mousey < y+height/2)
-			return true;
-		else
-			return false;
+		switch(thisButton){
+		case UPGRD_MINIGUN:
+		case UPGRD_SHOTGUN:
+		case UPGRD_CANNON:
+		case UPGRD_ROCKET:
+			if(mousex > x-width/2 && mousex < x+width/2 && mousey > y-height/2 && mousey < y+height/2-20)
+				return true;
+			else
+				return false;
+		default:
+			if(mousex > x-width/2 && mousex < x+width/2 && mousey > y-height/2 && mousey < y+height/2)
+				return true;
+			else
+				return false;
+		}
 	}
 	
 	public void draw() {
@@ -92,10 +251,20 @@ public class Button {
 	}
 	
 	public void draw_OnMouseOver() {
-		button_onMouseOver.bind();
-		TexCoordWidth = button_onMouseOver.getWidth();
-		TexCoordHeight = button_onMouseOver.getHeight();
-		basicDraw();
+		switch(thisButton){
+		case UPGRD_MINIGUN:
+		case UPGRD_SHOTGUN:
+		case UPGRD_CANNON:
+		case UPGRD_ROCKET:
+			draw();
+			break;
+		default:
+			button_onMouseOver.bind();
+			TexCoordWidth = button_onMouseOver.getWidth();
+			TexCoordHeight = button_onMouseOver.getHeight();
+			basicDraw();
+			break;
+		}
 	}
 	
 	public void draw_Clicked() {

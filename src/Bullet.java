@@ -55,7 +55,7 @@ public class Bullet extends Entity {
 			Game.addEntity(new BombEffect_BigBullet(game,x,y));
 			Game.soundManager.playEffect(Game.SOUND_BOMB_TANK);
 			if(this instanceof MyRocketBullet)
-				game.player.rocketReleased = false;
+				Game.player.rocketReleased = false;
 		} else {
 			Game.addEntity(new BulletShotEffect(game,x,y));
 		}

@@ -1,11 +1,9 @@
 
-bot ถ้าโดนยินแล้ว active ตลอด (path โคตรยาว) (ดักเกรียนใช้ rocket)
+bot ถ้าโดนยิงแล้ว active ตลอด (path โคตรยาว) (ดักเกรียนใช้ rocket)
 fix gun pic
 Wground
 
 add button in upgrade state
-enemytank ตายดรอปตังค์
-show money not more than 99999
 
 ## upgrd
 upgrd_armor
