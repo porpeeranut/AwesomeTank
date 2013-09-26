@@ -1,5 +1,4 @@
 
-add money font
 fix gun pic
 bot ถ้าโดนยินแล้ว active ตลอด (path โคตรยาว) (ดักเกรียนใช้ rocket)
 Wground

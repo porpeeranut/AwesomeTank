@@ -36,6 +36,7 @@ public class Game{
 	private CurrentButton currentButton = CurrentButton.NONE;
 	private Texture backgndIntro;
 	private Texture backgndUpgrade;
+	private Texture moneyBackgnd;
 	private Texture backgndSelectLV;
 	private Texture selectGunBar;
 	private Texture pauseLabel;
@@ -58,6 +59,7 @@ public class Game{
 	private Texture labelShotgun_lock;
 	private Texture labelCannon_lock;
 	private Texture labelRocket_lock;
+	private Texture number;
 	private int Label_X;
 	private int Label_Y;
 	private int timeShowLabel;
@@ -216,6 +218,8 @@ public class Game{
         		button_In_INTRO_state();
     			break;
         	case UPGRADE:
+        		draw(moneyBackgnd,camera_w/2,camera_h/2,camera_w,camera_h);
+        		drawMoney();
         		draw(backgndUpgrade,camera_w/2,camera_h/2,camera_w,camera_h);
         		button_In_UPGRADE_state();
     			break;
@@ -965,6 +969,7 @@ public class Game{
     private void loadResource() {
     	backgndIntro = loadTexture("intro.png");
     	backgndUpgrade = loadTexture("upgrade.png");
+    	moneyBackgnd = loadTexture("moneyBackgnd.png");
     	backgndSelectLV = loadTexture("selectLV.png");
     	selectGunBar = loadTexture("selectGunBar.png");
     	pauseLabel = loadTexture("pauseLabel.png");
@@ -987,6 +992,7 @@ public class Game{
 		labelShotgun_lock = loadTexture("labelShotgun_lock.png");
 		labelCannon_lock = loadTexture("labelCannon_lock.png");
 		labelRocket_lock = loadTexture("labelRocket_lock.png");
+		number = loadTexture("number/num.png");
     	player = new MyTank(this,20);
     	brick = new Brick[27];
     	brick_2 = new Brick_2[31];
@@ -1665,6 +1671,83 @@ public class Game{
         	glVertex2f(x+width/2 ,y+height/2);//bottom right
         	glTexCoord2f(0,tex.getHeight());
         	glVertex2f(x-width/2 ,y+height/2);//bottom left
+        glEnd();
+        glPopMatrix();
+	}
+	
+	private void drawMoney(){
+		String money = String.valueOf(player.myGold);
+		money += "14346666$";
+		float left = 0,right = 0;
+		int x = 498,index;
+		number.bind();
+		glPushMatrix();
+        glTranslatef(0, 0, 0);
+        glBegin(GL_QUADS);
+        for (int i = money.length()-1; i >= 0; i--) {
+        	if(i == money.length()-1)
+        		index = 10;
+        	else
+        		index = (int) money.charAt(i)-48;
+            switch(index){
+            case 0:
+            	left = 0;
+            	right = 21/256f;
+            	break;
+            case 1:
+            	left = 21/256f;
+            	right = 34/256f;
+            	break;
+            case 2:
+            	left = 34/256f;
+            	right = 54/256f;
+            	break;
+            case 3:
+            	left = 54/256f;
+            	right = 73/256f;
+            	break;
+            case 4:
+            	left = 73/256f;
+            	right = 95/256f;
+            	break;
+            case 5:
+            	left = 95/256f;
+            	right = 114/256f;
+            	break;
+            case 6:
+            	left = 114/256f;
+            	right = 134/256f;
+            	break;
+            case 7:
+            	left = 134/256f;
+            	right = 153/256f;
+            	break;
+            case 8:
+            	left = 153/256f;
+            	right = 173/256f;
+            	break;
+            case 9:
+            	left = 173/256f;
+            	right = 194/256f;
+            	break;
+            case 10:
+            	left = 194/256f;
+            	right = 211/256f;
+            	break;
+            }
+            glTexCoord2f(right, 0);
+            glVertex2f(x, 85);
+            
+            glTexCoord2f(left, 0);
+            glVertex2f(x - (right-left)*256, 85);
+            
+            glTexCoord2f(left, 0 + number.getHeight());
+            glVertex2f(x - (right-left)*256, 85 + number.getImageHeight());
+            
+            glTexCoord2f(right, 0 + number.getHeight());
+            glVertex2f(x, 85 + number.getImageHeight());
+            x -= (right-left)*256;
+        }
         glEnd();
         glPopMatrix();
 	}
