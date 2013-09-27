@@ -4,7 +4,7 @@ import org.newdawn.slick.opengl.Texture;
 
 public class Bullet extends Entity {
 	
-	public int moveSpeed;
+	public float moveSpeed;
 	public int attack;
 	protected Texture bull;
 	protected boolean used;
@@ -19,7 +19,7 @@ public class Bullet extends Entity {
 		halfSize = width/2;
 	}
 	
-	public int getMoveSpeed() {
+	public float getMoveSpeed() {
 		return moveSpeed;
 	}
 	

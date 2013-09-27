@@ -41,7 +41,7 @@ public abstract class TankEntity extends Entity {
 	private int shotgunBulIndex;
 	private int cannonBulIndex;
 	protected int minigunAttck = 5;
-	protected int shotgunAttck = 5;
+	protected int shotgunAttck = 2;
 	protected int cannonAttck = 50;
 	protected int rocketAttck = 50;
 	protected int minigun_currentLV = 1;
@@ -72,10 +72,10 @@ public abstract class TankEntity extends Entity {
 		}
 		myRocketBullet = new MyRocketBullet(game, 2, 50);
 		unlockGun.put(TankEntity.GunType.MINIGUN, true);
-		unlockGun.put(TankEntity.GunType.SHOTGUN, true);
+		unlockGun.put(TankEntity.GunType.SHOTGUN, false);
 		unlockGun.put(TankEntity.GunType.RICOCHET, false);
-		unlockGun.put(TankEntity.GunType.CANNON, true);
-		unlockGun.put(TankEntity.GunType.ROCKET, true);
+		unlockGun.put(TankEntity.GunType.CANNON, false);
+		unlockGun.put(TankEntity.GunType.ROCKET, false);
 		unlockGun.put(TankEntity.GunType.LASER, false);
 	}
 	

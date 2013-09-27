@@ -3,8 +3,6 @@ bot ถ้าโดนยิงแล้ว active ตลอด (path โคตรยาว) (ดักเกรียนใช้ rocket)
 fix gun pic
 Wground
 
-add button in upgrade state
-
 ## upgrd
 upgrd_armor
 upgrd_speed
@@ -17,7 +15,33 @@ upgrd_rocket
 ## feature
 visibility
 turret speed
+--------------------------
+mini
+350
+470
+1100
 
+shot
+2750
+1400
+2000
+2950
+
+can
+16000
+8000
+12000
+18000
+
+roc
+16000
+8000
+12000
+18000
+--------------------------
+hp mon lv1
+mini 50
+shot 70
 
 
 

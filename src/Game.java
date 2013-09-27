@@ -477,12 +477,33 @@ public class Game{
     	    			}
     	    		} else if(btn[3].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	    			if(currentButton == CurrentButton.UPGRD_SHOTGUN){
+    	    				if(MyTank.myGold > btn[3].priceToUpgrd){
+    	    					btn[3].upgrade();
+    	    					soundManager.playEffect(SOUND_UPGRADE);
+    	    				} else {
+    	    					not_enough_gold = true;
+    	    					soundManager.playEffect(SOUND_NO_MONEY);
+    	    				}
     	    			}
     	    		} else if(btn[4].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	    			if(currentButton == CurrentButton.UPGRD_CANNON){
+    	    				if(MyTank.myGold > btn[4].priceToUpgrd){
+    	    					btn[4].upgrade();
+    	    					soundManager.playEffect(SOUND_UPGRADE);
+    	    				} else {
+    	    					not_enough_gold = true;
+    	    					soundManager.playEffect(SOUND_NO_MONEY);
+    	    				}
     	    			}
     	    		} else if(btn[5].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	    			if(currentButton == CurrentButton.UPGRD_ROCKET){
+    	    				if(MyTank.myGold > btn[5].priceToUpgrd){
+    	    					btn[5].upgrade();
+    	    					soundManager.playEffect(SOUND_UPGRADE);
+    	    				} else {
+    	    					not_enough_gold = true;
+    	    					soundManager.playEffect(SOUND_NO_MONEY);
+    	    				}
     	    			}
     	    		} else
     	    			currentButton = CurrentButton.NONE;
@@ -948,6 +969,9 @@ public class Game{
         	Display.destroy();
             System.exit(0);*/
         	state = State.PAUSE;
+        }
+        if(Keyboard.isKeyDown(Keyboard.KEY_C)){
+        	MyTank.myGold = 999999;
         }
 	}
     

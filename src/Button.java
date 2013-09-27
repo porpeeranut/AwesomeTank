@@ -6,6 +6,7 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
+import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 
 
@@ -191,23 +192,25 @@ public class Button {
 	}
 	
 	public void upgrade() {
-		MyTank.myGold -= priceToUpgrd;
 		switch(thisButton){
 		case UPGRD_MINIGUN:
 			switch(Game.player.minigun_currentLV){
 			case 1:
+				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV2;
 				priceToUpgrd = 470;
 				Game.player.minigunFiringInterval = 150;
 				Game.player.minigun_currentLV++;
 				break;
 			case 2:
+				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV3;
 				priceToUpgrd = 1100;
 				Game.player.minigunFiringInterval = 120;
 				Game.player.minigun_currentLV++;
 				break;
 			case 3:
+				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV4;
 				Game.player.minigunFiringInterval = 90;
 				Game.player.minigun_currentLV++;
@@ -215,10 +218,112 @@ public class Button {
 			}
 			break;
 		case UPGRD_SHOTGUN:
+			switch(Game.player.shotgun_currentLV){
+			case 0:
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV1;
+				priceToUpgrd = 1400;
+				Game.player.unlockGun.put(TankEntity.GunType.SHOTGUN, true);
+				Game.player.shotgunFiringInterval = 575;
+				Game.player.shotgunAttck = 2;
+				Game.player.shotgun_currentLV++;
+				break;
+			case 1:
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV2;
+				priceToUpgrd = 2000;
+				Game.player.shotgunFiringInterval = 550;
+				Game.player.shotgunAttck = 5;
+				Game.player.shotgun_currentLV++;
+				break;
+			case 2:
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV3;
+				priceToUpgrd = 2950;
+				Game.player.shotgunFiringInterval = 525;
+				Game.player.shotgunAttck = 8;
+				Game.player.shotgun_currentLV++;
+				break;
+			case 3:
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV4;
+				Game.player.shotgunFiringInterval = 500;
+				Game.player.shotgunAttck = 11;
+				Game.player.shotgun_currentLV++;
+				break;
+			}
 			break;
 		case UPGRD_CANNON:
+			switch(Game.player.cannon_currentLV){
+			case 0:
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV1;
+				priceToUpgrd = 8000;
+				Game.player.unlockGun.put(TankEntity.GunType.CANNON, true);
+				Game.player.cannonFiringInterval = 800;
+				Game.player.cannonAttck = 50;
+				Game.player.cannon_currentLV++;
+				break;
+			case 1:
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV2;
+				priceToUpgrd = 12000;
+				Game.player.cannonFiringInterval = 770;
+				Game.player.cannonAttck = 70;
+				Game.player.cannon_currentLV++;
+				break;
+			case 2:
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV3;
+				priceToUpgrd = 18000;
+				Game.player.cannonFiringInterval = 740;
+				Game.player.cannonAttck = 90;
+				Game.player.cannon_currentLV++;
+				break;
+			case 3:
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV4;
+				Game.player.cannonFiringInterval = 700;
+				Game.player.cannonAttck = 110;
+				Game.player.cannon_currentLV++;
+				break;
+			}
 			break;
 		case UPGRD_ROCKET:
+			switch(Game.player.rocket_currentLV){
+			case 0:
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV1;
+				priceToUpgrd = 8000;
+				Game.player.unlockGun.put(TankEntity.GunType.ROCKET, true);
+				Game.player.rocketAttck = 50;
+				Game.player.myRocketBullet.moveSpeed = 1.6f;
+				Game.player.rocket_currentLV++;
+				break;
+			case 1:
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV2;
+				priceToUpgrd = 12000;
+				Game.player.rocketAttck = 70;
+				Game.player.myRocketBullet.moveSpeed = 1.9f;
+				Game.player.rocket_currentLV++;
+				break;
+			case 2:
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV3;
+				priceToUpgrd = 18000;
+				Game.player.rocketAttck = 90;
+				Game.player.myRocketBullet.moveSpeed = 2.2f;
+				Game.player.rocket_currentLV++;
+				break;
+			case 3:
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV4;
+				Game.player.rocketAttck = 110;
+				Game.player.myRocketBullet.moveSpeed = 2.5f;
+				Game.player.rocket_currentLV++;
+				break;
+			}
 			break;
 		default:
 			break;
