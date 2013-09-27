@@ -6,7 +6,6 @@ import static org.lwjgl.opengl.GL11.glPushMatrix;
 import static org.lwjgl.opengl.GL11.glTexCoord2f;
 import static org.lwjgl.opengl.GL11.glVertex2f;
 
-import org.lwjgl.opengl.Display;
 import org.newdawn.slick.opengl.Texture;
 
 
@@ -173,6 +172,48 @@ public class Button {
 				break;
 			}
 			break;
+		case UPGRD_ARMOR:
+			upgrdLV1 = Game.loadTexture("upgrd/upgrdArmorLV1.png");
+			upgrdLV2 = Game.loadTexture("upgrd/upgrdArmorLV2.png");
+			upgrdLV3 = Game.loadTexture("upgrd/upgrdArmorLV3.png");
+			upgrdLV4 = Game.loadTexture("upgrd/upgrdArmorLV4.png");
+			System.out.println("HP "+Game.player.maxHP);
+			switch(Game.player.maxHP){
+			case 50:
+				button = upgrdLV1;
+				priceToUpgrd = 3000;
+				break;
+			case 70:
+				button = upgrdLV2;
+				priceToUpgrd = 16000;
+				break;
+			case 90:
+				button = upgrdLV3;
+				priceToUpgrd = 28000;
+				break;
+			case 110:
+				button = upgrdLV4;
+				break;
+			}
+			break;
+		case UPGRD_SPEED:
+			upgrdLV1 = Game.loadTexture("upgrd/upgrdSpeedLV1.png");
+			upgrdLV2 = Game.loadTexture("upgrd/upgrdSpeedLV2.png");
+			upgrdLV3 = Game.loadTexture("upgrd/upgrdSpeedLV3.png");
+			upgrdLV4 = Game.loadTexture("upgrd/upgrdSpeedLV4.png");
+			if(Game.player.speed == 2f){
+				button = upgrdLV1;
+				priceToUpgrd = 500;
+			} else if(Game.player.speed == 2.3f){
+				button = upgrdLV2;
+				priceToUpgrd = 1000;
+			} else if(Game.player.speed == 2.6f){
+				button = upgrdLV3;
+				priceToUpgrd = 1500;
+			} else if(Game.player.speed == 2.9f){
+				button = upgrdLV4;
+			}
+			break;
 		default:
 			break;
 		}
@@ -325,6 +366,44 @@ public class Button {
 				break;
 			}
 			break;
+		case UPGRD_ARMOR:
+			switch(Game.player.maxHP){
+			case 50:
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV2;
+				priceToUpgrd = 16000;
+				Game.player.maxHP = 70;
+				break;
+			case 70:
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV3;
+				priceToUpgrd = 28000;
+				Game.player.maxHP = 90;
+				break;
+			case 90:
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV4;
+				Game.player.maxHP = 110;
+				break;
+			}
+			break;
+		case UPGRD_SPEED:
+			if(Game.player.speed == 2f) {
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV2;
+				priceToUpgrd = 1000;
+				Game.player.speed = 2.3f;
+			} else if(Game.player.speed == 2.3f) {
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV3;
+				priceToUpgrd = 1500;
+				Game.player.speed = 2.6f;
+			} else if(Game.player.speed == 2.6f) {
+				MyTank.myGold -= priceToUpgrd;
+				button = upgrdLV4;
+				Game.player.speed = 2.9f;
+			}
+			break;
 		default:
 			break;
 		}
@@ -361,6 +440,8 @@ public class Button {
 		case UPGRD_SHOTGUN:
 		case UPGRD_CANNON:
 		case UPGRD_ROCKET:
+		case UPGRD_ARMOR:
+		case UPGRD_SPEED:
 			draw();
 			break;
 		default:

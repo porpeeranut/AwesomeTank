@@ -28,7 +28,8 @@ public class Game{
 	public static enum CurrentButton {
 		NONE,MENU,PLAY,PAUSE,HELP,BACKTOUPGRADE,CONTINUE,BCK_TO_MENU_YES,BCK_TO_MENU_NO,
 		LV1,LV2,LV3,LV4,LV5,LV6,LV7,LV8,LV9,LV10,
-		UPGRD_MINIGUN,UPGRD_SHOTGUN,UPGRD_CANNON,UPGRD_ROCKET;
+		UPGRD_MINIGUN,UPGRD_SHOTGUN,UPGRD_CANNON,UPGRD_ROCKET,
+		UPGRD_ARMOR,UPGRD_SPEED;
 	}
 	public HashMap<Integer, Boolean> unlockLV = new HashMap<Integer, Boolean>();
 	public static int currentLevel;
@@ -78,7 +79,6 @@ public class Game{
     static final int WORLD_W,WORLD_H;
     private float gunRotation = 0;
     float bodyAng = 0;
-    private int speed = 2;
     private static long timerTicksPerSecond = Sys.getTimerResolution();
     private long delta;
     private long lastLoopTime = getTime();
@@ -344,13 +344,15 @@ public class Game{
     }
     
     private void move_to_UPGRADE_state() {
-    	btn = new Button[6];            	        		
+    	btn = new Button[8];            	        		
 		btn[0] = new Button(this,CurrentButton.MENU,120,600);
 		btn[1] = new Button(this,CurrentButton.PLAY,520,600);
 		btn[2] = new Button(this,CurrentButton.UPGRD_MINIGUN,334,254);
 		btn[3] = new Button(this,CurrentButton.UPGRD_SHOTGUN,444,254);
 		btn[4] = new Button(this,CurrentButton.UPGRD_CANNON,334,378);
 		btn[5] = new Button(this,CurrentButton.UPGRD_ROCKET,444,378);
+		btn[6] = new Button(this,CurrentButton.UPGRD_ARMOR,80,252);
+		btn[7] = new Button(this,CurrentButton.UPGRD_SPEED,184,356);
 		state = State.UPGRADE;
     }
     
@@ -448,6 +450,12 @@ public class Game{
     	        	} else if(btn[5].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	        		soundManager.playEffect(SOUND_CLICK);
     	        		currentButton = CurrentButton.UPGRD_ROCKET;
+    	        	} else if(btn[6].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	        		soundManager.playEffect(SOUND_CLICK);
+    	        		currentButton = CurrentButton.UPGRD_ARMOR;
+    	        	} else if(btn[7].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	        		soundManager.playEffect(SOUND_CLICK);
+    	        		currentButton = CurrentButton.UPGRD_SPEED;
     	        	} else
     	    			currentButton = CurrentButton.NONE;
 	        		break;
@@ -499,6 +507,26 @@ public class Game{
     	    			if(currentButton == CurrentButton.UPGRD_ROCKET){
     	    				if(MyTank.myGold > btn[5].priceToUpgrd){
     	    					btn[5].upgrade();
+    	    					soundManager.playEffect(SOUND_UPGRADE);
+    	    				} else {
+    	    					not_enough_gold = true;
+    	    					soundManager.playEffect(SOUND_NO_MONEY);
+    	    				}
+    	    			}
+    	    		} else if(btn[6].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    			if(currentButton == CurrentButton.UPGRD_ARMOR){
+    	    				if(MyTank.myGold > btn[6].priceToUpgrd){
+    	    					btn[6].upgrade();
+    	    					soundManager.playEffect(SOUND_UPGRADE);
+    	    				} else {
+    	    					not_enough_gold = true;
+    	    					soundManager.playEffect(SOUND_NO_MONEY);
+    	    				}
+    	    			}
+    	    		} else if(btn[7].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+    	    			if(currentButton == CurrentButton.UPGRD_SPEED){
+    	    				if(MyTank.myGold > btn[7].priceToUpgrd){
+    	    					btn[7].upgrade();
     	    					soundManager.playEffect(SOUND_UPGRADE);
     	    				} else {
     	    					not_enough_gold = true;
@@ -861,7 +889,7 @@ public class Game{
         		bodyAng = 45;
         	if(KEY_D)
         		bodyAng = 135;
-        	player.setDY(-speed);
+        	player.setDY(-player.speed);
         }
         if(KEY_S && !KEY_W){
         	bodyAng = 270;
@@ -869,7 +897,7 @@ public class Game{
         		bodyAng = 315;
         	if(KEY_D)
         		bodyAng = 225;
-        	player.setDY(speed);
+        	player.setDY(player.speed);
         }
         if(KEY_D && !KEY_A){
         	bodyAng = 180;
@@ -877,7 +905,7 @@ public class Game{
         		bodyAng = 135;
         	if(KEY_S)
         		bodyAng = 225;
-        	player.setDX(speed);
+        	player.setDX(player.speed);
         }
         if(KEY_A && !KEY_D){
         	bodyAng = 0;
@@ -885,7 +913,7 @@ public class Game{
         		bodyAng = 45;
         	if(KEY_S)
         		bodyAng = 315;
-        	player.setDX(-speed);
+        	player.setDX(-player.speed);
         }
         if(KEY_1 || KEY_2 || KEY_3 || KEY_4){
         	while (Keyboard.next()) {
@@ -1083,7 +1111,7 @@ public class Game{
 		labelRocket_lock = loadTexture("labelRocket_lock.png");
 		number = loadTexture("number/num.png");
 		number_no_gold = loadTexture("number/num_noGold.png");
-    	player = new MyTank(this,20);
+    	player = new MyTank(this,50);
     	brick = new Brick[27];
     	brick_2 = new Brick_2[31];
     	box = new Box[27];
@@ -1126,7 +1154,7 @@ public class Game{
     	switch (LV) {
 		case 1:
 			map.createMap(1);
-			player.setHP(220);
+			player.setHP(player.maxHP);
 	        player.setPositionToMap(2,3);
 	        player.reset();
 	        player.setGun(TankEntity.GunType.MINIGUN);
@@ -1187,7 +1215,7 @@ public class Game{
 			break;
 		case 2:
 			map.createMap(2);
-			player.setHP(220);
+			player.setHP(player.maxHP);
 	        player.setPositionToMap(2,2);
 	        player.reset();
 	        player.setGun(TankEntity.GunType.MINIGUN);
@@ -1237,7 +1265,7 @@ public class Game{
 			break;
 		case 3:
 			map.createMap(3);
-			player.setHP(220);
+			player.setHP(player.maxHP);
 	        player.setPositionToMap(5,12);
 	        player.reset();
 	        player.setGun(TankEntity.GunType.MINIGUN);
@@ -1304,7 +1332,7 @@ public class Game{
 			break;
 		case 4:
 			map.createMap(4);
-			player.setHP(220);
+			player.setHP(player.maxHP);
 	        player.setPositionToMap(1,2);
 	        player.reset();
 	        player.setGun(TankEntity.GunType.MINIGUN);
@@ -1364,7 +1392,7 @@ public class Game{
 			break;
 		case 5:
 			map.createMap(5);
-			player.setHP(220);
+			player.setHP(player.maxHP);
 	        player.setPositionToMap(2,2);
 	        player.reset();
 	        player.setGun(TankEntity.GunType.MINIGUN);
@@ -1442,7 +1470,7 @@ public class Game{
 			//#####################################################################
 		case 6:
 			map.createMap(6);
-			player.setHP(220);
+			player.setHP(player.maxHP);
 	        player.setPositionToMap(2,2);
 	        player.reset();
 	        player.setGun(TankEntity.GunType.MINIGUN);
@@ -1492,7 +1520,7 @@ public class Game{
 			break;
 		case 7:
 			map.createMap(7);
-			player.setHP(220);
+			player.setHP(player.maxHP);
 	        player.setPositionToMap(2,2);
 	        player.reset();
 	        player.setGun(TankEntity.GunType.MINIGUN);
@@ -1542,7 +1570,7 @@ public class Game{
 			break;
 		case 8:
 			map.createMap(8);
-			player.setHP(220);
+			player.setHP(player.maxHP);
 	        player.setPositionToMap(2,2);
 	        player.reset();
 	        player.setGun(TankEntity.GunType.MINIGUN);
@@ -1592,7 +1620,7 @@ public class Game{
 			break;
 		case 9:
 			map.createMap(9);
-			player.setHP(220);
+			player.setHP(player.maxHP);
 	        player.setPositionToMap(2,2);
 	        player.reset();
 	        player.setGun(TankEntity.GunType.MINIGUN);
@@ -1642,7 +1670,7 @@ public class Game{
 			break;
 		case 10:
 			map.createMap(10);
-			player.setHP(220);
+			player.setHP(player.maxHP);
 	        player.setPositionToMap(2,2);
 	        player.reset();
 	        player.setGun(TankEntity.GunType.MINIGUN);

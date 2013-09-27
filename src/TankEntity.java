@@ -18,6 +18,7 @@ public abstract class TankEntity extends Entity {
 	protected Texture gun6;
 	protected Texture gun;
 	protected Texture body;
+	protected float speed = 2;
 	// angle 0 is direct left
 	protected float gunAngle;
 	protected int bodyAngle = 0;

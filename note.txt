@@ -1,15 +1,10 @@
 
+show upgrd price when mouse over
+del buy in upgrd pic state4
+
 bot ถ้าโดนยิงแล้ว active ตลอด (path โคตรยาว) (ดักเกรียนใช้ rocket)
 fix gun pic
 Wground
-
-## upgrd
-upgrd_armor
-upgrd_speed
-upgrd_minigun
-upgrd_shotgun
-upgrd_cannongun
-upgrd_rocket
 
 --------------------------
 ## feature
@@ -38,6 +33,16 @@ roc
 8000
 12000
 18000
+
+armor
+3000
+16000
+28000
+
+speed
+500
+1000
+1500
 --------------------------
 hp mon lv1
 mini 50
