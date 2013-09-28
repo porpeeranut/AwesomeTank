@@ -2,7 +2,6 @@
 del buy in upgrd pic state4
 
 bot ถ้าโดนยิงแล้ว active ตลอด (path โคตรยาว) (ดักเกรียนใช้ rocket)
-fix gun pic
 Wground
 
 --------------------------
