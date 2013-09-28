@@ -1,15 +1,10 @@
 
-show upgrd price when mouse over
 del buy in upgrd pic state4
 
 bot ถ้าโดนยิงแล้ว active ตลอด (path โคตรยาว) (ดักเกรียนใช้ rocket)
 fix gun pic
 Wground
 
---------------------------
-## feature
-visibility
-turret speed
 --------------------------
 mini
 350
@@ -44,6 +39,8 @@ speed
 1000
 1500
 --------------------------
+player hp 50,80,110,140
+
 hp mon lv1
 mini 50
 shot 70

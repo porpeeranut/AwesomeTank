@@ -63,7 +63,15 @@ public class Game{
 	private Texture labelShotgun_lock;
 	private Texture labelCannon_lock;
 	private Texture labelRocket_lock;
+	private Texture labelTextPrice;
+	private Texture labelTextArmor;
+	private Texture labelTextSpeed;
+	private Texture labelTextMinigun;
+	private Texture labelTextShotgun;
+	private Texture labelTextCannon;
+	private Texture labelTextRocket;
 	private Texture number;
+	private Texture number_brown;
 	private Texture number_no_gold;
 	private boolean not_enough_gold;
 	private int Label_X;
@@ -229,7 +237,7 @@ public class Game{
     			break;
         	case UPGRADE:
         		draw(moneyBackgnd,camera_w/2,camera_h/2,camera_w,camera_h);
-        		drawMoney(String.valueOf(MyTank.myGold), 498, 85, 1);
+        		drawFont(String.valueOf(MyTank.myGold), 498, 85, 1, 1);
         		draw(backgndUpgrade,camera_w/2,camera_h/2,camera_w,camera_h);
         		button_In_UPGRADE_state();
     			break;
@@ -423,8 +431,22 @@ public class Game{
 
 	private void button_In_UPGRADE_state() {
     	for(int i = 0;i < btn.length;i++){
-			if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()))
-    			btn[i].draw_OnMouseOver();
+			if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
+				switch(btn[i].thisButton){
+				case UPGRD_MINIGUN:
+				case UPGRD_SHOTGUN:
+				case UPGRD_CANNON:
+				case UPGRD_ROCKET:
+				case UPGRD_ARMOR:
+				case UPGRD_SPEED:
+					if(!btn[i].maxUpgrd)
+						drawPriceLabel(btn[i].thisButton, String.valueOf(btn[i].priceToUpgrd), (int)btn[i].x, (int)btn[i].y-(btn[i].width/2+3));
+					break;
+				default:
+					break;
+				}
+				btn[i].draw_OnMouseOver();
+			}
     		else
     			btn[i].draw();
 		}
@@ -647,7 +669,7 @@ public class Game{
 		
 		setTimeToShowProfitMiniLabel();
 		draw(profitMiniLabel, 170, 585-miniLabel_Y, 209, 26);
-		drawMoney(String.valueOf(MyTank.profit), 270, 576-miniLabel_Y, 0.7f);
+		drawFont(String.valueOf(MyTank.profit), 270, 576-miniLabel_Y, 0.7f, 1);
 		
 		draw(selectGunBar, 330, 610, 542, 81);
 		drawHPpipe(360,635,260,21);
@@ -734,13 +756,13 @@ public class Game{
 			setTimeToShowEndgameLabel();
 			draw(lvCompleteLabel, 320+Label_X, 150+Label_Y, 361, 92);
 			draw(profitLabel, 320-Label_X, 490-Label_Y, 359, 74);
-			drawMoney(String.valueOf(MyTank.profit), 455-Label_X, 480-Label_Y, 1);
+			drawFont(String.valueOf(MyTank.profit), 455-Label_X, 480-Label_Y, 1, 1);
 		}
 		if(state == State.LVFAILED){
 			setTimeToShowEndgameLabel();
 			draw(lvFailedLabel, 320+Label_X, 150+Label_Y, 361, 92);
 			draw(profitLabel, 320-Label_X, 490-Label_Y, 359, 74);
-			drawMoney(String.valueOf(MyTank.profit), 455-Label_X, 480-Label_Y, 1);
+			drawFont(String.valueOf(MyTank.profit), 455-Label_X, 480-Label_Y, 1, 1);
 		}
 		while (Mouse.next()) {
     	    if (Mouse.getEventButtonState()) {
@@ -993,10 +1015,8 @@ public class Game{
         	}
         //}
         if(Keyboard.isKeyDown(Keyboard.KEY_ESCAPE)){
-        	/*soundManager.destroy();
-        	Display.destroy();
-            System.exit(0);*/
-        	state = State.PAUSE;
+        	if(state != State.LVCOMPLETE && state != State.LVFAILED)
+        		state = State.PAUSE;
         }
         if(Keyboard.isKeyDown(Keyboard.KEY_C)){
         	MyTank.myGold = 999999;
@@ -1110,7 +1130,15 @@ public class Game{
 		labelCannon_lock = loadTexture("labelCannon_lock.png");
 		labelRocket_lock = loadTexture("labelRocket_lock.png");
 		number = loadTexture("number/num.png");
+		number_brown = loadTexture("number/num_brown.png");
 		number_no_gold = loadTexture("number/num_noGold.png");
+		labelTextPrice = loadTexture("labelPrice.png");
+		labelTextArmor = loadTexture("labelTextArmor.png");
+		labelTextSpeed = loadTexture("labelTextSpeed.png");
+		labelTextMinigun = loadTexture("labelTextMinigun.png");
+		labelTextShotgun = loadTexture("labelTextShotgun.png");
+		labelTextCannon = loadTexture("labelTextCannon.png");
+		labelTextRocket = loadTexture("labelTextRocket.png");
     	player = new MyTank(this,50);
     	brick = new Brick[27];
     	brick_2 = new Brick_2[31];
@@ -1792,14 +1820,23 @@ public class Game{
         glPopMatrix();
 	}
 	
-	private void drawMoney(String money, int x, int y,float size){
+	/**
+	 * 
+	 * @param money
+	 * @param x
+	 * @param y
+	 * @param size
+	 * @param type 1 = normal, 2 = draw num brown
+	 */
+	private void drawFont(String money, int x, int y, float size, int type){
 		money += "$";
 		float left = 0,right = 0;
 		int index;
 		if(not_enough_gold){
 			number_no_gold.bind();
 			not_enough_gold = false;
-		}
+		} else if(type == 2)
+			number_brown.bind();
 		else
 			number.bind();
 		glPushMatrix();
@@ -1871,6 +1908,102 @@ public class Game{
         }
         glEnd();
         glPopMatrix();
+	}
+
+	private float getBitmapFontWidth(String str, float size){
+		str += "$";
+		float left = 0,right = 0;
+		float width = 0;
+		int index;
+        for (int i = str.length()-1; i >= 0; i--) {
+        	if(i == str.length()-1)
+        		index = 10;
+        	else
+        		index = (int) str.charAt(i)-48;
+            switch(index){
+            case 0:
+            	left = 0;
+            	right = 21/256f;
+            	break;
+            case 1:
+            	left = 21/256f;
+            	right = 34/256f;
+            	break;
+            case 2:
+            	left = 34/256f;
+            	right = 54/256f;
+            	break;
+            case 3:
+            	left = 54/256f;
+            	right = 73/256f;
+            	break;
+            case 4:
+            	left = 73/256f;
+            	right = 95/256f;
+            	break;
+            case 5:
+            	left = 95/256f;
+            	right = 114/256f;
+            	break;
+            case 6:
+            	left = 114/256f;
+            	right = 134/256f;
+            	break;
+            case 7:
+            	left = 134/256f;
+            	right = 153/256f;
+            	break;
+            case 8:
+            	left = 153/256f;
+            	right = 173/256f;
+            	break;
+            case 9:
+            	left = 173/256f;
+            	right = 194/256f;
+            	break;
+            case 10:
+            	left = 194/256f;
+            	right = 211/256f;
+            	break;
+            }
+            width += (right-left)*256*size;
+        }
+		return width;
+	}
+	
+	private void drawPriceLabel(Game.CurrentButton btn, String price, int x, int y){
+		float BitmapFontWidth;
+		BitmapFontWidth = getBitmapFontWidth(price, 0.5f);
+		switch(btn){
+		case UPGRD_MINIGUN:
+			draw(labelTextMinigun, x, y-labelTextMinigun.getImageHeight()/2, labelTextMinigun.getImageWidth(), labelTextMinigun.getImageHeight());
+			y -= (labelTextMinigun.getImageHeight()/2 + labelTextPrice.getImageHeight()/2 + 23);
+			break;
+		case UPGRD_SHOTGUN:
+			draw(labelTextShotgun, x, y-labelTextShotgun.getImageHeight()/2, labelTextShotgun.getImageWidth(), labelTextShotgun.getImageHeight());
+			y -= (labelTextShotgun.getImageHeight()/2 + labelTextPrice.getImageHeight()/2 + 23);
+			break;
+		case UPGRD_CANNON:
+			draw(labelTextCannon, x, y-labelTextCannon.getImageHeight()/2, labelTextCannon.getImageWidth(), labelTextCannon.getImageHeight());
+			y -= (labelTextCannon.getImageHeight()/2 + labelTextPrice.getImageHeight()/2 + 23);
+			break;
+		case UPGRD_ROCKET:
+			draw(labelTextRocket, x, y-labelTextRocket.getImageHeight()/2, labelTextRocket.getImageWidth(), labelTextRocket.getImageHeight());
+			y -= (labelTextRocket.getImageHeight()/2 + labelTextPrice.getImageHeight()/2 + 23);
+			break;
+		case UPGRD_ARMOR:
+			draw(labelTextArmor, x, y-labelTextArmor.getImageHeight()/2, labelTextArmor.getImageWidth(), labelTextArmor.getImageHeight());
+			y -= (labelTextArmor.getImageHeight()/2 + labelTextPrice.getImageHeight()/2 + 23);
+			break;
+		case UPGRD_SPEED:
+			draw(labelTextSpeed, x, y-labelTextSpeed.getImageHeight()/2, labelTextSpeed.getImageWidth(), labelTextSpeed.getImageHeight());
+			y -= (labelTextSpeed.getImageHeight()/2 + labelTextPrice.getImageHeight()/2 + 25);
+			break;
+		default:
+			break;
+		}
+		draw(labelTextPrice, x, y+8, (int)BitmapFontWidth+15, labelTextPrice.getImageHeight());
+		drawFont(price, (int)(x+BitmapFontWidth/2), y, 0.5f, 2);
 	}
 	
 	public void drawHPpipe(int x,int y,int width,int height) {

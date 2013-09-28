@@ -20,6 +20,7 @@ public class Button {
 	protected Texture upgrdLV2;
 	protected Texture upgrdLV3;
 	protected Texture upgrdLV4;
+	protected boolean maxUpgrd;
 	protected int priceToUpgrd;
 	protected Game.CurrentButton thisButton;
 	private float TexCoordWidth;
@@ -85,6 +86,7 @@ public class Button {
 				break;
 			case 4:
 				button = upgrdLV4;
+				maxUpgrd = true;
 				break;
 			}
 			break;
@@ -113,6 +115,7 @@ public class Button {
 				break;
 			case 4:
 				button = upgrdLV4;
+				maxUpgrd = true;
 				break;
 			}
 			break;
@@ -141,6 +144,7 @@ public class Button {
 				break;
 			case 4:
 				button = upgrdLV4;
+				maxUpgrd = true;
 				break;
 			}
 			break;
@@ -169,6 +173,7 @@ public class Button {
 				break;
 			case 4:
 				button = upgrdLV4;
+				maxUpgrd = true;
 				break;
 			}
 			break;
@@ -183,16 +188,17 @@ public class Button {
 				button = upgrdLV1;
 				priceToUpgrd = 3000;
 				break;
-			case 70:
+			case 80:
 				button = upgrdLV2;
 				priceToUpgrd = 16000;
 				break;
-			case 90:
+			case 110:
 				button = upgrdLV3;
 				priceToUpgrd = 28000;
 				break;
-			case 110:
+			case 140:
 				button = upgrdLV4;
+				maxUpgrd = true;
 				break;
 			}
 			break;
@@ -212,6 +218,7 @@ public class Button {
 				priceToUpgrd = 1500;
 			} else if(Game.player.speed == 2.9f){
 				button = upgrdLV4;
+				maxUpgrd = true;
 			}
 			break;
 		default:
@@ -255,6 +262,7 @@ public class Button {
 				button = upgrdLV4;
 				Game.player.minigunFiringInterval = 90;
 				Game.player.minigun_currentLV++;
+				maxUpgrd = true;
 				break;
 			}
 			break;
@@ -291,6 +299,7 @@ public class Button {
 				Game.player.shotgunFiringInterval = 500;
 				Game.player.shotgunAttck = 11;
 				Game.player.shotgun_currentLV++;
+				maxUpgrd = true;
 				break;
 			}
 			break;
@@ -327,6 +336,7 @@ public class Button {
 				Game.player.cannonFiringInterval = 700;
 				Game.player.cannonAttck = 110;
 				Game.player.cannon_currentLV++;
+				maxUpgrd = true;
 				break;
 			}
 			break;
@@ -363,6 +373,7 @@ public class Button {
 				Game.player.rocketAttck = 110;
 				Game.player.myRocketBullet.moveSpeed = 2.5f;
 				Game.player.rocket_currentLV++;
+				maxUpgrd = true;
 				break;
 			}
 			break;
@@ -372,18 +383,19 @@ public class Button {
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV2;
 				priceToUpgrd = 16000;
-				Game.player.maxHP = 70;
+				Game.player.maxHP = 80;
 				break;
-			case 70:
+			case 80:
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV3;
 				priceToUpgrd = 28000;
-				Game.player.maxHP = 90;
+				Game.player.maxHP = 110;
 				break;
-			case 90:
+			case 110:
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV4;
-				Game.player.maxHP = 110;
+				Game.player.maxHP = 140;
+				maxUpgrd = true;
 				break;
 			}
 			break;
@@ -402,6 +414,7 @@ public class Button {
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV4;
 				Game.player.speed = 2.9f;
+				maxUpgrd = true;
 			}
 			break;
 		default:
