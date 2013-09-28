@@ -26,7 +26,7 @@ public class Game{
 	}
 	public static State state = State.INTRO;
 	public static enum CurrentButton {
-		NONE,MENU,PLAY,PAUSE,HELP,BACKTOUPGRADE,CONTINUE,BCK_TO_MENU_YES,BCK_TO_MENU_NO,
+		NONE,MENU,PLAY,PLAY_INTRO,PAUSE,HELP,BACKTOUPGRADE,CONTINUE,BCK_TO_MENU_YES,BCK_TO_MENU_NO,
 		LV1,LV2,LV3,LV4,LV5,LV6,LV7,LV8,LV9,LV10,
 		UPGRD_MINIGUN,UPGRD_SHOTGUN,UPGRD_CANNON,UPGRD_ROCKET,
 		UPGRD_ARMOR,UPGRD_SPEED;
@@ -237,7 +237,7 @@ public class Game{
     			break;
         	case UPGRADE:
         		draw(moneyBackgnd,camera_w/2,camera_h/2,camera_w,camera_h);
-        		drawFont(String.valueOf(MyTank.myGold), 498, 85, 1, 1);
+        		drawFont(String.valueOf(MyTank.myGold), 530, 85, 1, 1);
         		draw(backgndUpgrade,camera_w/2,camera_h/2,camera_w,camera_h);
         		button_In_UPGRADE_state();
     			break;
@@ -353,20 +353,20 @@ public class Game{
     
     private void move_to_UPGRADE_state() {
     	btn = new Button[8];            	        		
-		btn[0] = new Button(this,CurrentButton.MENU,120,600);
-		btn[1] = new Button(this,CurrentButton.PLAY,520,600);
-		btn[2] = new Button(this,CurrentButton.UPGRD_MINIGUN,334,254);
-		btn[3] = new Button(this,CurrentButton.UPGRD_SHOTGUN,444,254);
-		btn[4] = new Button(this,CurrentButton.UPGRD_CANNON,334,378);
-		btn[5] = new Button(this,CurrentButton.UPGRD_ROCKET,444,378);
-		btn[6] = new Button(this,CurrentButton.UPGRD_ARMOR,80,252);
-		btn[7] = new Button(this,CurrentButton.UPGRD_SPEED,184,356);
+		btn[0] = new Button(this,CurrentButton.MENU,215,545);
+		btn[1] = new Button(this,CurrentButton.PLAY,430,545);
+		btn[2] = new Button(this,CurrentButton.UPGRD_MINIGUN,374,254);
+		btn[3] = new Button(this,CurrentButton.UPGRD_SHOTGUN,504,254);
+		btn[4] = new Button(this,CurrentButton.UPGRD_CANNON,374,378);
+		btn[5] = new Button(this,CurrentButton.UPGRD_ROCKET,504,378);
+		btn[6] = new Button(this,CurrentButton.UPGRD_ARMOR,180,252);
+		btn[7] = new Button(this,CurrentButton.UPGRD_SPEED,180,370);
 		state = State.UPGRADE;
     }
     
     private void move_to_SELECT_LEVEL_state() {
     	btn = new Button[11];            	        		
-    	btn[0] = new Button(this,CurrentButton.BACKTOUPGRADE,320,600);
+    	btn[0] = new Button(this,CurrentButton.BACKTOUPGRADE,320,550);
     	btn[1] = new Button(this,CurrentButton.LV1,100,200);
     	btn[2] = new Button(this,CurrentButton.LV2,200,200);
     	btn[3] = new Button(this,CurrentButton.LV3,300,200);
@@ -389,7 +389,7 @@ public class Game{
     	btn[3] = new Button(this,CurrentButton.BCK_TO_MENU_YES,250,350);
     	btn[4] = new Button(this,CurrentButton.BCK_TO_MENU_NO,390,350);
     	btn[5] = new Button(this,CurrentButton.HELP,570,610);
-    	btn[6] = new Button(this,CurrentButton.PLAY,320,450);
+    	btn[6] = new Button(this,CurrentButton.PLAY,320,480);
     	soundManager.stopPlayingSound();
     	soundManager.playEffect(SOUND_PLAY);
     	state = State.PLAY;
@@ -397,7 +397,7 @@ public class Game{
 
 	private void button_In_INTRO_state() {
     	btn = new Button[1];	
-		btn[0] = new Button(this,CurrentButton.PLAY,320,340);
+		btn[0] = new Button(this,CurrentButton.PLAY_INTRO,320,495);
 		if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()))
 			btn[0].draw_OnMouseOver();
 		else
@@ -408,7 +408,7 @@ public class Game{
     	        case 0:
     	        	if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	        		soundManager.playEffect(SOUND_CLICK);
-    	        		currentButton = CurrentButton.PLAY;
+    	        		currentButton = CurrentButton.PLAY_INTRO;
     	        	} else
             			currentButton = CurrentButton.NONE;
 	        		break;
@@ -418,7 +418,7 @@ public class Game{
     	    	case 0:
     	    		if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	    			soundManager.playEffect(SOUND_RELEASE);
-    	    			if(currentButton == CurrentButton.PLAY){
+    	    			if(currentButton == CurrentButton.PLAY_INTRO){
     	    				move_to_UPGRADE_state();
 	        			}
             		} else

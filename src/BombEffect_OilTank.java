@@ -5,18 +5,18 @@ import org.newdawn.slick.opengl.Texture;
 
 public class BombEffect_OilTank extends Effect{
 	
-	private Texture[] bombEffect = new Texture[6];
+	private Texture[] bombEffect = new Texture[14];
 	private long lastFrameChange;
 	private long frameDuration = 50;
 	private int frameNumber;
-	public int attack = 60;
+	public int attack = 30;
 
 	public BombEffect_OilTank(Game ingame,float x, float y) {
 		game = ingame;
 		this.x = x;
 		this.y = y;
-		for(int i = 1;i <= 6;i++){
-			bombEffect[i-1] = Game.loadTexture("BombEffect_1/"+i+".png");
+		for(int i = 1;i <= bombEffect.length;i++){
+			bombEffect[i-1] = Game.loadTexture("BombEffect_1/big/"+i+".png");
 		}
 		width = (int)(Map.TILE_SIZE*3);
         height = (int)(Map.TILE_SIZE*3);
@@ -46,7 +46,7 @@ public class BombEffect_OilTank extends Effect{
 				|| other instanceof Gold) {
 			return;
 		}
-		if(!other.touchedBombEffect){
+		if(!other.touchedBombEffect && frameNumber < 5){
 			other.touchedBombEffect = true;
 			other.damage(attack);
 		}

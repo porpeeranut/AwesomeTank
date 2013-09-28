@@ -2,7 +2,7 @@ import org.newdawn.slick.opengl.Texture;
 
 public class BombEffect_BombWall extends Effect {
 	
-	private Texture[] bombEffect = new Texture[6];
+	private Texture[] bombEffect = new Texture[16];
 	private long lastFrameChange;
 	private long frameDuration = 50;
 	private int frameNumber;
@@ -11,7 +11,7 @@ public class BombEffect_BombWall extends Effect {
 		game = ingame;
 		this.x = x;
 		this.y = y;
-		for(int i = 1;i <= 6;i++){
+		for(int i = 1;i <= bombEffect.length;i++){
 			bombEffect[i-1] = Game.loadTexture("BombEffect_1/"+i+".png");
 		}
 		width = (int)(Map.TILE_SIZE*2);

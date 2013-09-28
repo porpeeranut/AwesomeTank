@@ -40,6 +40,10 @@ public class Button {
 			button = Game.loadTexture("play.png");
 			button_onMouseOver = Game.loadTexture("play_onMouseOver.png");
 			break;
+		case PLAY_INTRO:
+			button = Game.loadTexture("play_big.png");
+			button_onMouseOver = Game.loadTexture("play_big_onMouseOver.png");
+			break;
 		case PAUSE:
 			button = Game.loadTexture("pause.png");
 			button_onMouseOver = Game.loadTexture("pause_onMouseOver.png");
@@ -232,8 +236,16 @@ public class Button {
 			}
 		}
 		//System.out.println(thisButton);
-		width = button.getImageWidth();
-		height = button.getImageHeight();
+		switch(thisButton){
+		case PLAY_INTRO:
+			width = button.getImageWidth() + 15;
+			height = button.getImageHeight() + 15;
+			break;
+		default:
+			width = button.getImageWidth();
+			height = button.getImageHeight();
+			break;
+		}
 		game = ingame;
 		this.x = x;
 		this.y = y;
