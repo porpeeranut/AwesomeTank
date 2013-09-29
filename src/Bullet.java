@@ -14,8 +14,8 @@ public class Bullet extends Entity {
 		this.dx = moveSpeed;
 		this.dy = moveSpeed;
 		bull = Game.loadTexture(pic);
-		width = (int)(Map.TILE_SIZE*0.17);
-        height = (int)(Map.TILE_SIZE*0.17);
+		width = (int)(game.map.TILE_SIZE*0.17);
+        height = (int)(game.map.TILE_SIZE*0.17);
 		halfSize = width/2;
 	}
 	

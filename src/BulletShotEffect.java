@@ -18,8 +18,8 @@ public class BulletShotEffect extends Effect {
 		this.x = x;
 		this.y = y;
 		shotEffect = Game.loadTexture("shotEffect.png");
-		width = (int)(Map.TILE_SIZE*0.3);
-        height = (int)(Map.TILE_SIZE*0.3);
+		width = (int)(game.map.TILE_SIZE*0.3);
+        height = (int)(game.map.TILE_SIZE*0.3);
 		halfSize = width/2;
 	}
 	

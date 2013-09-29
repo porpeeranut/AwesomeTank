@@ -9,8 +9,8 @@ public class BombWall extends Entity {
 		game = ingame;
 		bombWall = Game.loadTexture("bombWall.png");
 		Shot = Game.loadTexture("bombWallShot.png");
-		width = Map.TILE_SIZE;
-        height = Map.TILE_SIZE;
+		width = game.map.TILE_SIZE;
+        height = game.map.TILE_SIZE;
 		halfSize = width/2;
 		HP = hp;
 		maxHP = HP;

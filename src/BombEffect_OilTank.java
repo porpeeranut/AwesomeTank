@@ -18,8 +18,8 @@ public class BombEffect_OilTank extends Effect{
 		for(int i = 1;i <= bombEffect.length;i++){
 			bombEffect[i-1] = Game.loadTexture("BombEffect_1/big/"+i+".png");
 		}
-		width = (int)(Map.TILE_SIZE*3);
-        height = (int)(Map.TILE_SIZE*3);
+		width = (int)(game.map.TILE_SIZE*3);
+        height = (int)(game.map.TILE_SIZE*3);
 		halfSize = width/2;
 	}
 	

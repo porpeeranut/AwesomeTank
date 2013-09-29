@@ -1,3 +1,4 @@
+fix TILE_SIZE to non static
 set lv
 del buy in upgrd pic state4
 

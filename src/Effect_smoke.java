@@ -26,8 +26,8 @@ public class Effect_smoke extends Effect {
 			smoke = Game.loadTexture("smoke1.png");
 		else
 			smoke = Game.loadTexture("smoke2.png");
-		width = (int)(Map.TILE_SIZE*0.38);
-        height = (int)(Map.TILE_SIZE*0.38);
+		width = (int)(game.map.TILE_SIZE*0.38);
+        height = (int)(game.map.TILE_SIZE*0.38);
 		halfSize = width/2;
 		angle = new Random().nextInt(360);
 	}

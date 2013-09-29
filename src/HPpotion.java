@@ -9,8 +9,8 @@ public class HPpotion extends Entity {
 		this.x = x;
 		this.y = y;
 		potion = Game.loadTexture("HPposion.png");
-		width = (int)(Map.TILE_SIZE*0.4);
-        height = (int)(Map.TILE_SIZE*0.4);
+		width = (int)(game.map.TILE_SIZE*0.4);
+        height = (int)(game.map.TILE_SIZE*0.4);
 		halfSize = width/2;
 	}
 	

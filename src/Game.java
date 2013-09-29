@@ -277,13 +277,13 @@ public class Game{
                         	else
                         		entity.move(delta);
                         	if(entity instanceof Gold){
-                        		if(map.blocked((int)entity.x/Map.TILE_SIZE, (int)entity.y/Map.TILE_SIZE)){
+                        		if(map.blocked((int)entity.x/map.TILE_SIZE, (int)entity.y/map.TILE_SIZE)){
                         			entity.setDX(0);
             						entity.setDY(0);
                         		}
                         	}
                         	if(entity instanceof Bullet){
-            					if(map.blocked((int)entity.x/Map.TILE_SIZE, (int)entity.y/Map.TILE_SIZE)){
+            					if(map.blocked((int)entity.x/map.TILE_SIZE, (int)entity.y/map.TILE_SIZE)){
             						if(entity instanceof MyCannonBullet || entity instanceof MyRocketBullet){
             							entities.add(new BombEffect_BigBullet(this,entity.x,entity.y));
             							soundManager.playEffect(SOUND_BOMB_TANK);

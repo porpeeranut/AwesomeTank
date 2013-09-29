@@ -8,8 +8,8 @@ public class OilTank extends Entity {
 		game = ingame;
 		oiltank = Game.loadTexture("oiltank.png");
 		Shot = Game.loadTexture("oiltankShot.png");
-		width = (int)(Map.TILE_SIZE*0.6);
-        height = (int)(Map.TILE_SIZE*0.6);
+		width = (int)(game.map.TILE_SIZE*0.6);
+        height = (int)(game.map.TILE_SIZE*0.6);
 		halfSize = width/2;
 		HP = hp;
 		maxHP = HP;

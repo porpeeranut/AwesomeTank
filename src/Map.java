@@ -21,7 +21,7 @@ public class Map {
 	private int[][] mapData;
 	private static int WIDTH;
 	private static int HEIGHT;
-	public static int TILE_SIZE = 64;
+	public int TILE_SIZE = 64;
 
 	// flip bottom left to top right
 	private int[][] convertArrayAndRandomTilePic(int[][] mapData){

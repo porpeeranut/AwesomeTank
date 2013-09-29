@@ -44,10 +44,10 @@ public abstract class Entity {
 	}
 	
 	public boolean validLocation(float nx, float ny) {
-		int nxN = (int)(nx-halfSize)/Map.TILE_SIZE;
-		int nyN = (int)(ny-halfSize)/Map.TILE_SIZE;
-		int nxP = (int)(nx+halfSize)/Map.TILE_SIZE;
-		int nyP = (int)(ny+halfSize)/Map.TILE_SIZE;
+		int nxN = (int)(nx-halfSize)/game.map.TILE_SIZE;
+		int nyN = (int)(ny-halfSize)/game.map.TILE_SIZE;
+		int nxP = (int)(nx+halfSize)/game.map.TILE_SIZE;
+		int nyP = (int)(ny+halfSize)/game.map.TILE_SIZE;
 		
 		if (game.map.blocked(nxN, nyN)) {
 			return false;
@@ -204,8 +204,8 @@ public abstract class Entity {
 
 	/** (0,0) to (mapWIDTH, mapHEIGHT)*/
 	public void setPositionToMap(int x,int y){
-        this.x = x*Map.TILE_SIZE + Map.TILE_SIZE/2;
-        this.y = y*Map.TILE_SIZE + Map.TILE_SIZE/2;
+        this.x = x*game.map.TILE_SIZE + game.map.TILE_SIZE/2;
+        this.y = y*game.map.TILE_SIZE + game.map.TILE_SIZE/2;
 	}
 	
 	public boolean collidesWith(Entity other) {
