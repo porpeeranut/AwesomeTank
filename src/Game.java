@@ -120,7 +120,7 @@ public class Game{
     
     public float initBulletX,initBulletY;
     
-	private EnemyTank[] enemyTank;
+	private EnemyMinigun[] enemyMinigun;
 	public static int numEnemy;
 	
 	private Brick[] brick;
@@ -1145,7 +1145,7 @@ public class Game{
     	box = new Box[27];
     	bmWall = new BombWall[11];
     	oilTank = new OilTank[8];
-    	enemyTank = new EnemyTank[15];
+    	enemyMinigun = new EnemyMinigun[15];
     	turret = new Turret[6];
     	gold = new Gold[200];
     	for(int i = 0;i < brick.length;i++){
@@ -1163,8 +1163,8 @@ public class Game{
     	for(int i = 0;i < oilTank.length;i++){
         	oilTank[i] = new OilTank(this,15);
     	}
-    	for (int i = 0; i < enemyTank.length; i++) {
-			enemyTank[i] = new EnemyTank(this,50);
+    	for (int i = 0; i < enemyMinigun.length; i++) {
+			enemyMinigun[i] = new EnemyMinigun(this,50);
     	}
     	for(int i = 0;i < turret.length;i++){
     		turret[i] = new Turret(this, 50);
@@ -1228,11 +1228,11 @@ public class Game{
 	        	//entities.add(oilTank[i]);
 	        }
 			for (int i = 0; i < 5; i++) {
-				enemyTank[i].setHP(50);
-				enemyTank[i].setPositionToMap(i+5, 4);
-				enemyTank[i].setBodyAngle(39);
-				enemyTank[i].reset();
-				entities.add(enemyTank[i]);
+				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setPositionToMap(i+5, 4);
+				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].reset();
+				entities.add(enemyMinigun[i]);
 			}
 			turret[0].setHP(50);
 			turret[0].setPositionToMap(14, 3);
@@ -1279,11 +1279,11 @@ public class Game{
 	        	entities.add(oilTank[i]);
 	        }
 	        for (int i = 0; i < 5; i++) {
-				enemyTank[i].setHP(50);
-				enemyTank[i].setPositionToMap(i+5, 4);
-				enemyTank[i].setBodyAngle(39);
-				enemyTank[i].reset();
-				entities.add(enemyTank[i]);
+				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setPositionToMap(i+5, 4);
+				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].reset();
+				entities.add(enemyMinigun[i]);
 			}
 	        turret[0].setHP(50);
 			turret[0].setPositionToMap(2, 8);
@@ -1346,11 +1346,11 @@ public class Game{
 	        	entities.add(oilTank[i]);
 	        }
 	        for (int i = 0; i < 5; i++) {
-				enemyTank[i].setHP(50);
-				enemyTank[i].setPositionToMap(i+5, 4);
-				enemyTank[i].setBodyAngle(39);
-				enemyTank[i].reset();
-				entities.add(enemyTank[i]);
+				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setPositionToMap(i+5, 4);
+				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].reset();
+				entities.add(enemyMinigun[i]);
 			}
 	        turret[0].setHP(50);
 			turret[0].setPositionToMap(2, 8);
@@ -1406,11 +1406,11 @@ public class Game{
 	        	entities.add(oilTank[i]);
 	        }
 	        for (int i = 0; i < 5; i++) {
-				enemyTank[i].setHP(50);
-				enemyTank[i].setPositionToMap(i+5, 5);
-				enemyTank[i].setBodyAngle(39);
-				enemyTank[i].reset();
-				entities.add(enemyTank[i]);
+				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setPositionToMap(i+5, 5);
+				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].reset();
+				entities.add(enemyMinigun[i]);
 			}
 	        turret[0].setHP(50);
 			turret[0].setPositionToMap(10, 2);
@@ -1477,11 +1477,11 @@ public class Game{
 	        	entities.add(oilTank[i]);
 	        }
 	        for (int i = 0; i < 5; i++) {
-				enemyTank[i].setHP(50);
-				enemyTank[i].setPositionToMap(i+5, 4);
-				enemyTank[i].setBodyAngle(39);
-				enemyTank[i].reset();
-				entities.add(enemyTank[i]);
+				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setPositionToMap(i+5, 4);
+				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].reset();
+				entities.add(enemyMinigun[i]);
 			}
 	        turret[0].setPositionToMap(8, 4);
 	        turret[1].setPositionToMap(10, 4);
@@ -1534,11 +1534,11 @@ public class Game{
 	        	entities.add(oilTank[i]);
 	        }
 	        for (int i = 0; i < 5; i++) {
-				enemyTank[i].setHP(50);
-				enemyTank[i].setPositionToMap(i+5, 4);
-				enemyTank[i].setBodyAngle(39);
-				enemyTank[i].reset();
-				entities.add(enemyTank[i]);
+				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setPositionToMap(i+5, 4);
+				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].reset();
+				entities.add(enemyMinigun[i]);
 			}
 	        turret[0].setHP(50);
 			turret[0].setPositionToMap(2, 8);
@@ -1584,11 +1584,11 @@ public class Game{
 	        	entities.add(oilTank[i]);
 	        }
 	        for (int i = 0; i < 5; i++) {
-				enemyTank[i].setHP(50);
-				enemyTank[i].setPositionToMap(i+5, 4);
-				enemyTank[i].setBodyAngle(39);
-				enemyTank[i].reset();
-				entities.add(enemyTank[i]);
+				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setPositionToMap(i+5, 4);
+				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].reset();
+				entities.add(enemyMinigun[i]);
 			}
 	        turret[0].setHP(50);
 			turret[0].setPositionToMap(2, 8);
@@ -1634,11 +1634,11 @@ public class Game{
 	        	entities.add(oilTank[i]);
 	        }
 	        for (int i = 0; i < 5; i++) {
-				enemyTank[i].setHP(50);
-				enemyTank[i].setPositionToMap(i+5, 4);
-				enemyTank[i].setBodyAngle(39);
-				enemyTank[i].reset();
-				entities.add(enemyTank[i]);
+				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setPositionToMap(i+5, 4);
+				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].reset();
+				entities.add(enemyMinigun[i]);
 			}
 	        turret[0].setHP(50);
 			turret[0].setPositionToMap(2, 8);
@@ -1684,11 +1684,11 @@ public class Game{
 	        	entities.add(oilTank[i]);
 	        }
 	        for (int i = 0; i < 5; i++) {
-				enemyTank[i].setHP(50);
-				enemyTank[i].setPositionToMap(i+5, 4);
-				enemyTank[i].setBodyAngle(39);
-				enemyTank[i].reset();
-				entities.add(enemyTank[i]);
+				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setPositionToMap(i+5, 4);
+				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].reset();
+				entities.add(enemyMinigun[i]);
 			}
 	        turret[0].setHP(50);
 			turret[0].setPositionToMap(2, 8);
@@ -1734,11 +1734,11 @@ public class Game{
 	        	entities.add(oilTank[i]);
 	        }
 	        for (int i = 0; i < 5; i++) {
-				enemyTank[i].setHP(50);
-				enemyTank[i].setPositionToMap(i+5, 4);
-				enemyTank[i].setBodyAngle(39);
-				enemyTank[i].reset();
-				entities.add(enemyTank[i]);
+				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setPositionToMap(i+5, 4);
+				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].reset();
+				entities.add(enemyMinigun[i]);
 			}
 	        turret[0].setHP(50);
 			turret[0].setPositionToMap(2, 8);

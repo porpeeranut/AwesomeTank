@@ -78,15 +78,15 @@ public class Button {
 			switch(Game.player.minigun_currentLV){
 			case 1:
 				button = upgrdLV1;
-				priceToUpgrd = 350;
+				priceToUpgrd = 500;
 				break;
 			case 2:
 				button = upgrdLV2;
-				priceToUpgrd = 470;
+				priceToUpgrd = 1500;
 				break;
 			case 3:
 				button = upgrdLV3;
-				priceToUpgrd = 1100;
+				priceToUpgrd = 2000;
 				break;
 			case 4:
 				button = upgrdLV4;
@@ -103,7 +103,7 @@ public class Button {
 			switch(Game.player.shotgun_currentLV){
 			case 0:
 				button = upgrdLV0;
-				priceToUpgrd = 2750;
+				priceToUpgrd = 1000;
 				break;
 			case 1:
 				button = upgrdLV1;
@@ -111,7 +111,7 @@ public class Button {
 				break;
 			case 2:
 				button = upgrdLV2;
-				priceToUpgrd = 2000;
+				priceToUpgrd = 2300;
 				break;
 			case 3:
 				button = upgrdLV3;
@@ -132,19 +132,19 @@ public class Button {
 			switch(Game.player.cannon_currentLV){
 			case 0:
 				button = upgrdLV0;
-				priceToUpgrd = 16000;
+				priceToUpgrd = 2000;
 				break;
 			case 1:
 				button = upgrdLV1;
-				priceToUpgrd = 8000;
+				priceToUpgrd = 3000;
 				break;
 			case 2:
 				button = upgrdLV2;
-				priceToUpgrd = 12000;
+				priceToUpgrd = 4000;
 				break;
 			case 3:
 				button = upgrdLV3;
-				priceToUpgrd = 18000;
+				priceToUpgrd = 5000;
 				break;
 			case 4:
 				button = upgrdLV4;
@@ -161,19 +161,19 @@ public class Button {
 			switch(Game.player.rocket_currentLV){
 			case 0:
 				button = upgrdLV0;
-				priceToUpgrd = 16000;
+				priceToUpgrd = 2000;
 				break;
 			case 1:
 				button = upgrdLV1;
-				priceToUpgrd = 8000;
+				priceToUpgrd = 3000;
 				break;
 			case 2:
 				button = upgrdLV2;
-				priceToUpgrd = 12000;
+				priceToUpgrd = 4000;
 				break;
 			case 3:
 				button = upgrdLV3;
-				priceToUpgrd = 18000;
+				priceToUpgrd = 5000;
 				break;
 			case 4:
 				button = upgrdLV4;
@@ -190,15 +190,15 @@ public class Button {
 			switch(Game.player.maxHP){
 			case 50:
 				button = upgrdLV1;
-				priceToUpgrd = 3000;
+				priceToUpgrd = 2000;
 				break;
 			case 80:
 				button = upgrdLV2;
-				priceToUpgrd = 16000;
+				priceToUpgrd = 3000;
 				break;
 			case 110:
 				button = upgrdLV3;
-				priceToUpgrd = 28000;
+				priceToUpgrd = 5000;
 				break;
 			case 140:
 				button = upgrdLV4;
@@ -213,13 +213,13 @@ public class Button {
 			upgrdLV4 = Game.loadTexture("upgrd/upgrdSpeedLV4.png");
 			if(Game.player.speed == 2f){
 				button = upgrdLV1;
-				priceToUpgrd = 500;
+				priceToUpgrd = 2000;
 			} else if(Game.player.speed == 2.3f){
 				button = upgrdLV2;
-				priceToUpgrd = 1000;
+				priceToUpgrd = 3000;
 			} else if(Game.player.speed == 2.6f){
 				button = upgrdLV3;
-				priceToUpgrd = 1500;
+				priceToUpgrd = 5000;
 			} else if(Game.player.speed == 2.9f){
 				button = upgrdLV4;
 				maxUpgrd = true;
@@ -258,14 +258,14 @@ public class Button {
 			case 1:
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV2;
-				priceToUpgrd = 470;
+				priceToUpgrd = 1500;
 				Game.player.minigunFiringInterval = 150;
 				Game.player.minigun_currentLV++;
 				break;
 			case 2:
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV3;
-				priceToUpgrd = 1100;
+				priceToUpgrd = 2000;
 				Game.player.minigunFiringInterval = 120;
 				Game.player.minigun_currentLV++;
 				break;
@@ -292,7 +292,7 @@ public class Button {
 			case 1:
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV2;
-				priceToUpgrd = 2000;
+				priceToUpgrd = 2300;
 				Game.player.shotgunFiringInterval = 550;
 				Game.player.shotgunAttck = 5;
 				Game.player.shotgun_currentLV++;
@@ -320,7 +320,7 @@ public class Button {
 			case 0:
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV1;
-				priceToUpgrd = 8000;
+				priceToUpgrd = 3000;
 				Game.player.unlockGun.put(TankEntity.GunType.CANNON, true);
 				Game.player.cannonFiringInterval = 800;
 				Game.player.cannonAttck = 50;
@@ -329,7 +329,7 @@ public class Button {
 			case 1:
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV2;
-				priceToUpgrd = 12000;
+				priceToUpgrd = 4000;
 				Game.player.cannonFiringInterval = 770;
 				Game.player.cannonAttck = 70;
 				Game.player.cannon_currentLV++;
@@ -337,7 +337,7 @@ public class Button {
 			case 2:
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV3;
-				priceToUpgrd = 18000;
+				priceToUpgrd = 5000;
 				Game.player.cannonFiringInterval = 740;
 				Game.player.cannonAttck = 90;
 				Game.player.cannon_currentLV++;
@@ -357,7 +357,7 @@ public class Button {
 			case 0:
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV1;
-				priceToUpgrd = 8000;
+				priceToUpgrd = 3000;
 				Game.player.unlockGun.put(TankEntity.GunType.ROCKET, true);
 				Game.player.rocketAttck = 50;
 				Game.player.myRocketBullet.moveSpeed = 1.6f;
@@ -366,7 +366,7 @@ public class Button {
 			case 1:
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV2;
-				priceToUpgrd = 12000;
+				priceToUpgrd = 4000;
 				Game.player.rocketAttck = 70;
 				Game.player.myRocketBullet.moveSpeed = 1.9f;
 				Game.player.rocket_currentLV++;
@@ -374,7 +374,7 @@ public class Button {
 			case 2:
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV3;
-				priceToUpgrd = 18000;
+				priceToUpgrd = 5000;
 				Game.player.rocketAttck = 90;
 				Game.player.myRocketBullet.moveSpeed = 2.2f;
 				Game.player.rocket_currentLV++;
@@ -394,13 +394,13 @@ public class Button {
 			case 50:
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV2;
-				priceToUpgrd = 16000;
+				priceToUpgrd = 3000;
 				Game.player.maxHP = 80;
 				break;
 			case 80:
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV3;
-				priceToUpgrd = 28000;
+				priceToUpgrd = 5000;
 				Game.player.maxHP = 110;
 				break;
 			case 110:
@@ -415,12 +415,12 @@ public class Button {
 			if(Game.player.speed == 2f) {
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV2;
-				priceToUpgrd = 1000;
+				priceToUpgrd = 3000;
 				Game.player.speed = 2.3f;
 			} else if(Game.player.speed == 2.3f) {
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV3;
-				priceToUpgrd = 1500;
+				priceToUpgrd = 5000;
 				Game.player.speed = 2.6f;
 			} else if(Game.player.speed == 2.6f) {
 				MyTank.myGold -= priceToUpgrd;

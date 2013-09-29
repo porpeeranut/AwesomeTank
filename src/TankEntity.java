@@ -58,6 +58,12 @@ public abstract class TankEntity extends Entity {
 		game = ingame;
 		width = (int)(Map.TILE_SIZE*0.7);
         height = (int)(Map.TILE_SIZE*0.7);
+        if(this instanceof EnemyMinigunTurret
+        		|| this instanceof EnemyShotgunTurret
+        		|| this instanceof EnemyCannonTurret){
+        	width = (int)(Map.TILE_SIZE*0.8);
+            height = (int)(Map.TILE_SIZE*0.8);
+        }
 		halfSize = width/2;
 		myBullets = new MyMinigunBullet[50];
 		for (int i = 0; i < myBullets.length; i++) {
