@@ -1,6 +1,3 @@
-
-btn lv onMouseOver
-
 set lv
 del buy in upgrd pic state4
 

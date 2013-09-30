@@ -459,25 +459,21 @@ public class Button {
 	}
 	
 	public void draw_OnMouseOver() {
-		if(thisButton.toString().indexOf("LV") != -1){
+		switch(thisButton){
+		case UPGRD_MINIGUN:
+		case UPGRD_SHOTGUN:
+		case UPGRD_CANNON:
+		case UPGRD_ROCKET:
+		case UPGRD_ARMOR:
+		case UPGRD_SPEED:
 			draw();
-		} else {
-			switch(thisButton){
-			case UPGRD_MINIGUN:
-			case UPGRD_SHOTGUN:
-			case UPGRD_CANNON:
-			case UPGRD_ROCKET:
-			case UPGRD_ARMOR:
-			case UPGRD_SPEED:
-				draw();
-				break;
-			default:
-				button_onMouseOver.bind();
-				TexCoordWidth = button_onMouseOver.getWidth();
-				TexCoordHeight = button_onMouseOver.getHeight();
-				basicDraw();
-				break;
-			}
+			break;
+		default:
+			button_onMouseOver.bind();
+			TexCoordWidth = button_onMouseOver.getWidth();
+			TexCoordHeight = button_onMouseOver.getHeight();
+			basicDraw();
+			break;
 		}
 	}
 	
@@ -493,6 +489,28 @@ public class Button {
 		TexCoordWidth = button_LVlock.getWidth();
 		TexCoordHeight = button_LVlock.getHeight();
 		basicDraw();
+	}
+	
+	public void increaseBtnSize() {
+		if(width < 92)
+			width += 15;
+		else
+			width = 92;
+		if(height < 85)
+			height += 15;
+		else
+			height = 85;
+	}
+	
+	public void decreaseBtnSize() {
+		if(width > 67)
+			width -= 15;
+		else
+			width = 67;
+		if(height > 60)
+			height -= 15;
+		else
+			height = 60;
 	}
 	
 	private void basicDraw() {

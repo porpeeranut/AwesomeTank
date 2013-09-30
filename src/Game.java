@@ -643,12 +643,22 @@ public class Game{
 		// button LV1 - LVmax
 		for(int i = 1;i < btn.length;i++){
 			if(unlockLV.get(i)){
-				if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY()))
-					btn[i].draw_OnMouseOver();
-				else
+				if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())) {
+					btn[i].increaseBtnSize();
 					btn[i].draw();
-			} else
-				btn[i].draw_LVlock();
+				} else {
+					btn[i].decreaseBtnSize();
+					btn[i].draw();
+				}
+			} else {
+				if(btn[i].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())) {
+					btn[i].increaseBtnSize();
+					btn[i].draw_LVlock();
+				} else {
+					btn[i].decreaseBtnSize();
+					btn[i].draw_LVlock();
+				}
+			}
 		}
 		while (Mouse.next()) {
     	    if (Mouse.getEventButtonState()) {
