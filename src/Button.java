@@ -231,7 +231,6 @@ public class Button {
 		for(int i = 1;i <= Game.maxLevel;i++){
 			if(thisButton.toString().equals("LV"+String.valueOf(i))){
 				button = Game.loadTexture("LVbutton/LV"+i+".png");
-    			button_onMouseOver = Game.loadTexture("LVbutton/LV"+i+"_onMouseOver.png");
     			button_LVlock = Game.loadTexture("LVbutton/LV"+i+"_lock.png");
 			}
 		}
@@ -460,21 +459,25 @@ public class Button {
 	}
 	
 	public void draw_OnMouseOver() {
-		switch(thisButton){
-		case UPGRD_MINIGUN:
-		case UPGRD_SHOTGUN:
-		case UPGRD_CANNON:
-		case UPGRD_ROCKET:
-		case UPGRD_ARMOR:
-		case UPGRD_SPEED:
+		if(thisButton.toString().indexOf("LV") != -1){
 			draw();
-			break;
-		default:
-			button_onMouseOver.bind();
-			TexCoordWidth = button_onMouseOver.getWidth();
-			TexCoordHeight = button_onMouseOver.getHeight();
-			basicDraw();
-			break;
+		} else {
+			switch(thisButton){
+			case UPGRD_MINIGUN:
+			case UPGRD_SHOTGUN:
+			case UPGRD_CANNON:
+			case UPGRD_ROCKET:
+			case UPGRD_ARMOR:
+			case UPGRD_SPEED:
+				draw();
+				break;
+			default:
+				button_onMouseOver.bind();
+				TexCoordWidth = button_onMouseOver.getWidth();
+				TexCoordHeight = button_onMouseOver.getHeight();
+				basicDraw();
+				break;
+			}
 		}
 	}
 	

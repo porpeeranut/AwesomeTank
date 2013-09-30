@@ -25,6 +25,10 @@ public class Game{
 		INTRO,UPGRADE,SELECT_LEVEL,PLAY,BACKTOMENU,PAUSE,HELP,LVCOMPLETE,LVFAILED;
 	}
 	public static State state = State.INTRO;
+	private int fade;
+	private boolean changingState;
+	private State nextState;
+	private int nextLV;
 	public static enum CurrentButton {
 		NONE,MENU,PLAY,PLAY_INTRO,PAUSE,HELP,BACKTOUPGRADE,CONTINUE,BCK_TO_MENU_YES,BCK_TO_MENU_NO,
 		LV1,LV2,LV3,LV4,LV5,LV6,LV7,LV8,LV9,LV10,
@@ -36,6 +40,7 @@ public class Game{
 	public static int maxLevel = 10;
 	private Button[] btn;
 	private CurrentButton currentButton = CurrentButton.NONE;
+	private Texture fadeTex;
 	private Texture backgndIntro;
 	private Texture backgndUpgrade;
 	private Texture moneyBackgnd;
@@ -234,16 +239,28 @@ public class Game{
         	case INTRO:
         		draw(backgndIntro,camera_w/2,camera_h/2,camera_w,camera_h);
         		button_In_INTRO_state();
+        		if(changingState)
+        			fading();
+        		else
+        			recover();
     			break;
         	case UPGRADE:
         		draw(moneyBackgnd,camera_w/2,camera_h/2,camera_w,camera_h);
         		drawFont(String.valueOf(MyTank.myGold), 530, 85, 1, 1);
         		draw(backgndUpgrade,camera_w/2,camera_h/2,camera_w,camera_h);
         		button_In_UPGRADE_state();
+        		if(changingState)
+        			fading();
+        		else
+        			recover();
     			break;
         	case SELECT_LEVEL:
         		draw(backgndSelectLV,camera_w/2,camera_h/2,camera_w,camera_h);
         		button_In_SELECT_LEVEL_state();
+        		if(changingState)
+        			fading();
+        		else
+        			recover();
     			break;
     		case PLAY:
     		case PAUSE:
@@ -337,7 +354,10 @@ public class Game{
                 	if(entity instanceof Effect)
                 		entity.draw();
     			}
-                
+                if(changingState)
+        			fading();
+        		else
+        			recover();
                 button_In_PLAY_state();
                 glColor3f(1, 1, 1);
     			break;
@@ -349,6 +369,53 @@ public class Game{
         soundManager.destroy();
         Display.destroy();
         System.exit(0);
+    }
+    
+    private void recover() {
+    	if(state == State.PLAY)
+    		fade = 0;
+    	if (fade > 0) {
+            fade -= 10f;
+        } else {
+        	fade = 0;
+            glColor3f(1, 1, 1);
+        }
+    	glPushMatrix();
+        glColor4f(1, 1, 1, (float) Math.sin(Math.toRadians(fade)));
+        draw(fadeTex,camera_w/2,camera_h/2,camera_w,camera_h);
+        glColor3f(1, 1, 1);
+        glPopMatrix();
+    }
+    
+    private void fading() {
+    	if(state == State.BACKTOMENU)
+    		fade = 90;
+    	if (fade < 90) {
+            fade += 10f;
+        } else {
+        	fade = 90;
+            state = nextState;
+            switch(state){
+    		case UPGRADE:
+    			move_to_UPGRADE_state();
+    			break;
+    		case SELECT_LEVEL:
+    			move_to_SELECT_LEVEL_state();
+    			break;
+    		case PLAY:
+    			move_to_PLAY_state(nextLV);
+    			break;
+			default:
+				break;
+            }
+            changingState = false;
+            System.out.println("State changed: " + state);
+        }
+    	glPushMatrix();
+        glColor4f(1, 1, 1, (float) Math.sin(Math.toRadians(fade)));
+        draw(fadeTex,camera_w/2,camera_h/2,camera_w,camera_h);
+        glColor3f(1, 1, 1);
+        glPopMatrix();
     }
     
     private void move_to_UPGRADE_state() {
@@ -419,7 +486,9 @@ public class Game{
     	    		if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	    			soundManager.playEffect(SOUND_RELEASE);
     	    			if(currentButton == CurrentButton.PLAY_INTRO){
-    	    				move_to_UPGRADE_state();
+    	    				nextState = State.UPGRADE;
+    	    				changingState = true;
+    	    				//move_to_UPGRADE_state();
 	        			}
             		} else
         				currentButton = CurrentButton.NONE;
@@ -446,8 +515,7 @@ public class Game{
 					break;
 				}
 				btn[i].draw_OnMouseOver();
-			}
-    		else
+			} else
     			btn[i].draw();
 		}
 		while (Mouse.next()) {
@@ -488,12 +556,15 @@ public class Game{
     	    		if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	    			soundManager.playEffect(SOUND_RELEASE);
     	    			if(currentButton == CurrentButton.MENU){
-    	    				state = State.INTRO;
+    	    				nextState = State.INTRO;
+    	    				changingState = true;
     	    			}            	        		
     	    		} else if(btn[1].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	    			soundManager.playEffect(SOUND_RELEASE);
     	    			if(currentButton == CurrentButton.PLAY){
-    	    				move_to_SELECT_LEVEL_state();
+    	    				nextState = State.SELECT_LEVEL;
+    	    				changingState = true;
+    	    				//move_to_SELECT_LEVEL_state();
     	    			}
     	    		} else if(btn[2].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	    			if(currentButton == CurrentButton.UPGRD_MINIGUN){
@@ -643,7 +714,10 @@ public class Game{
     	    						currentButton == CurrentButton.LV5 || currentButton == CurrentButton.LV6 || 
     	    						currentButton == CurrentButton.LV7 || currentButton == CurrentButton.LV8 || 
     	    						currentButton == CurrentButton.LV9 || currentButton == CurrentButton.LV10){
-        	    				move_to_PLAY_state(i);
+    	    					nextState = State.PLAY;
+    	    					nextLV = i;
+        	    				changingState = true;
+    	    					//move_to_PLAY_state(i);
         	    				break;
         	    			}
     	    			}
@@ -651,7 +725,9 @@ public class Game{
     	    		if(btn[0].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
     	    			soundManager.playEffect(SOUND_RELEASE);
     	    			if(currentButton == CurrentButton.BACKTOUPGRADE){
-    	    				move_to_UPGRADE_state();
+    	    				nextState = State.UPGRADE;
+    	    				changingState = true;
+    	    				//move_to_UPGRADE_state();
     	    			}            	        		
     	    		} else if(btnLVreleased){
     	    		} else
@@ -846,7 +922,9 @@ public class Game{
         	        		soundManager.playEffect(SOUND_RELEASE);
         	        		if(currentButton == CurrentButton.BCK_TO_MENU_YES){
         	        			MyTank.profit = 0;
-        	        			move_to_UPGRADE_state();
+        	        			nextState = State.UPGRADE;
+        	    				changingState = true;
+        	        			//move_to_UPGRADE_state();
         	    			}
         	        	} else if(btn[4].On_Mouse_Over(Mouse.getX(), 650 - Mouse.getY())){
         	        		soundManager.playEffect(SOUND_RELEASE);
@@ -876,7 +954,9 @@ public class Game{
 			Label_Y = 0;
 			MyTank.myGold += MyTank.profit;
 			MyTank.profit = 0;
-			move_to_UPGRADE_state();
+			nextState = State.UPGRADE;
+			changingState = true;
+			//move_to_UPGRADE_state();
 			glMatrixMode(GL_PROJECTION);
             glLoadIdentity();
 			glOrtho(0 ,640 ,650 ,0 ,-1 , 1);
@@ -1102,6 +1182,7 @@ public class Game{
 	}
     
     private void loadResource() {
+    	fadeTex = loadTexture("black.png");
     	backgndIntro = loadTexture("intro.png");
     	backgndUpgrade = loadTexture("upgrade.png");
     	moneyBackgnd = loadTexture("moneyBackgnd.png");

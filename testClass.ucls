@@ -1,0 +1,729 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<class-diagram version="1.1.3" icons="true" always-add-relationships="false" generalizations="true" realizations="true" 
+  associations="true" dependencies="false" nesting-relationships="true">  
+  <class id="1" language="java" name="EnemyBullet" project="testRPG" file="/testRPG/src/EnemyBullet.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="94" x="1865" y="316"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="2" language="java" name="SoundManager" project="testRPG" file="/testRPG/src/SoundManager.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="110" x="41" y="130"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="3" language="java" name="MyLaserBullet" project="testRPG" file="/testRPG/src/MyLaserBullet.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="105" x="796" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="4" language="java" name="Turret" project="testRPG" file="/testRPG/src/Turret.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="1822" y="223"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="5" language="java" name="MyMinigunBullet" project="testRPG" file="/testRPG/src/MyMinigunBullet.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="116" x="1500" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="6" language="java" name="Entity" project="testRPG" file="/testRPG/src/Entity.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="1587" y="130"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="7" language="java" name="EnemyCannonTurret" project="testRPG" file="/testRPG/src/EnemyCannonTurret.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="139" x="664" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="8" language="java" name="MyTank" project="testRPG" file="/testRPG/src/MyTank.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="2256" y="316"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="9" language="java" name="Button" project="testRPG" file="/testRPG/src/Button.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="1798" y="130"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="10" language="java" name="Effect_smoke" project="testRPG" file="/testRPG/src/Effect_smoke.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="103" x="339" y="316"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="11" language="java" name="EnemyCannon" project="testRPG" file="/testRPG/src/EnemyCannon.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="105" x="843" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="12" language="java" name="Effect" project="testRPG" file="/testRPG/src/Effect.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="1187" y="223"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="13" language="java" name="MyRocketBullet" project="testRPG" file="/testRPG/src/MyRocketBullet.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="112" x="1656" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="14" language="java" name="HPpotion" project="testRPG" file="/testRPG/src/HPpotion.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="1314" y="223"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="15" language="java" name="TankEntity" project="testRPG" file="/testRPG/src/TankEntity.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="1441" y="223"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="16" language="java" name="MyRicochetBullet" project="testRPG" file="/testRPG/src/MyRicochetBullet.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="122" x="1967" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="17" language="java" name="EnemyShotgun" project="testRPG" file="/testRPG/src/EnemyShotgun.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="109" x="988" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="18" language="java" name="Bullet" project="testRPG" file="/testRPG/src/Bullet.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="1568" y="223"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="19" language="java" name="BombEffect_basic" project="testRPG" file="/testRPG/src/BombEffect_basic.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="128" x="482" y="316"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="20" language="java" name="Game.CurrentButton" project="testRPG" file="/testRPG/src/Game.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="119" x="2203" y="223"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="21" language="java" name="BulletShotEffect" project="testRPG" file="/testRPG/src/BulletShotEffect.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="115" x="650" y="316"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="22" language="java" name="Brick" project="testRPG" file="/testRPG/src/Brick.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="806" y="223"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="23" language="java" name="EnemyTank" project="testRPG" file="/testRPG/src/EnemyTank.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="89" x="1366" y="316"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="24" language="java" name="TankEntity.GunType" project="testRPG" file="/testRPG/src/TankEntity.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="119" x="1516" y="316"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="25" language="java" name="BombWall" project="testRPG" file="/testRPG/src/BombWall.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="1949" y="223"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="26" language="java" name="Box" project="testRPG" file="/testRPG/src/Box.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="933" y="223"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="27" language="java" name="Map" project="testRPG" file="/testRPG/src/Map.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="191" y="130"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="28" language="java" name="OilTank" project="testRPG" file="/testRPG/src/OilTank.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="1060" y="223"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="29" language="java" name="BombEffect_BombWall" project="testRPG" 
+    file="/testRPG/src/BombEffect_BombWall.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="155" x="805" y="316"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="30" language="java" name="Gold" project="testRPG" file="/testRPG/src/Gold.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="2076" y="223"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="31" language="java" name="EnemyMinigunTurret" project="testRPG" file="/testRPG/src/EnemyMinigunTurret.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="140" x="1137" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="32" language="java" name="Brick_2" project="testRPG" file="/testRPG/src/Brick_2.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="1695" y="223"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="33" language="java" name="MyBullet" project="testRPG" file="/testRPG/src/MyBullet.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="1717" y="316"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="34" language="java" name="Game" project="testRPG" file="/testRPG/src/Game.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="87" x="1695" y="37"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="35" language="java" name="EnemyShotgunTurret" project="testRPG" file="/testRPG/src/EnemyShotgunTurret.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="143" x="1317" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="36" language="java" name="EnemyMinigun" project="testRPG" file="/testRPG/src/EnemyMinigun.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="106" x="299" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <enumeration id="37" language="java" name="Game.State" project="testRPG" file="/testRPG/src/Game.java" binary="false" 
+    corner="BOTTOM_RIGHT">    
+    <position height="53" width="119" x="1365" y="130"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </enumeration>  
+  <class id="38" language="java" name="BombEffect_BigBullet" project="testRPG" 
+    file="/testRPG/src/BombEffect_BigBullet.java" binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="147" x="1000" y="316"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="39" language="java" name="MyCannonBullet" project="testRPG" file="/testRPG/src/MyCannonBullet.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="115" x="2129" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="40" language="java" name="MyShotgunBullet" project="testRPG" file="/testRPG/src/MyShotgunBullet.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="119" x="1808" y="409"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <class id="41" language="java" name="BombEffect_OilTank" project="testRPG" file="/testRPG/src/BombEffect_OilTank.java" 
+    binary="false" corner="BOTTOM_RIGHT">    
+    <position height="53" width="139" x="1187" y="316"/>    
+    <display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" accessors="true" 
+      visibility="true">      
+      <attributes public="false" package="false" protected="false" private="false" static="true"/>      
+      <operations public="false" package="false" protected="false" private="false" static="true"/>    
+    </display>  
+  </class>  
+  <generalization id="42">    
+    <end type="SOURCE" refId="18"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <association id="43">    
+    <bendpoint x="1686" y="316"/>    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="44" name="myShotgunBullets"/>      
+      <multiplicity id="45" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="40" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="46">    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="47" name="map"/>      
+      <multiplicity id="48" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="27" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="49">    
+    <end type="SOURCE" refId="30"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="50">    
+    <end type="SOURCE" refId="17"/>    
+    <end type="TARGET" refId="23"/>  
+  </generalization>  
+  <association id="51">    
+    <bendpoint x="1556" y="130"/>    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="52" name="oilTank"/>      
+      <multiplicity id="53" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="28" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="54">    
+    <end type="SOURCE" refId="6" navigable="false">      
+      <attribute id="55" name="game"/>      
+      <multiplicity id="56" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="34" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="57">    
+    <end type="SOURCE" refId="33"/>    
+    <end type="TARGET" refId="18"/>  
+  </generalization>  
+  <association id="58">    
+    <bendpoint x="1535" y="130"/>    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="59" name="box"/>      
+      <multiplicity id="60" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="26" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="61">    
+    <end type="SOURCE" refId="32"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <nesting id="62">    
+    <end type="SOURCE" refId="34"/>    
+    <end type="TARGET" refId="37"/>  
+  </nesting>  
+  <generalization id="63">    
+    <end type="SOURCE" refId="40"/>    
+    <end type="TARGET" refId="33"/>  
+  </generalization>  
+  <generalization id="64">    
+    <end type="SOURCE" refId="25"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="65">    
+    <end type="SOURCE" refId="28"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="66">    
+    <end type="SOURCE" refId="29"/>    
+    <end type="TARGET" refId="12"/>  
+  </generalization>  
+  <association id="67">    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="68" name="btn"/>      
+      <multiplicity id="69" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="9" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="70">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="71" name="thisButton"/>      
+      <multiplicity id="72" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="73">    
+    <end type="SOURCE" refId="8"/>    
+    <end type="TARGET" refId="15"/>  
+  </generalization>  
+  <generalization id="74">    
+    <end type="SOURCE" refId="14"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <association id="75">    
+    <bendpoint x="1665" y="316"/>    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="76" name="myRocketBullet"/>      
+      <multiplicity id="77" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="13" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="78">    
+    <end type="SOURCE" refId="39"/>    
+    <end type="TARGET" refId="33"/>  
+  </generalization>  
+  <association id="79">    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="80" name="gunType"/>      
+      <multiplicity id="81" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="24" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="82">    
+    <end type="SOURCE" refId="21"/>    
+    <end type="TARGET" refId="12"/>  
+  </generalization>  
+  <association id="83">    
+    <bendpoint x="1767" y="130"/>    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="84" name="gold"/>      
+      <multiplicity id="85" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="30" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <nesting id="86">    
+    <bendpoint x="1968" y="130"/>    
+    <end type="SOURCE" refId="34"/>    
+    <end type="TARGET" refId="20"/>  
+  </nesting>  
+  <association id="87">    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="88" name="state"/>      
+      <multiplicity id="89" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="37" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="90">    
+    <end type="SOURCE" refId="11"/>    
+    <end type="TARGET" refId="23"/>  
+  </generalization>  
+  <nesting id="91">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="24"/>  
+  </nesting>  
+  <association id="92">    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="93" name="soundManager"/>      
+      <multiplicity id="94" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="2" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="95">    
+    <bendpoint x="1947" y="130"/>    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="96" name="currentButton"/>      
+      <multiplicity id="97" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="20" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="98">    
+    <bendpoint x="1834" y="316"/>    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="99" name="myCannonBullets"/>      
+      <multiplicity id="100" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="39" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="101">    
+    <end type="SOURCE" refId="12"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <association id="102">    
+    <bendpoint x="1704" y="130"/>    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="103" name="brick_2"/>      
+      <multiplicity id="104" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="32" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="105">    
+    <end type="SOURCE" refId="1"/>    
+    <end type="TARGET" refId="18"/>  
+  </generalization>  
+  <generalization id="106">    
+    <end type="SOURCE" refId="26"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="107">    
+    <end type="SOURCE" refId="7"/>    
+    <end type="TARGET" refId="23"/>  
+  </generalization>  
+  <generalization id="108">    
+    <end type="SOURCE" refId="16"/>    
+    <end type="TARGET" refId="33"/>  
+  </generalization>  
+  <association id="109">    
+    <bendpoint x="1746" y="130"/>    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="110" name="bmWall"/>      
+      <multiplicity id="111" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="25" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="112">    
+    <bendpoint x="1725" y="130"/>    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="113" name="turret"/>      
+      <multiplicity id="114" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="4" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="115">    
+    <bendpoint x="2352" y="130"/>    
+    <bendpoint x="2352" y="223"/>    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="116" name="player"/>      
+      <multiplicity id="117" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="8" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="118">    
+    <end type="SOURCE" refId="22"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="119">    
+    <end type="SOURCE" refId="4"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <generalization id="120">    
+    <end type="SOURCE" refId="38"/>    
+    <end type="TARGET" refId="12"/>  
+  </generalization>  
+  <association id="121">    
+    <bendpoint x="308" y="130"/>    
+    <bendpoint x="308" y="223"/>    
+    <bendpoint x="308" y="316"/>    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="122" name="enemyMinigun"/>      
+      <multiplicity id="123" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="36" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="124">    
+    <bendpoint x="1485" y="316"/>    
+    <end type="SOURCE" refId="15" navigable="false">      
+      <attribute id="125" name="myBullets"/>      
+      <multiplicity id="126" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="5" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="127">    
+    <end type="SOURCE" refId="15"/>    
+    <end type="TARGET" refId="6"/>  
+  </generalization>  
+  <association id="128">    
+    <bendpoint x="1514" y="130"/>    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="129" name="brick"/>      
+      <multiplicity id="130" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="22" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="131">    
+    <end type="SOURCE" refId="36"/>    
+    <end type="TARGET" refId="23"/>  
+  </generalization>  
+  <generalization id="132">    
+    <end type="SOURCE" refId="13"/>    
+    <end type="TARGET" refId="33"/>  
+  </generalization>  
+  <association id="133">    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="134" name="removeList"/>      
+      <multiplicity id="135" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <association id="136">    
+    <end type="SOURCE" refId="9" navigable="false">      
+      <attribute id="137" name="game"/>      
+      <multiplicity id="138" minimum="0" maximum="1"/>    
+    </end>    
+    <end type="TARGET" refId="34" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="139">    
+    <end type="SOURCE" refId="31"/>    
+    <end type="TARGET" refId="23"/>  
+  </generalization>  
+  <generalization id="140">    
+    <end type="SOURCE" refId="35"/>    
+    <end type="TARGET" refId="23"/>  
+  </generalization>  
+  <generalization id="141">    
+    <end type="SOURCE" refId="41"/>    
+    <end type="TARGET" refId="12"/>  
+  </generalization>  
+  <generalization id="142">    
+    <end type="SOURCE" refId="19"/>    
+    <end type="TARGET" refId="12"/>  
+  </generalization>  
+  <generalization id="143">    
+    <end type="SOURCE" refId="5"/>    
+    <end type="TARGET" refId="33"/>  
+  </generalization>  
+  <generalization id="144">    
+    <end type="SOURCE" refId="10"/>    
+    <end type="TARGET" refId="12"/>  
+  </generalization>  
+  <association id="145">    
+    <end type="SOURCE" refId="34" navigable="false">      
+      <attribute id="146" name="entities"/>      
+      <multiplicity id="147" minimum="0" maximum="2147483647"/>    
+    </end>    
+    <end type="TARGET" refId="6" navigable="true"/>    
+    <display labels="true" multiplicity="true"/>  
+  </association>  
+  <generalization id="148">    
+    <end type="SOURCE" refId="23"/>    
+    <end type="TARGET" refId="15"/>  
+  </generalization>  
+  <classifier-display autosize="true" stereotype="true" package="true" initial-value="false" signature="true" 
+    accessors="true" visibility="true">    
+    <attributes public="false" package="false" protected="false" private="false" static="true"/>    
+    <operations public="false" package="false" protected="false" private="false" static="true"/>  
+  </classifier-display>  
+  <association-display labels="true" multiplicity="true"/>
+</class-diagram>

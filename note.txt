@@ -1,4 +1,6 @@
-fix TILE_SIZE to non static
+
+btn lv onMouseOver
+
 set lv
 del buy in upgrd pic state4
 
