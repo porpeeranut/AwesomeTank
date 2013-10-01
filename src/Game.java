@@ -407,7 +407,6 @@ public class Game{
 				break;
             }
             changingState = false;
-            System.out.println("State changed: " + state);
         }
     	glPushMatrix();
         glColor4f(1, 1, 1, (float) Math.sin(Math.toRadians(fade)));
