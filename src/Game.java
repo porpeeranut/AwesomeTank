@@ -354,11 +354,9 @@ public class Game{
                 	if(entity instanceof Effect)
                 		entity.draw();
     			}
+                button_In_PLAY_state();
                 if(changingState)
         			fading();
-        		else
-        			recover();
-                button_In_PLAY_state();
                 glColor3f(1, 1, 1);
     			break;
     		}
@@ -388,7 +386,7 @@ public class Game{
     }
     
     private void fading() {
-    	if(state == State.BACKTOMENU)
+    	if(state == State.BACKTOMENU || state == State.LVCOMPLETE || state == State.LVFAILED)
     		fade = 90;
     	if (fade < 90) {
             fade += 10f;
