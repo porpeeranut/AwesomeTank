@@ -1,8 +1,8 @@
-set lv
-del buy in upgrd pic state4
 
-bot ถ้าโดนยิงแล้ว active ตลอด (path โคตรยาว) (ดักเกรียนใช้ rocket)
+set lv
+chk array
 Wground
+clear warn print display
 
 --------------------------
 player hp 50,80,110,140

@@ -95,11 +95,11 @@ public class Button {
 			}
 			break;
 		case UPGRD_SHOTGUN:
-			upgrdLV0 = Game.loadTexture("upgrd/upgrdMinigunLV0.png");
-			upgrdLV1 = Game.loadTexture("upgrd/upgrdMinigunLV1.png");
-			upgrdLV2 = Game.loadTexture("upgrd/upgrdMinigunLV2.png");
-			upgrdLV3 = Game.loadTexture("upgrd/upgrdMinigunLV3.png");
-			upgrdLV4 = Game.loadTexture("upgrd/upgrdMinigunLV4.png");
+			upgrdLV0 = Game.loadTexture("upgrd/upgrdShotgunLV0.png");
+			upgrdLV1 = Game.loadTexture("upgrd/upgrdShotgunLV1.png");
+			upgrdLV2 = Game.loadTexture("upgrd/upgrdShotgunLV2.png");
+			upgrdLV3 = Game.loadTexture("upgrd/upgrdShotgunLV3.png");
+			upgrdLV4 = Game.loadTexture("upgrd/upgrdShotgunLV4.png");
 			switch(Game.player.shotgun_currentLV){
 			case 0:
 				button = upgrdLV0;
@@ -124,11 +124,11 @@ public class Button {
 			}
 			break;
 		case UPGRD_CANNON:
-			upgrdLV0 = Game.loadTexture("upgrd/upgrdMinigunLV0.png");
-			upgrdLV1 = Game.loadTexture("upgrd/upgrdMinigunLV1.png");
-			upgrdLV2 = Game.loadTexture("upgrd/upgrdMinigunLV2.png");
-			upgrdLV3 = Game.loadTexture("upgrd/upgrdMinigunLV3.png");
-			upgrdLV4 = Game.loadTexture("upgrd/upgrdMinigunLV4.png");
+			upgrdLV0 = Game.loadTexture("upgrd/upgrdCannonLV0.png");
+			upgrdLV1 = Game.loadTexture("upgrd/upgrdCannonLV1.png");
+			upgrdLV2 = Game.loadTexture("upgrd/upgrdCannonLV2.png");
+			upgrdLV3 = Game.loadTexture("upgrd/upgrdCannonLV3.png");
+			upgrdLV4 = Game.loadTexture("upgrd/upgrdCannonLV4.png");
 			switch(Game.player.cannon_currentLV){
 			case 0:
 				button = upgrdLV0;
@@ -153,11 +153,11 @@ public class Button {
 			}
 			break;
 		case UPGRD_ROCKET:
-			upgrdLV0 = Game.loadTexture("upgrd/upgrdMinigunLV0.png");
-			upgrdLV1 = Game.loadTexture("upgrd/upgrdMinigunLV1.png");
-			upgrdLV2 = Game.loadTexture("upgrd/upgrdMinigunLV2.png");
-			upgrdLV3 = Game.loadTexture("upgrd/upgrdMinigunLV3.png");
-			upgrdLV4 = Game.loadTexture("upgrd/upgrdMinigunLV4.png");
+			upgrdLV0 = Game.loadTexture("upgrd/upgrdRocketLV0.png");
+			upgrdLV1 = Game.loadTexture("upgrd/upgrdRocketLV1.png");
+			upgrdLV2 = Game.loadTexture("upgrd/upgrdRocketLV2.png");
+			upgrdLV3 = Game.loadTexture("upgrd/upgrdRocketLV3.png");
+			upgrdLV4 = Game.loadTexture("upgrd/upgrdRocketLV4.png");
 			switch(Game.player.rocket_currentLV){
 			case 0:
 				button = upgrdLV0;

@@ -1,10 +1,10 @@
 import static org.lwjgl.opengl.GL11.*;
- 
+
 import org.lwjgl.opengl.*;
 import org.lwjgl.input.Mouse;
 import org.lwjgl.input.Keyboard;
 import org.lwjgl.*;
- 
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
@@ -14,11 +14,13 @@ import java.nio.ByteBuffer;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Random;
- 
+
 import org.newdawn.slick.opengl.Texture;
 import org.newdawn.slick.opengl.TextureLoader;
 
 import de.matthiasmann.twl.utils.PNGDecoder;
+import pathFinding.AStarPathFinder;
+import pathFinding.Path;
  
 public class Game{
 	public static enum State {
@@ -85,7 +87,7 @@ public class Game{
 	private int timeShowLabel;
 	private static ArrayList<Entity> entities = new ArrayList<Entity>();
 	private static ArrayList<Entity> removeList = new ArrayList<Entity>();
-    public Map map;
+    //public Map map;
     public static MyTank player;
     static private int camera_x,camera_y,camera_w,camera_h;
     static private int camera_x_tmp,camera_y_tmp;
@@ -136,6 +138,12 @@ public class Game{
 	private Turret[] turret;
 	public static Gold[] gold;
 	public static int goldIndex;
+	
+	//#
+	public path_map map;
+	private Path path;
+	private AStarPathFinder finder;
+	public int path_time;
     
     static{
     	//initial world size
@@ -144,6 +152,7 @@ public class Game{
     }
    
     public Game() throws IOException, LWJGLException{
+    	path_time = 0;
     	//initialed value of camera
     	camera_x = 0;
         camera_y = 0;
@@ -185,7 +194,9 @@ public class Game{
 		SOUND_BGM_INTRO		= soundManager.addSound("BGM_intro.wav");
 		SOUND_BGM_PLAY		= soundManager.addSound("BGM_play.wav");
 
-		map = new Map();
+		map = new path_map();
+		finder = new AStarPathFinder(map,10,false);
+		
 		for(int i = 1;i <= maxLevel;i++){
 			if(i == 1)
 				unlockLV.put(i, true);
@@ -289,8 +300,25 @@ public class Game{
                     //if(!soundManager.isPlayingSound()){
                     	for (int p = 0; p < entities.size(); p++) {
                     		Entity entity = entities.get(p);
-                        	if(entity instanceof MyTank)
+                    		
+                        	if(entity instanceof MyTank){
                         		player.move(delta, bodyAng);
+                    		}else if(entity instanceof EnemyTank){
+                    			map.setArrayMap(currentLevel,entities);
+                        		finder = new AStarPathFinder(map,10,false);
+                    				path = finder.findPath(new UnitMover() 
+                    	    		,(int) ((EnemyTank)entity).get_centerX()/map.TILE_SIZE 
+                    				,(int) ((EnemyTank)entity).get_centerY()/map.TILE_SIZE
+                    				,(int) player.get_centerX()/map.TILE_SIZE 
+                    				,(int) player.get_centerY()/map.TILE_SIZE
+                    			);
+                    			if(path!=null){
+                    				path.removeFromLast(3);
+                        			
+                    			}
+                    			((EnemyTank)entity).setPath(path);
+                    			((EnemyTank)entity).move(map,delta);
+                        	}
                         	else
                         		entity.move(delta);
                         	if(entity instanceof Gold){
@@ -318,6 +346,8 @@ public class Game{
             				}
             			}
                     //}
+                    	
+                    
                     
                     // check collisions and move
             		for (int p = 0; p < entities.size(); p++) {
@@ -339,7 +369,34 @@ public class Game{
                 
         		entities.removeAll(removeList);
         		removeList.clear();
+        		/*
+        		if(!enemyMinigun[path_time].died){
+	        		
         		
+    				path = finder.findPath(new UnitMover() 
+    	    		,(int) enemyMinigun[path_time].get_centerX()/map.TILE_SIZE 
+    				,(int) enemyMinigun[path_time].get_centerY()/map.TILE_SIZE
+    				,(int) player.get_centerX()/map.TILE_SIZE 
+    				,(int) player.get_centerY()/map.TILE_SIZE
+    				);
+    			}
+        		
+        		if(path!=null){
+    				path.removeFromLast(3);
+    				
+    				if( i == 0 ){
+    					///enemyTank[i].Fire(bot_initBulletX, bot_initBulletY, enemyTank[i].gunAngle);
+    					System.out.println("fire!");
+        			}
+        			
+    			}
+    			enemyMinigun[path_time].setPath(path);
+        		path_time++;
+        		if(path_time >= enemyMinigun.length){
+        			path_time = 0;
+        		} 
+        		*/
+
         		if(state == State.PAUSE || state == State.BACKTOMENU || state == State.HELP || 
         				state == State.LVCOMPLETE || state == State.LVFAILED)
         			glColor3f(0.5f, 0.5f, 0.5f);
@@ -347,7 +404,11 @@ public class Game{
                 //draw
                 map.draw();
                 for ( Entity entity : entities ) {
-                	if(!(entity instanceof Effect))
+                	if(entity instanceof Gold)
+                		entity.draw();
+    			}
+                for ( Entity entity : entities ) {
+                	if(!(entity instanceof Effect) && !(entity instanceof Gold))
                 		entity.draw();
     			}
                 for ( Entity entity : entities ) {
@@ -431,16 +492,16 @@ public class Game{
     private void move_to_SELECT_LEVEL_state() {
     	btn = new Button[11];            	        		
     	btn[0] = new Button(this,CurrentButton.BACKTOUPGRADE,320,550);
-    	btn[1] = new Button(this,CurrentButton.LV1,100,200);
-    	btn[2] = new Button(this,CurrentButton.LV2,200,200);
-    	btn[3] = new Button(this,CurrentButton.LV3,300,200);
-    	btn[4] = new Button(this,CurrentButton.LV4,400,200);
-    	btn[5] = new Button(this,CurrentButton.LV5,500,200);
-    	btn[6] = new Button(this,CurrentButton.LV6,100,300);
-    	btn[7] = new Button(this,CurrentButton.LV7,200,300);
-    	btn[8] = new Button(this,CurrentButton.LV8,300,300);
-    	btn[9] = new Button(this,CurrentButton.LV9,400,300);
-    	btn[10] = new Button(this,CurrentButton.LV10,500,300);
+    	btn[1] = new Button(this,CurrentButton.LV1,120,250);
+    	btn[2] = new Button(this,CurrentButton.LV2,220,250);
+    	btn[3] = new Button(this,CurrentButton.LV3,320,250);
+    	btn[4] = new Button(this,CurrentButton.LV4,420,250);
+    	btn[5] = new Button(this,CurrentButton.LV5,520,250);
+    	btn[6] = new Button(this,CurrentButton.LV6,120,370);
+    	btn[7] = new Button(this,CurrentButton.LV7,220,370);
+    	btn[8] = new Button(this,CurrentButton.LV8,320,370);
+    	btn[9] = new Button(this,CurrentButton.LV9,420,370);
+    	btn[10] = new Button(this,CurrentButton.LV10,520,370);
     	state = State.SELECT_LEVEL;
     }
     

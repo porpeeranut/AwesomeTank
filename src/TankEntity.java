@@ -53,6 +53,11 @@ public abstract class TankEntity extends Entity {
 	private MyShotgunBullet[] myShotgunBullets;
 	private MyCannonBullet[] myCannonBullets;
 	public MyRocketBullet myRocketBullet;
+	
+	private EnemyMinigunBullet[] enemyBullets;
+	private EnemyShotgunBullet[] enemyShotgunBullets;
+	private EnemyCannonBullet[] enemyCannonBullets;
+	public EnemyRocketBullet enemyRocketBullet;
 
 	public TankEntity(Game ingame) {
 		game = ingame;
@@ -65,19 +70,35 @@ public abstract class TankEntity extends Entity {
             height = (int)(game.map.TILE_SIZE*0.8);
         }
 		halfSize = width/2;
-		myBullets = new MyMinigunBullet[50];
-		for (int i = 0; i < myBullets.length; i++) {
-			myBullets[i] = new MyMinigunBullet(game,12,5);
+		if(this instanceof MyTank) {
+			myBullets = new MyMinigunBullet[50];
+			for (int i = 0; i < myBullets.length; i++) {
+				myBullets[i] = new MyMinigunBullet(game,12,5);
+			}
+			myShotgunBullets = new MyShotgunBullet[70];
+			for (int i = 0; i < myShotgunBullets.length; i++) {
+				myShotgunBullets[i] = new MyShotgunBullet(game,5,5);
+			}
+			myCannonBullets = new MyCannonBullet[20];
+			for (int i = 0; i < myCannonBullets.length; i++) {
+				myCannonBullets[i] = new MyCannonBullet(game,7,50);
+			}
+			myRocketBullet = new MyRocketBullet(game, 2, 50);
+		} else {
+			enemyBullets = new EnemyMinigunBullet[50];
+			for (int i = 0; i < enemyBullets.length; i++) {
+				enemyBullets[i] = new EnemyMinigunBullet(game,12,5);
+			}
+			enemyShotgunBullets = new EnemyShotgunBullet[70];
+			for (int i = 0; i < enemyShotgunBullets.length; i++) {
+				enemyShotgunBullets[i] = new EnemyShotgunBullet(game,5,5);
+			}
+			enemyCannonBullets = new EnemyCannonBullet[20];
+			for (int i = 0; i < enemyCannonBullets.length; i++) {
+				enemyCannonBullets[i] = new EnemyCannonBullet(game,7,50);
+			}
+			enemyRocketBullet = new EnemyRocketBullet(game, 2, 50);
 		}
-		myShotgunBullets = new MyShotgunBullet[70];
-		for (int i = 0; i < myShotgunBullets.length; i++) {
-			myShotgunBullets[i] = new MyShotgunBullet(game,5,5);
-		}
-		myCannonBullets = new MyCannonBullet[20];
-		for (int i = 0; i < myCannonBullets.length; i++) {
-			myCannonBullets[i] = new MyCannonBullet(game,7,50);
-		}
-		myRocketBullet = new MyRocketBullet(game, 2, 50);
 		unlockGun.put(TankEntity.GunType.MINIGUN, true);
 		unlockGun.put(TankEntity.GunType.SHOTGUN, false);
 		unlockGun.put(TankEntity.GunType.RICOCHET, false);
@@ -157,15 +178,20 @@ public abstract class TankEntity extends Entity {
 	}
 	
 	public void Fire(float initBulletX,float initBulletY,float gunRotation) {
-		Bullet bullet;
+		Bullet bullet = null;
 		switch(gunType){
 		case MINIGUN:
 			if (System.currentTimeMillis() - lastFire < minigunFiringInterval) {
 				return;
 			}
 			lastFire = System.currentTimeMillis();
-			bullet = myBullets[minigunBulIndex ++ % myBullets.length];
-			minigunBulIndex %= myBullets.length;
+			if(this instanceof MyTank) {
+				bullet = myBullets[minigunBulIndex ++ % myBullets.length];
+				minigunBulIndex %= myBullets.length;
+			} else {
+				bullet = enemyBullets[minigunBulIndex ++ % enemyBullets.length];
+				minigunBulIndex %= enemyBullets.length;
+			}
 			bullet.reinitialize(initBulletX,initBulletY ,(float)-Math.cos(0.0174532925*gunRotation)*bullet.moveSpeed, (float)-Math.sin(0.0174532925*gunRotation)*bullet.moveSpeed);
 			bullet.attack = minigunAttck;
 			Game.addEntity(bullet);
@@ -177,8 +203,13 @@ public abstract class TankEntity extends Entity {
 			}
 			lastFire = System.currentTimeMillis();
 			for(int i = 0;i < 10;i++){
-				bullet = myShotgunBullets[shotgunBulIndex ++ % myShotgunBullets.length];
-				shotgunBulIndex %= myShotgunBullets.length;
+				if(this instanceof MyTank) {
+					bullet = myShotgunBullets[shotgunBulIndex ++ % myShotgunBullets.length];
+					shotgunBulIndex %= myShotgunBullets.length;
+				} else {
+					bullet = enemyShotgunBullets[shotgunBulIndex ++ % enemyShotgunBullets.length];
+					shotgunBulIndex %= enemyShotgunBullets.length;
+				}
 				float ranDX = (float)-Math.cos(0.0174532925*(gunRotation + new Random().nextInt(30)-15))*bullet.moveSpeed*(new Random().nextInt(3)+6)*0.1f;
 				float ranDY = (float)-Math.sin(0.0174532925*(gunRotation + new Random().nextInt(30)-15))*bullet.moveSpeed*(new Random().nextInt(3)+6)*0.1f;
 				bullet.reinitialize(initBulletX,initBulletY ,ranDX, ranDY);
@@ -194,8 +225,13 @@ public abstract class TankEntity extends Entity {
 				return;
 			}
 			lastFire = System.currentTimeMillis();
-			bullet = myCannonBullets[cannonBulIndex ++ % myCannonBullets.length];
-			cannonBulIndex %= myCannonBullets.length;
+			if(this instanceof MyTank) {
+				bullet = myCannonBullets[cannonBulIndex ++ % myCannonBullets.length];
+				cannonBulIndex %= myCannonBullets.length;
+			} else {
+				bullet = enemyCannonBullets[cannonBulIndex ++ % enemyCannonBullets.length];
+				cannonBulIndex %= enemyCannonBullets.length;
+			}
 			bullet.reinitialize(initBulletX,initBulletY ,(float)-Math.cos(0.0174532925*gunRotation)*bullet.moveSpeed, (float)-Math.sin(0.0174532925*gunRotation)*bullet.moveSpeed);
 			bullet.attack = cannonAttck;
 			Game.addEntity(bullet);
@@ -204,14 +240,25 @@ public abstract class TankEntity extends Entity {
 		case ROCKET:
 			if(rocketReleased){
 				rocketReleased = false;
-				Game.removeEntity(myRocketBullet);
-				Game.addEntity(new BombEffect_BigBullet(game,myRocketBullet.x,myRocketBullet.y));
+				if(this instanceof MyTank) {
+					Game.removeEntity(myRocketBullet);
+					Game.addEntity(new BombEffect_BigBullet(game,myRocketBullet.x,myRocketBullet.y));
+				} else {
+					Game.removeEntity(enemyRocketBullet);
+					Game.addEntity(new BombEffect_BigBullet(game,enemyRocketBullet.x,enemyRocketBullet.y));
+				}
 				Game.soundManager.playEffect(Game.SOUND_BOMB_TANK);
 			} else {
 				rocketReleased = true;
-				myRocketBullet.reinitialize(initBulletX,initBulletY ,0, 0);
-				myRocketBullet.attack = rocketAttck;
-				Game.addEntity(myRocketBullet);
+				if(this instanceof MyTank) {
+					myRocketBullet.reinitialize(initBulletX,initBulletY ,0, 0);
+					myRocketBullet.attack = rocketAttck;
+					Game.addEntity(myRocketBullet);
+				} else {
+					enemyRocketBullet.reinitialize(initBulletX,initBulletY ,0, 0);
+					enemyRocketBullet.attack = rocketAttck;
+					Game.addEntity(enemyRocketBullet);
+				}
 				Game.soundManager.playEffect(Game.SOUND_FIRE_ROCKET);
 			}
 			break;
