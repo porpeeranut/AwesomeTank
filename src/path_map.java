@@ -40,14 +40,20 @@ public class path_map implements TileBasedMap {
 		int WIDTH = mapData.length;//17
 		int HEIGHT = mapData[0].length;//7
 		int[][] tmp = new int[HEIGHT][WIDTH];
+		int randGround = new Random().nextInt(2);
 		for (int x=0;x<WIDTH;x++) {
 			for (int y=0;y<HEIGHT;y++) {
 				/** GROUND  1-14
+				 *  WGROUND 201-214
 				 *  BLOCKED 101-109
 				 *  NULL    200
 				 * */
-				if(mapData[x][y] == GROUND)
-					tmp[y][x] = new Random().nextInt(14) +1;	// random 1-14
+				if(mapData[x][y] == GROUND) {
+					if(randGround == 0)
+						tmp[y][x] = new Random().nextInt(14) +1;	// random 1-14
+					else
+						tmp[y][x] = 200+(new Random().nextInt(14) +1);	// random 1-14
+				}
 				if(mapData[x][y] == BLOCKED)
 					tmp[y][x] = 100+(new Random().nextInt(9) +1);	// random 1-9
 				if(mapData[x][y] == NULL)
@@ -73,6 +79,8 @@ public class path_map implements TileBasedMap {
 		textureTable.put(String.valueOf(100*(int)NULL),Game.loadTexture("map/null.jpg"));
 		for(int i = 1;i <= 14;i++)
 			textureTable.put(String.valueOf(i),Game.loadTexture("map/ground"+i+".jpg"));
+		for(int i = 1;i <= 14;i++)
+			textureTable.put(String.valueOf(i+200),Game.loadTexture("map/Wground"+i+".jpg"));
 		for(int i = 1;i <= 9;i++)
 			textureTable.put(String.valueOf(i+100),Game.loadTexture("map/block"+i+".jpg"));
 	}

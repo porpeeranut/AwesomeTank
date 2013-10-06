@@ -1,7 +1,6 @@
 
 set lv
 chk array
-Wground
 clear warn print display
 
 --------------------------
