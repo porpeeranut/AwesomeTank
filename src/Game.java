@@ -207,7 +207,7 @@ public class Game{
 			if(i == 1)
 				unlockLV.put(i, true);
 			else
-				unlockLV.put(i, true);
+				unlockLV.put(i, false);
 		}
 		loadResource();
 		
@@ -1363,14 +1363,14 @@ public class Game{
 	        for(int i = 0;i < 2;i++){
 	        	oilTank[i].setHP(15);
 	        	oilTank[i].reset();
-	        	//entities.add(oilTank[i]);
+	        	entities.add(oilTank[i]);
 	        }
 	        enemyMinigun[0].setPositionToMap(6, 4);
 	        enemyMinigun[1].setPositionToMap(9, 3);
 	        enemyMinigun[2].setPositionToMap(15, 2);
 	        enemyMinigun[3].setPositionToMap(15, 3);
 	        enemyMinigun[4].setPositionToMap(15, 4);
-	        enemyMinigun[5].setPositionToMap(13, 1);
+	        enemyMinigun[5].setPositionToMap(13, 2);
 	        enemyMinigun[6].setPositionToMap(14, 4);
 			for (int i = 0; i < 7; i++) {
 				enemyMinigun[i].setHP(50);
@@ -1432,13 +1432,13 @@ public class Game{
 	        enemyMinigun[7].setPositionToMap(5, 9);
 	        enemyMinigun[8].setPositionToMap(6, 9);
 			for (int i = 0; i < 9; i++) {
-				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setHP(60);
 				enemyMinigun[i].setBodyAngle(39);
 				enemyMinigun[i].setMinigunAttck(1);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
 			}
-	        turret[0].setHP(50);
+	        turret[0].setHP(60);
 			turret[0].setPositionToMap(2, 8);
 			turret[0].reset();
 			entities.add(turret[0]);
@@ -1506,16 +1506,16 @@ public class Game{
 	        enemyMinigun[5].setPositionToMap(5, 3);
 	        enemyMinigun[6].setPositionToMap(5, 4);
 			for (int i = 0; i < 7; i++) {
-				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setHP(70);
 				enemyMinigun[i].setBodyAngle(39);
-				enemyMinigun[i].setMinigunAttck(1);
+				enemyMinigun[i].setMinigunAttck(2);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
 			}
 			enemyShotgun[0].setPositionToMap(2, 4);
 	        enemyShotgun[1].setPositionToMap(8, 4);
 	        for (int i = 0; i < 2; i++) {
-	        	enemyShotgun[i].setHP(50);
+	        	enemyShotgun[i].setHP(70);
 	        	enemyShotgun[i].setBodyAngle(39);
 	        	enemyShotgun[i].setShotgunAttck(1);
 				enemyShotgun[i].reset();
@@ -1524,7 +1524,7 @@ public class Game{
 	        turret[0].setPositionToMap(2, 2);
 	        turret[1].setPositionToMap(8, 2);
 			for (int i = 0; i < 2; i++) {
-				turret[0].setHP(50);
+				turret[0].setHP(70);
 				turret[0].reset();
 				entities.add(turret[0]);
 			}
@@ -1584,9 +1584,9 @@ public class Game{
 	        enemyMinigun[4].setPositionToMap(2, 7);
 	        enemyMinigun[5].setPositionToMap(7, 10);
 			for (int i = 0; i < 6; i++) {
-				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setHP(80);
 				enemyMinigun[i].setBodyAngle(39);
-				enemyMinigun[i].setMinigunAttck(1);
+				enemyMinigun[i].setMinigunAttck(2);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
 			}
@@ -1597,16 +1597,16 @@ public class Game{
 	        enemyShotgun[4].setPositionToMap(9, 10);
 	        enemyShotgun[5].setPositionToMap(10, 10);
 	        for (int i = 0; i < 6; i++) {
-	        	enemyShotgun[i].setHP(50);
+	        	enemyShotgun[i].setHP(80);
 	        	enemyShotgun[i].setBodyAngle(39);
-	        	enemyShotgun[i].setShotgunAttck(1);
+	        	enemyShotgun[i].setShotgunAttck(2);
 				enemyShotgun[i].reset();
 				entities.add(enemyShotgun[i]);
 			}
 	        turret[0].setPositionToMap(10, 2);
 	        turret[1].setPositionToMap(11, 10);
 			for (int i = 0; i < 2; i++) {
-				turret[0].setHP(50);
+				turret[0].setHP(80);
 				turret[0].reset();
 				entities.add(turret[0]);
 			}
@@ -1690,9 +1690,9 @@ public class Game{
 	        enemyMinigun[7].setPositionToMap(9, 7);
 	        enemyMinigun[8].setPositionToMap(11, 7);
 			for (int i = 0; i < 9; i++) {
-				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setHP(90);
 				enemyMinigun[i].setBodyAngle(39);
-				enemyMinigun[i].setMinigunAttck(1);
+				enemyMinigun[i].setMinigunAttck(3);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
 			}
@@ -1703,9 +1703,9 @@ public class Game{
 	        enemyShotgun[4].setPositionToMap(9, 15);
 	        enemyShotgun[5].setPositionToMap(7, 13);
 	        for (int i = 0; i < 6; i++) {
-	        	enemyShotgun[i].setHP(50);
+	        	enemyShotgun[i].setHP(90);
 	        	enemyShotgun[i].setBodyAngle(39);
-	        	enemyShotgun[i].setShotgunAttck(1);
+	        	enemyShotgun[i].setShotgunAttck(2);
 				enemyShotgun[i].reset();
 				entities.add(enemyShotgun[i]);
 			}
@@ -1713,7 +1713,7 @@ public class Game{
 	        turret[1].setPositionToMap(10, 4);
 	        turret[2].setPositionToMap(11, 16);
 	        for(int i = 0;i < 3;i++){
-	        	turret[i].setHP(70);
+	        	turret[i].setHP(90);
 				turret[i].reset();
 				entities.add(turret[i]);
 	        }
@@ -1763,8 +1763,9 @@ public class Game{
 	        	entities.add(oilTank[i]);
 	        }
 	        for (int i = 0; i < 6; i++) {
-				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setHP(110);
 				enemyMinigun[i].setPositionToMap(i+1, 5);
+				enemyMinigun[i].setMinigunAttck(3);
 				enemyMinigun[i].setBodyAngle(39);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
@@ -1772,7 +1773,8 @@ public class Game{
 	        enemyShotgunTurret[0].setPositionToMap(6, 7);
 	        enemyShotgunTurret[1].setPositionToMap(2, 10);
 	        for(int i = 0;i < 2;i++){
-	        	enemyShotgunTurret[i].setHP(50);
+	        	enemyShotgunTurret[i].setHP(210);
+	        	enemyShotgunTurret[i].setShotgunAttck(3);
 				enemyShotgunTurret[i].reset();
 				entities.add(enemyShotgunTurret[i]);
 	        }			
@@ -1780,7 +1782,7 @@ public class Game{
 	        turret[1].setPositionToMap(2, 4);
 	        turret[2].setPositionToMap(2, 8);
 	        for(int i = 0;i < 3;i++){
-	        	turret[i].setHP(70);
+	        	turret[i].setHP(110);
 				turret[i].reset();
 				entities.add(turret[i]);
 	        }
@@ -1849,8 +1851,9 @@ public class Game{
 	        	entities.add(oilTank[i]);
 	        }
 	        for (int i = 0; i < 5; i++) {
-				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setHP(130);
 				enemyMinigun[i].setPositionToMap(6, i+1);
+				enemyMinigun[i].setMinigunAttck(3);
 				enemyMinigun[i].setBodyAngle(39);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
@@ -1858,13 +1861,15 @@ public class Game{
 			enemyShotgunTurret[0].setPositionToMap(3, 5);
 	        enemyShotgunTurret[1].setPositionToMap(15, 7);
 	        for(int i = 0;i < 2;i++){
-	        	enemyShotgunTurret[i].setHP(50);
+	        	enemyShotgunTurret[i].setHP(230);
+	        	enemyShotgunTurret[i].setShotgunAttck(3);
 				enemyShotgunTurret[i].reset();
 				entities.add(enemyShotgunTurret[i]);
 	        }
 	        enemyCannonTurret[0].setPositionToMap(17, 11);	        
-			enemyCannonTurret[1].setHP(50);
-			enemyCannonTurret[2].reset();
+			enemyCannonTurret[0].setHP(230);
+			enemyCannonTurret[0].setCannonAttck(30);
+			enemyCannonTurret[0].reset();
 			entities.add(enemyCannonTurret[0]);
 	        	
 			turret[0].setPositionToMap(10, 2);
@@ -1872,7 +1877,7 @@ public class Game{
 			turret[2].setPositionToMap(3, 13);
 			turret[3].setPositionToMap(15, 14);
 			for (int i = 0; i < 4; i++) {
-	        turret[i].setHP(50);			
+	        turret[i].setHP(130);			
 			turret[i].reset();
 			entities.add(turret[i]);
 			}
@@ -1967,20 +1972,23 @@ public class Game{
 			enemyMinigun[19].setPositionToMap(16, 13);
 			enemyMinigun[20].setPositionToMap(17, 13);
 	        for (int i = 0; i < 21; i++) {
-				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setHP(150);
 				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].setMinigunAttck(4);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
 			}
 			enemyCannonTurret[0].setPositionToMap(17, 4);
 	        enemyCannonTurret[1].setPositionToMap(16, 12);
 	        for(int i = 0;i < 2;i++){
-	        	enemyCannonTurret[i].setHP(50);
+	        	enemyCannonTurret[i].setHP(250);
+				enemyCannonTurret[i].setCannonAttck(50);
 				enemyCannonTurret[i].reset();
 				entities.add(enemyCannonTurret[i]);
 	        }
-			enemyShotgunTurret[0].setPositionToMap(8, 8);	        
-			enemyShotgunTurret[0].setHP(50);
+			enemyShotgunTurret[0].setPositionToMap(8, 8);
+			enemyShotgunTurret[0].setShotgunAttck(4);
+			enemyShotgunTurret[0].setHP(250);
 			enemyShotgunTurret[0].reset();
 			entities.add(enemyShotgunTurret[0]);
 			
@@ -1989,7 +1997,7 @@ public class Game{
 			turret[2].setPositionToMap(15, 2);
 			turret[3].setPositionToMap(9, 12);
 			for (int i = 0; i < 4; i++) {
-	        turret[i].setHP(50);
+	        turret[i].setHP(150);
 			turret[i].reset();
 			entities.add(turret[i]);
 			}
@@ -2079,8 +2087,9 @@ public class Game{
 			enemyMinigun[11].setPositionToMap(9, 23);			
 			enemyMinigun[12].setPositionToMap(10, 23);
 	        for (int i = 0; i < 13; i++) {
-				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setHP(170);
 				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].setMinigunAttck(4);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
 			}
@@ -2090,7 +2099,7 @@ public class Game{
 			turret[2].setPositionToMap(7, 11);
 			turret[3].setPositionToMap(8, 21);
 			for (int i = 0; i < 4; i++) {
-	        turret[i].setHP(50);
+	        turret[i].setHP(150);
 			turret[i].reset();
 			entities.add(turret[i]);
 			}
@@ -2107,7 +2116,8 @@ public class Game{
 	        enemyCannonTurret[1].setPositionToMap(12, 8);
 			enemyCannonTurret[2].setPositionToMap(6, 22);
 	        for(int i = 0;i < 3;i++){
-	        	enemyCannonTurret[i].setHP(50);
+	        	enemyCannonTurret[i].setHP(250);
+	        	enemyCannonTurret[i].setCannonAttck(50);
 				enemyCannonTurret[i].reset();
 				entities.add(enemyCannonTurret[i]);
 	        }
@@ -2371,15 +2381,17 @@ public class Game{
 			enemyMinigun[14].setPositionToMap(4, 18);
 			enemyMinigun[15].setPositionToMap(12, 18);
 	        for (int i = 0; i < 16; i++) {
-				enemyMinigun[i].setHP(50);
+				enemyMinigun[i].setHP(170);
 				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].setMinigunAttck(4);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
 			}
 				enemyCannonTurret[0].setPositionToMap(4, 2);
 				enemyCannonTurret[1].setPositionToMap(5, 13);
 			 for(int i = 0;i < 2;i++){
-	        	enemyCannonTurret[i].setHP(50);
+	        	enemyCannonTurret[i].setHP(270);
+	        	enemyCannonTurret[i].setCannonAttck(50);
 				enemyCannonTurret[i].reset();
 				entities.add(enemyCannonTurret[i]);
 	        }
@@ -2392,7 +2404,7 @@ public class Game{
 			turret[2].setPositionToMap(4, 17);
 			turret[3].setPositionToMap(11, 17);
 			for (int i = 0; i < 4; i++) {
-				turret[i].setHP(50);
+				turret[i].setHP(170);
 				turret[i].reset();
 				entities.add(turret[i]);
 			}

@@ -20,7 +20,7 @@ public class EnemyTank extends TankEntity {
 	private boolean is_wait = false;
 	private int wait_time;
 	private int max_waitTime;
-	protected int numPathToActive = 4;
+	protected int numPathToActive;
 	
 	public EnemyTank(Game ingame) {
 		super(ingame);
@@ -29,6 +29,11 @@ public class EnemyTank extends TankEntity {
 		//init no mission to this tank
 		is_walk = false;
 		wait_time = 0;
+		if(this instanceof EnemyMinigun || this instanceof EnemyShotgun
+				|| this instanceof EnemyCannon || this instanceof EnemyRocket)
+			numPathToActive = 4;
+		else
+			numPathToActive = 5;
 	}
 	
 	public void move(path_map map ,long delta ,float playerX ,float playerY){
@@ -145,7 +150,7 @@ public class EnemyTank extends TankEntity {
 	public void collidedWith(Entity other) {
 		if(other instanceof MyBullet){
 			shoted = true;
-			numPathToActive = 15;
+			numPathToActive = 6;
 			Game.soundManager.playEffect(Game.SOUND_SHOT_TANK);
 		}
 
@@ -153,7 +158,7 @@ public class EnemyTank extends TankEntity {
 				&& !(other instanceof Gold)  && !(other instanceof HPpotion)){
 			if(this instanceof EnemyMinigun || this instanceof EnemyShotgun
 					|| this instanceof EnemyCannon || this instanceof EnemyRocket)
-				moveBack();
+				//moveBack();
 			//is_walk = false;
 			is_wait  = true;
 			max_waitTime = (new Random().nextInt(2))*300;
@@ -232,7 +237,7 @@ public class EnemyTank extends TankEntity {
 			tmp_path.removeFromLast(3);
 			//set enemy_gun angle HERE!
 			rotate_gun(playerX, playerY);
-			if(tmp_path.getLength() < 3){
+			if(tmp_path.getLength() < numPathToActive){
 				float initBulletX = (float)(this.x-Math.cos(0.0174532925*gunAngle)*this.width/1.5);
         		float initBulletY = (float)(this.y-Math.sin(0.0174532925*gunAngle)*this.height/1.5);
         		
