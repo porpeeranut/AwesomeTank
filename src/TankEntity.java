@@ -61,13 +61,13 @@ public abstract class TankEntity extends Entity {
 
 	public TankEntity(Game ingame) {
 		game = ingame;
-		width = (int)(game.map.TILE_SIZE*0.7);
-        height = (int)(game.map.TILE_SIZE*0.7);
+		width = (int)(path_map.TILE_SIZE*0.7);
+        height = (int)(path_map.TILE_SIZE*0.7);
         if(this instanceof EnemyMinigunTurret
         		|| this instanceof EnemyShotgunTurret
         		|| this instanceof EnemyCannonTurret){
-        	width = (int)(game.map.TILE_SIZE*0.8);
-            height = (int)(game.map.TILE_SIZE*0.8);
+        	width = (int)(path_map.TILE_SIZE*0.8);
+            height = (int)(path_map.TILE_SIZE*0.8);
         }
 		halfSize = width/2;
 		unlockGun.put(TankEntity.GunType.MINIGUN, false);

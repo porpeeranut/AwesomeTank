@@ -9,8 +9,8 @@ public class Turret extends Entity {
 		game = ingame;
 		turret = Game.loadTexture("turret.png");
 		Shot = Game.loadTexture("turretShot.png");
-		width = (int)(game.map.TILE_SIZE*0.8);
-        height = (int)(game.map.TILE_SIZE*0.8);
+		width = (int)(path_map.TILE_SIZE*0.8);
+        height = (int)(path_map.TILE_SIZE*0.8);
 		halfSize = width/2;
 		HP = hp;
 		maxHP = HP;

@@ -10,8 +10,8 @@ public class Gold extends Entity {
 		game = ingame;
 		gold = Game.loadTexture("gold.png");
 		float ratio = (float) (new Random().nextFloat() * (0.25 - 0.15) + 0.15);	// random 0.15-0.25
-		width = (int)(game.map.TILE_SIZE*ratio);
-		height = (int)(game.map.TILE_SIZE*ratio);
+		width = (int)(path_map.TILE_SIZE*ratio);
+		height = (int)(path_map.TILE_SIZE*ratio);
 		halfSize = width/2;
 	}
 	

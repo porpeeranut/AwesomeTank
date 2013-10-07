@@ -8,8 +8,8 @@ public class Box extends Entity {
 		game = ingame;
 		box = Game.loadTexture("box.png");
 		Shot = Game.loadTexture("boxShot.png");
-		width = (int)(game.map.TILE_SIZE*0.6);
-        height = (int)(game.map.TILE_SIZE*0.6);
+		width = (int)(path_map.TILE_SIZE*0.6);
+        height = (int)(path_map.TILE_SIZE*0.6);
 		halfSize = width/2;
 		HP = hp;
 		maxHP = HP;

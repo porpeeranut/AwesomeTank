@@ -184,8 +184,8 @@ public class EnemyTank extends TankEntity {
 		//evade
 		int tx = -1;
 		int ty = -1;
-		int local_x = (int) (this.x/map.TILE_SIZE);
-		int local_y = (int) (this.y/map.TILE_SIZE);
+		int local_x = (int) (this.x/path_map.TILE_SIZE);
+		int local_y = (int) (this.y/path_map.TILE_SIZE);
 		int loopTime = 0;
 		//random direction
 		if( is_walk == false ){
@@ -228,10 +228,10 @@ public class EnemyTank extends TankEntity {
 	
 	public void setPath(float playerX ,float playerY){
 		Path tmp_path = new AStarPathFinder(map, numPathToActive, false).findPath(new UnitMover() 
-		,(int) (this.x/map.TILE_SIZE) 
-		,(int) (this.y/map.TILE_SIZE)
-		,(int) playerX/map.TILE_SIZE 
-		,(int) playerY/map.TILE_SIZE
+		,(int) (this.x/path_map.TILE_SIZE) 
+		,(int) (this.y/path_map.TILE_SIZE)
+		,(int) playerX/path_map.TILE_SIZE 
+		,(int) playerY/path_map.TILE_SIZE
 		);
 		if(tmp_path != null){
 			tmp_path.removeFromLast(3);

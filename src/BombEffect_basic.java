@@ -15,8 +15,8 @@ public class BombEffect_basic extends Effect {
 		for(int i = 1;i <= bombEffect.length;i++){
 			bombEffect[i-1] = Game.loadTexture("BombEffect_1/"+i+".png");
 		}
-		width = (int)(game.map.TILE_SIZE*2);
-        height = (int)(game.map.TILE_SIZE*2);
+		width = (int)(path_map.TILE_SIZE*2);
+        height = (int)(path_map.TILE_SIZE*2);
 		halfSize = width/2;
 	}
 	

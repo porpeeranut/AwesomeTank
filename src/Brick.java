@@ -8,8 +8,8 @@ public class Brick extends Entity {
 		game = ingame;
 		brick = Game.loadTexture("brick.jpg");
 		Shot = Game.loadTexture("brickShot.jpg");
-		width = game.map.TILE_SIZE;
-        height = game.map.TILE_SIZE;
+		width = path_map.TILE_SIZE;
+        height = path_map.TILE_SIZE;
 		halfSize = width/2;
 		HP = hp;
 		maxHP = HP;

@@ -12,8 +12,8 @@ public class MyRocketBullet extends MyBullet {
 		super(ingame,"rocket.png");
 		moveSpeed = speed;
 		attack = atck;
-		width = (int)(game.map.TILE_SIZE*0.43);
-        height = (int)(game.map.TILE_SIZE*0.14);
+		width = (int)(path_map.TILE_SIZE*0.43);
+        height = (int)(path_map.TILE_SIZE*0.14);
 	}
 	
 	public void move(long delta) {
