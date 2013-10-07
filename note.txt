@@ -1,14 +1,5 @@
 
-set lv
-chk array
-clear warn print display
-
---------------------------
-player hp 50,80,110,140
-
-hp mon lv1
-mini 50
-shot 70
+clear warn
 
 
 

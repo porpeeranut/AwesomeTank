@@ -70,7 +70,14 @@ public abstract class TankEntity extends Entity {
             height = (int)(game.map.TILE_SIZE*0.8);
         }
 		halfSize = width/2;
+		unlockGun.put(TankEntity.GunType.MINIGUN, false);
+		unlockGun.put(TankEntity.GunType.SHOTGUN, false);
+		unlockGun.put(TankEntity.GunType.RICOCHET, false);
+		unlockGun.put(TankEntity.GunType.CANNON, false);
+		unlockGun.put(TankEntity.GunType.ROCKET, false);
+		unlockGun.put(TankEntity.GunType.LASER, false);
 		if(this instanceof MyTank) {
+			unlockGun.put(TankEntity.GunType.MINIGUN, true);
 			myBullets = new MyMinigunBullet[50];
 			for (int i = 0; i < myBullets.length; i++) {
 				myBullets[i] = new MyMinigunBullet(game,12,5);
@@ -99,12 +106,6 @@ public abstract class TankEntity extends Entity {
 			}
 			enemyRocketBullet = new EnemyRocketBullet(game, 2, 50);
 		}
-		unlockGun.put(TankEntity.GunType.MINIGUN, true);
-		unlockGun.put(TankEntity.GunType.SHOTGUN, false);
-		unlockGun.put(TankEntity.GunType.RICOCHET, false);
-		unlockGun.put(TankEntity.GunType.CANNON, false);
-		unlockGun.put(TankEntity.GunType.ROCKET, false);
-		unlockGun.put(TankEntity.GunType.LASER, false);
 	}
 	
 	public void move(long delta,float setAng){
@@ -265,6 +266,22 @@ public abstract class TankEntity extends Entity {
 		case LASER:
 			break;
 		}
+	}
+	
+	public void setMinigunAttck(int attck) {
+		minigunAttck = attck;
+	}
+	
+	public void setShotgunAttck(int attck) {
+		shotgunAttck = attck;
+	}
+	
+	public void setCannonAttck(int attck) {
+		cannonAttck = attck;
+	}
+	
+	public void setRocketAttck(int attck) {
+		rocketAttck = attck;
 	}
 	
 	public void setGunAngle(float gunAngle) {

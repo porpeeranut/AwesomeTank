@@ -186,21 +186,20 @@ public class Button {
 			upgrdLV2 = Game.loadTexture("upgrd/upgrdArmorLV2.png");
 			upgrdLV3 = Game.loadTexture("upgrd/upgrdArmorLV3.png");
 			upgrdLV4 = Game.loadTexture("upgrd/upgrdArmorLV4.png");
-			System.out.println("HP "+Game.player.maxHP);
 			switch(Game.player.maxHP){
-			case 50:
+			case 200:
 				button = upgrdLV1;
 				priceToUpgrd = 2000;
 				break;
-			case 80:
+			case 300:
 				button = upgrdLV2;
 				priceToUpgrd = 3000;
 				break;
-			case 110:
+			case 400:
 				button = upgrdLV3;
 				priceToUpgrd = 5000;
 				break;
-			case 140:
+			case 500:
 				button = upgrdLV4;
 				maxUpgrd = true;
 				break;
@@ -234,7 +233,6 @@ public class Button {
     			button_LVlock = Game.loadTexture("LVbutton/LV"+i+"_lock.png");
 			}
 		}
-		//System.out.println(thisButton);
 		switch(thisButton){
 		case PLAY_INTRO:
 			width = button.getImageWidth() + 15;
@@ -390,22 +388,22 @@ public class Button {
 			break;
 		case UPGRD_ARMOR:
 			switch(Game.player.maxHP){
-			case 50:
+			case 200:
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV2;
 				priceToUpgrd = 3000;
-				Game.player.maxHP = 80;
+				Game.player.maxHP = 300;
 				break;
-			case 80:
+			case 300:
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV3;
 				priceToUpgrd = 5000;
-				Game.player.maxHP = 110;
+				Game.player.maxHP = 400;
 				break;
-			case 110:
+			case 400:
 				MyTank.myGold -= priceToUpgrd;
 				button = upgrdLV4;
-				Game.player.maxHP = 140;
+				Game.player.maxHP = 500;
 				maxUpgrd = true;
 				break;
 			}

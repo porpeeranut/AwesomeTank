@@ -19,7 +19,8 @@ public class EnemyTank extends TankEntity {
 	private path_map map;
 	private boolean is_wait = false;
 	private int wait_time;
-	private int max_waitTime; 
+	private int max_waitTime;
+	protected int numPathToActive = 4;
 	
 	public EnemyTank(Game ingame) {
 		super(ingame);
@@ -30,10 +31,10 @@ public class EnemyTank extends TankEntity {
 		wait_time = 0;
 	}
 	
-	
-	public void move(path_map map ,long delta){
+	public void move(path_map map ,long delta ,float playerX ,float playerY){
 		//set map
 		this.map = map;
+		setPath(playerX,playerY);
 		/* Create one and done mission method
 		 * 1. check if path not null and mission is null(previous mission is completed ) if not ,pass to 3. 
 		 * 2. create new mission
@@ -68,10 +69,11 @@ public class EnemyTank extends TankEntity {
 				//create new mission 
 				if( is_mission == false){
 					is_mission = true;
+					
 					//where is tank going? ,set destiny
 					to_x = path.getX(1)*path_map.TILE_SIZE + path_map.TILE_SIZE/2;
 					to_y = path.getY(1)*path_map.TILE_SIZE + path_map.TILE_SIZE/2; 
-					
+				
 					if( this.x  > to_x && Math.abs(to_y - this.y) < path_map.TILE_SIZE/20 ){
 						setAng = 0;
 					}
@@ -93,21 +95,22 @@ public class EnemyTank extends TankEntity {
 					super.setDX(tmpX);	
 					super.setDY(tmpY);
 					
-					is_walk = true;
+					if(this instanceof EnemyMinigun || this instanceof EnemyShotgun
+							|| this instanceof EnemyCannon || this instanceof EnemyRocket)
+						is_walk = true;
 				}	
 			}
 			
 			if( is_walk == true ){
-				walking(delta);	
+				walk(delta);	
 			}
 		}
 	}
 	
-	private void walking(long delta){
+	private void walk(long delta){
 		/*
 		 *if walk is actived ,this will handle how to go ,when to stop   
 		 */
-		System.out.println(is_mission);
 		float preX = this.x;
 		float preY = this.y;
 		//do mission
@@ -120,7 +123,6 @@ public class EnemyTank extends TankEntity {
 		
 		//check to complete this mission
 		if(Math.abs(to_x - this.x) < path_map.TILE_SIZE/20  && Math.abs(to_y - this.y) < path_map.TILE_SIZE/20  ){
-			//System.out.println("#to "+to_x+" "+to_y+" mission is completed");
 			is_walk = false;
 		}
 		
@@ -129,31 +131,32 @@ public class EnemyTank extends TankEntity {
 			is_mission = false;
 		
 		}
-	
 	}
 	
-	
-	public void gun_rotation(float targetX ,float targetY){
+	public void rotate_gun(float targetX ,float targetY){
 		//enemy gun rotation 
         float dx = this.x - targetX;
         float dy = this.y - targetY;
         float enemy_gunRotation = (float) (180*Math.atan2(dy, dx)/Math.PI);
     	this.setGunAngle(enemy_gunRotation);
-    	//System.out.println(this.gunAngle);b
-  
 	}
 	
 	@Override
 	public void collidedWith(Entity other) {
-		if(other instanceof Bullet){
+		if(other instanceof MyBullet){
 			shoted = true;
+			numPathToActive = 15;
+			Game.soundManager.playEffect(Game.SOUND_SHOT_TANK);
 		}
 
-		if(!(other instanceof Bullet) && !(other instanceof Effect)  && !(other instanceof Gold)){
-			moveBack();
+		if(!(other instanceof Bullet) && !(other instanceof Effect) 
+				&& !(other instanceof Gold)  && !(other instanceof HPpotion)){
+			if(this instanceof EnemyMinigun || this instanceof EnemyShotgun
+					|| this instanceof EnemyCannon || this instanceof EnemyRocket)
+				moveBack();
 			//is_walk = false;
 			is_wait  = true;
-			max_waitTime = (new Random().nextInt(4))*300;
+			max_waitTime = (new Random().nextInt(2))*300;
 			//new_moveBack();
 			/*
 			int cen_x = (int) (this.x/path_map.TILE_SIZE);
@@ -218,15 +221,30 @@ public class EnemyTank extends TankEntity {
 		
 	}
 	
-	public void setPath(Path path){
+	public void setPath(float playerX ,float playerY){
+		Path tmp_path = new AStarPathFinder(map, numPathToActive, false).findPath(new UnitMover() 
+		,(int) (this.x/map.TILE_SIZE) 
+		,(int) (this.y/map.TILE_SIZE)
+		,(int) playerX/map.TILE_SIZE 
+		,(int) playerY/map.TILE_SIZE
+		);
+		if(tmp_path != null){
+			tmp_path.removeFromLast(3);
+			//set enemy_gun angle HERE!
+			rotate_gun(playerX, playerY);
+			if(tmp_path.getLength() < 3){
+				float initBulletX = (float)(this.x-Math.cos(0.0174532925*gunAngle)*this.width/1.5);
+        		float initBulletY = (float)(this.y-Math.sin(0.0174532925*gunAngle)*this.height/1.5);
+        		
+				Fire(initBulletX,initBulletY,this.gunAngle);
+			}
+		}
+
 		if(is_mission == false ){
-			this.path = path;
+			this.path = tmp_path;
 		}
 	}
 	
-	public float get_setAng(){
-		return setAng;
-	}
 	/*
 	private void new_moveBack(Entity other){
 		float other_top = other.y- other.height/2;
@@ -254,10 +272,6 @@ public class EnemyTank extends TankEntity {
 		}
 		
 	}*/
-	
-	private void new_moveBack(){
-		
-	}
 	
 	private void manage_time(long delta){
 		time += (int) (delta);

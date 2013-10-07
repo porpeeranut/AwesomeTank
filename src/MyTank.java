@@ -30,7 +30,6 @@ public class MyTank extends TankEntity {
 	public void gotGold(int gl) {
 		profit += gl;
 		gotGold = true;
-		System.out.println(" "+gl+" "+profit);
 	}
 	
 	@Override
@@ -39,33 +38,8 @@ public class MyTank extends TankEntity {
 			shoted = true;
 			Game.soundManager.playEffect(Game.SOUND_SHOT_TANK);
 		} 
-		if(!(other instanceof Bullet) && !(other instanceof Effect)){
-			/*float tmp = xPreMove;
-			xPreMove = x;
-			x = tmp;
-			if(!this.collidesWith(other)){
-				System.out.println("\ny axis");
-				xPreMove = x;
-				yPreMove = y;
-			} else {
-				tmp = xPreMove;
-				xPreMove = x;
-				x = tmp;
-				tmp = yPreMove;
-				yPreMove = y;
-				y = tmp;
-				System.out.println("\nx gg");
-				if(!this.collidesWith(other)){
-					System.out.println("\nx axis");
-					xPreMove = x;
-					yPreMove = y;
-				} else {
-					System.out.println("\nx kk");
-					tmp = yPreMove;
-					yPreMove = y;
-					y = tmp;
-				}
-			}*/
+		if(!(other instanceof Bullet) && !(other instanceof Effect) 
+				&& !(other instanceof Gold)  && !(other instanceof HPpotion)){
 			moveBack();
 		}
 	}

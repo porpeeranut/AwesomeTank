@@ -128,6 +128,12 @@ public class Game{
     public float initBulletX,initBulletY;
     
 	private EnemyMinigun[] enemyMinigun;
+	private EnemyShotgun[] enemyShotgun;
+	private EnemyCannon[] enemyCannon;
+	//private EnemyRocket[] enemyRocket;
+	private EnemyMinigunTurret[] enemyMinigunTurret;
+	private EnemyShotgunTurret[] enemyShotgunTurret;
+	private EnemyCannonTurret[] enemyCannonTurret;
 	public static int numEnemy;
 	
 	private Brick[] brick;
@@ -201,7 +207,7 @@ public class Game{
 			if(i == 1)
 				unlockLV.put(i, true);
 			else
-				unlockLV.put(i, false);
+				unlockLV.put(i, true);
 		}
 		loadResource();
 		
@@ -227,7 +233,7 @@ public class Game{
 
     		// update our FPS
     		if (lastFpsTime >= 1000) {
-    			//Display.setTitle("Awesome Tank (FPS: " + fps + ")");
+    			Display.setTitle("Awesome Tank (FPS: " + fps + ")");
     			lastFpsTime = 0;
     			fps = 0;
     		}
@@ -305,19 +311,8 @@ public class Game{
                         		player.move(delta, bodyAng);
                     		}else if(entity instanceof EnemyTank){
                     			map.setArrayMap(currentLevel,entities);
-                        		finder = new AStarPathFinder(map,10,false);
-                    				path = finder.findPath(new UnitMover() 
-                    	    		,(int) ((EnemyTank)entity).get_centerX()/map.TILE_SIZE 
-                    				,(int) ((EnemyTank)entity).get_centerY()/map.TILE_SIZE
-                    				,(int) player.get_centerX()/map.TILE_SIZE 
-                    				,(int) player.get_centerY()/map.TILE_SIZE
-                    			);
-                    			if(path!=null){
-                    				path.removeFromLast(3);
-                        			
-                    			}
-                    			((EnemyTank)entity).setPath(path);
-                    			((EnemyTank)entity).move(map,delta);
+                    			if(state != State.LVFAILED)
+                    				((EnemyTank)entity).move(map,delta,player.x,player.y);
                         	}
                         	else
                         		entity.move(delta);
@@ -366,33 +361,6 @@ public class Game{
                 
         		entities.removeAll(removeList);
         		removeList.clear();
-        		/*
-        		if(!enemyMinigun[path_time].died){
-	        		
-        		
-    				path = finder.findPath(new UnitMover() 
-    	    		,(int) enemyMinigun[path_time].get_centerX()/map.TILE_SIZE 
-    				,(int) enemyMinigun[path_time].get_centerY()/map.TILE_SIZE
-    				,(int) player.get_centerX()/map.TILE_SIZE 
-    				,(int) player.get_centerY()/map.TILE_SIZE
-    				);
-    			}
-        		
-        		if(path!=null){
-    				path.removeFromLast(3);
-    				
-    				if( i == 0 ){
-    					///enemyTank[i].Fire(bot_initBulletX, bot_initBulletY, enemyTank[i].gunAngle);
-    					System.out.println("fire!");
-        			}
-        			
-    			}
-    			enemyMinigun[path_time].setPath(path);
-        		path_time++;
-        		if(path_time >= enemyMinigun.length){
-        			path_time = 0;
-        		} 
-        		*/
 
         		if(state == State.PAUSE || state == State.BACKTOMENU || state == State.HELP || 
         				state == State.LVCOMPLETE || state == State.LVFAILED)
@@ -401,11 +369,11 @@ public class Game{
                 //draw
                 map.draw();
                 for ( Entity entity : entities ) {
-                	if(entity instanceof Gold)
+                	if(entity instanceof Gold || entity instanceof HPpotion)
                 		entity.draw();
     			}
                 for ( Entity entity : entities ) {
-                	if(!(entity instanceof Effect) && !(entity instanceof Gold))
+                	if(!(entity instanceof Effect) && !(entity instanceof Gold) && !(entity instanceof HPpotion))
                 		entity.draw();
     			}
                 for ( Entity entity : entities ) {
@@ -1285,13 +1253,19 @@ public class Game{
 		labelTextShotgun = loadTexture("labelTextShotgun.png");
 		labelTextCannon = loadTexture("labelTextCannon.png");
 		labelTextRocket = loadTexture("labelTextRocket.png");
-    	player = new MyTank(this,50);
-    	brick = new Brick[27];
+    	player = new MyTank(this,200);
+    	brick = new Brick[213];
     	brick_2 = new Brick_2[31];
     	box = new Box[27];
-    	bmWall = new BombWall[11];
+    	bmWall = new BombWall[15];
     	oilTank = new OilTank[8];
-    	enemyMinigun = new EnemyMinigun[15];
+    	enemyMinigun = new EnemyMinigun[21];
+    	enemyShotgun = new EnemyShotgun[10];
+    	enemyCannon = new EnemyCannon[10];
+    	//enemyRocket = new EnemyRocket[10];
+    	enemyMinigunTurret = new EnemyMinigunTurret[10];
+    	enemyShotgunTurret = new EnemyShotgunTurret[10];
+    	enemyCannonTurret = new EnemyCannonTurret[10];
     	turret = new Turret[6];
     	gold = new Gold[200];
     	for(int i = 0;i < brick.length;i++){
@@ -1311,6 +1285,24 @@ public class Game{
     	}
     	for (int i = 0; i < enemyMinigun.length; i++) {
 			enemyMinigun[i] = new EnemyMinigun(this,50);
+    	}
+    	for (int i = 0; i < enemyShotgun.length; i++) {
+    		enemyShotgun[i] = new EnemyShotgun(this,50);
+    	}
+    	for (int i = 0; i < enemyCannon.length; i++) {
+    		enemyCannon[i] = new EnemyCannon(this,50);
+    	}
+    	/*for (int i = 0; i < enemyRocket.length; i++) {
+    		enemyRocket[i] = new EnemyRocket(this,50);
+    	}*/
+    	for (int i = 0; i < enemyMinigunTurret.length; i++) {
+			enemyMinigunTurret[i] = new EnemyMinigunTurret(this,50);
+    	}
+    	for (int i = 0; i < enemyShotgunTurret.length; i++) {
+    		enemyShotgunTurret[i] = new EnemyShotgunTurret(this,50);
+    	}
+    	for (int i = 0; i < enemyCannonTurret.length; i++) {
+    		enemyCannonTurret[i] = new EnemyCannonTurret(this,50);
     	}
     	for(int i = 0;i < turret.length;i++){
     		turret[i] = new Turret(this, 50);
@@ -1348,8 +1340,8 @@ public class Game{
 	        	brick[i].reset();
 	        	entities.add(brick[i]);
 	        }
-	        box[0].setPositionToMap(8, 2);
-	        box[1].setPositionToMap(9, 2);
+	        box[0].setPositionToMap(6, 1);
+	        box[1].setPositionToMap(7, 1);
 	        for(int i = 0;i < 2;i++){
 	        	box[i].setHP(15);
 	        	box[i].reset();
@@ -1373,10 +1365,17 @@ public class Game{
 	        	oilTank[i].reset();
 	        	//entities.add(oilTank[i]);
 	        }
-			for (int i = 0; i < 5; i++) {
+	        enemyMinigun[0].setPositionToMap(6, 4);
+	        enemyMinigun[1].setPositionToMap(9, 3);
+	        enemyMinigun[2].setPositionToMap(15, 2);
+	        enemyMinigun[3].setPositionToMap(15, 3);
+	        enemyMinigun[4].setPositionToMap(15, 4);
+	        enemyMinigun[5].setPositionToMap(13, 1);
+	        enemyMinigun[6].setPositionToMap(14, 4);
+			for (int i = 0; i < 7; i++) {
 				enemyMinigun[i].setHP(50);
-				enemyMinigun[i].setPositionToMap(i+5, 4);
 				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].setMinigunAttck(1);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
 			}
@@ -1384,8 +1383,7 @@ public class Game{
 			turret[0].setPositionToMap(14, 3);
 			turret[0].reset();
 			entities.add(turret[0]);
-			numEnemy = 5 + 1;
-			//numEnemy = 1;
+			numEnemy = 7 + 1;
 			break;
 		case 2:
 			map.createMap(2);
@@ -1424,10 +1422,19 @@ public class Game{
 	        	oilTank[i].reset();
 	        	entities.add(oilTank[i]);
 	        }
-	        for (int i = 0; i < 5; i++) {
+	        enemyMinigun[0].setPositionToMap(8, 2);
+	        enemyMinigun[1].setPositionToMap(4, 5);
+	        enemyMinigun[2].setPositionToMap(6, 5);
+	        enemyMinigun[3].setPositionToMap(7, 5);
+	        enemyMinigun[4].setPositionToMap(2, 9);
+	        enemyMinigun[5].setPositionToMap(3, 9);
+	        enemyMinigun[6].setPositionToMap(4, 9);
+	        enemyMinigun[7].setPositionToMap(5, 9);
+	        enemyMinigun[8].setPositionToMap(6, 9);
+			for (int i = 0; i < 9; i++) {
 				enemyMinigun[i].setHP(50);
-				enemyMinigun[i].setPositionToMap(i+5, 4);
 				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].setMinigunAttck(1);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
 			}
@@ -1435,7 +1442,7 @@ public class Game{
 			turret[0].setPositionToMap(2, 8);
 			turret[0].reset();
 			entities.add(turret[0]);
-	        numEnemy = 5 + 1;
+	        numEnemy = 9 + 1;
 			break;
 		case 3:
 			map.createMap(3);
@@ -1491,18 +1498,37 @@ public class Game{
 	        	oilTank[i].reset();
 	        	entities.add(oilTank[i]);
 	        }
-	        for (int i = 0; i < 5; i++) {
+	        enemyMinigun[0].setPositionToMap(2, 8);
+	        enemyMinigun[1].setPositionToMap(8, 8);
+	        enemyMinigun[2].setPositionToMap(5, 6);
+	        enemyMinigun[3].setPositionToMap(5, 1);
+	        enemyMinigun[4].setPositionToMap(5, 2);
+	        enemyMinigun[5].setPositionToMap(5, 3);
+	        enemyMinigun[6].setPositionToMap(5, 4);
+			for (int i = 0; i < 7; i++) {
 				enemyMinigun[i].setHP(50);
-				enemyMinigun[i].setPositionToMap(i+5, 4);
 				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].setMinigunAttck(1);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
 			}
-	        turret[0].setHP(50);
-			turret[0].setPositionToMap(2, 8);
-			turret[0].reset();
-			entities.add(turret[0]);
-	        numEnemy = 5 + 1;
+			enemyShotgun[0].setPositionToMap(2, 4);
+	        enemyShotgun[1].setPositionToMap(8, 4);
+	        for (int i = 0; i < 2; i++) {
+	        	enemyShotgun[i].setHP(50);
+	        	enemyShotgun[i].setBodyAngle(39);
+	        	enemyShotgun[i].setShotgunAttck(1);
+				enemyShotgun[i].reset();
+				entities.add(enemyShotgun[i]);
+			}
+	        turret[0].setPositionToMap(2, 2);
+	        turret[1].setPositionToMap(8, 2);
+			for (int i = 0; i < 2; i++) {
+				turret[0].setHP(50);
+				turret[0].reset();
+				entities.add(turret[0]);
+			}
+	        numEnemy = 9 + 1;
 			break;
 		case 4:
 			map.createMap(4);
@@ -1551,18 +1577,40 @@ public class Game{
 	        	oilTank[i].reset();
 	        	entities.add(oilTank[i]);
 	        }
-	        for (int i = 0; i < 5; i++) {
+	        enemyMinigun[0].setPositionToMap(11, 2);
+	        enemyMinigun[1].setPositionToMap(11, 6);
+	        enemyMinigun[2].setPositionToMap(2, 5);
+	        enemyMinigun[3].setPositionToMap(2, 6);
+	        enemyMinigun[4].setPositionToMap(2, 7);
+	        enemyMinigun[5].setPositionToMap(7, 10);
+			for (int i = 0; i < 6; i++) {
 				enemyMinigun[i].setHP(50);
-				enemyMinigun[i].setPositionToMap(i+5, 5);
 				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].setMinigunAttck(1);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
 			}
-	        turret[0].setHP(50);
-			turret[0].setPositionToMap(10, 2);
-			turret[0].reset();
-			entities.add(turret[0]);
-	        numEnemy = 5 + 1;
+			enemyShotgun[0].setPositionToMap(6, 5);
+	        enemyShotgun[1].setPositionToMap(7, 5);
+	        enemyShotgun[2].setPositionToMap(8, 5);
+	        enemyShotgun[3].setPositionToMap(4, 11);
+	        enemyShotgun[4].setPositionToMap(9, 10);
+	        enemyShotgun[5].setPositionToMap(10, 10);
+	        for (int i = 0; i < 6; i++) {
+	        	enemyShotgun[i].setHP(50);
+	        	enemyShotgun[i].setBodyAngle(39);
+	        	enemyShotgun[i].setShotgunAttck(1);
+				enemyShotgun[i].reset();
+				entities.add(enemyShotgun[i]);
+			}
+	        turret[0].setPositionToMap(10, 2);
+	        turret[1].setPositionToMap(11, 10);
+			for (int i = 0; i < 2; i++) {
+				turret[0].setHP(50);
+				turret[0].reset();
+				entities.add(turret[0]);
+			}
+	        numEnemy = 12 + 1;
 			break;
 		case 5:
 			map.createMap(5);
@@ -1581,7 +1629,6 @@ public class Game{
 	        brick_2[6].setPositionToMap(8, 6);
 	        brick_2[7].setPositionToMap(10, 6);
 	        brick_2[8].setPositionToMap(12, 6);
-	        
 	        brick_2[9].setPositionToMap(6, 11);
 	        brick_2[10].setPositionToMap(7, 11);
 	        brick_2[11].setPositionToMap(11, 11);
@@ -1615,6 +1662,17 @@ public class Game{
 	        	bmWall[i].reset();
 	        	entities.add(bmWall[i]);
 	        }
+	        box[0].setPositionToMap(2, 7);
+	        box[1].setPositionToMap(2, 9);
+	        box[2].setPositionToMap(2, 11);
+	        box[3].setPositionToMap(2, 13);
+	        box[4].setPositionToMap(2, 15);
+	        box[5].setPositionToMap(2, 17);
+	        for(int i = 0;i < 6;i++){
+	        	box[i].setHP(15);
+	        	box[i].reset();
+	        	entities.add(box[i]);
+	        }
 	        oilTank[0].setPositionToMap(8, 13);
 	        oilTank[1].setPositionToMap(9, 14);
 	        for(int i = 0;i < 2;i++){
@@ -1622,12 +1680,34 @@ public class Game{
 	        	oilTank[i].reset();
 	        	entities.add(oilTank[i]);
 	        }
-	        for (int i = 0; i < 5; i++) {
+	        enemyMinigun[0].setPositionToMap(7, 3);
+	        enemyMinigun[1].setPositionToMap(9, 3);
+	        enemyMinigun[2].setPositionToMap(11, 3);
+	        enemyMinigun[3].setPositionToMap(7, 5);
+	        enemyMinigun[4].setPositionToMap(9, 5);
+	        enemyMinigun[5].setPositionToMap(11, 5);
+	        enemyMinigun[6].setPositionToMap(7, 7);
+	        enemyMinigun[7].setPositionToMap(9, 7);
+	        enemyMinigun[8].setPositionToMap(11, 7);
+			for (int i = 0; i < 9; i++) {
 				enemyMinigun[i].setHP(50);
-				enemyMinigun[i].setPositionToMap(i+5, 4);
 				enemyMinigun[i].setBodyAngle(39);
+				enemyMinigun[i].setMinigunAttck(1);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
+			}
+			enemyShotgun[0].setPositionToMap(7, 12);
+	        enemyShotgun[1].setPositionToMap(11, 12);
+	        enemyShotgun[2].setPositionToMap(7, 15);
+	        enemyShotgun[3].setPositionToMap(8, 15);
+	        enemyShotgun[4].setPositionToMap(9, 15);
+	        enemyShotgun[5].setPositionToMap(7, 13);
+	        for (int i = 0; i < 6; i++) {
+	        	enemyShotgun[i].setHP(50);
+	        	enemyShotgun[i].setBodyAngle(39);
+	        	enemyShotgun[i].setShotgunAttck(1);
+				enemyShotgun[i].reset();
+				entities.add(enemyShotgun[i]);
 			}
 	        turret[0].setPositionToMap(8, 4);
 	        turret[1].setPositionToMap(10, 4);
@@ -1637,260 +1717,686 @@ public class Game{
 				turret[i].reset();
 				entities.add(turret[i]);
 	        }
-	        numEnemy = 5 + 3;
+	        numEnemy = 15 + 3;
 			break;
-			//#####################################################################
-			//#####################################################################
-			//#####################################################################
 		case 6:
 			map.createMap(6);
 			player.setHP(player.maxHP);
-	        player.setPositionToMap(2,2);
+	        player.setPositionToMap(1,15);
 	        player.reset();
 	        player.setGun(TankEntity.GunType.MINIGUN);
 	        player.rocketReleased = false;
 	        entities.add(player);
-	        brick[0].setPositionToMap(6, 1);
-	        brick[1].setPositionToMap(6, 2);
-	        brick[2].setPositionToMap(6, 3);
-	        brick[3].setPositionToMap(6, 4);
-	        brick[4].setPositionToMap(4, 8);
-	        brick[5].setPositionToMap(5, 8);
-	        brick[6].setPositionToMap(6, 8);
-	        for(int i = 0;i < 7;i++){
+	        brick[0].setPositionToMap(9, 3);
+	        brick[1].setPositionToMap(10, 3);
+	        brick[2].setPositionToMap(11, 3);			
+	        brick[3].setPositionToMap(8, 13);
+	        brick[4].setPositionToMap(8, 14);
+	        brick[5].setPositionToMap(8, 15);
+	        for(int i = 0;i < 6;i++){
 	        	brick[i].setHP(30);
 	        	brick[i].reset();
 	        	entities.add(brick[i]);
 	        }
-			bmWall[0].setPositionToMap(4, 2);
-	        bmWall[1].setPositionToMap(4, 3);
-	        bmWall[2].setPositionToMap(4, 1);
-	        for(int i = 0;i < 3;i++){
+	        bmWall[0].setPositionToMap(8, 5);
+	        bmWall[1].setPositionToMap(8, 6);
+	        bmWall[2].setPositionToMap(8, 7);
+	        bmWall[3].setPositionToMap(3, 12);
+	        bmWall[4].setPositionToMap(4, 12);
+	        bmWall[5].setPositionToMap(5, 12);
+			
+	        for(int i = 0;i < 6;i++){
 	        	bmWall[i].setHP(30);
 	        	bmWall[i].reset();
 	        	entities.add(bmWall[i]);
 	        }
-	        oilTank[0].setPositionToMap(2, 6);
-	        oilTank[1].setPositionToMap(4, 6);
-	        oilTank[2].setPositionToMap(6, 6);
-	        oilTank[3].setPositionToMap(8, 6);
-	        for(int i = 0;i < 4;i++){
+	        oilTank[0].setPositionToMap(10, 5);
+	        oilTank[1].setPositionToMap(10, 7);
+	        oilTank[2].setPositionToMap(10, 9);
+	        oilTank[3].setPositionToMap(10, 11);			
+	        oilTank[4].setPositionToMap(2, 2);
+	        oilTank[5].setPositionToMap(4, 2);
+	        oilTank[6].setPositionToMap(6, 2);
+			for(int i = 0;i < 7;i++){
 	        	oilTank[i].setHP(15);
 	        	oilTank[i].reset();
 	        	entities.add(oilTank[i]);
 	        }
-	        for (int i = 0; i < 5; i++) {
+	        for (int i = 0; i < 6; i++) {
 				enemyMinigun[i].setHP(50);
-				enemyMinigun[i].setPositionToMap(i+5, 4);
+				enemyMinigun[i].setPositionToMap(i+1, 5);
 				enemyMinigun[i].setBodyAngle(39);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
 			}
-	        turret[0].setHP(50);
-			turret[0].setPositionToMap(2, 8);
-			turret[0].reset();
-			entities.add(turret[0]);
-	        numEnemy = 5 + 1;
-			break;
+	        enemyShotgunTurret[0].setPositionToMap(6, 7);
+	        enemyShotgunTurret[1].setPositionToMap(2, 10);
+	        for(int i = 0;i < 2;i++){
+	        	enemyShotgunTurret[i].setHP(50);
+				enemyShotgunTurret[i].reset();
+				entities.add(enemyShotgunTurret[i]);
+	        }			
+	        turret[0].setPositionToMap(6, 4);			
+	        turret[1].setPositionToMap(2, 4);
+	        turret[2].setPositionToMap(2, 8);
+	        for(int i = 0;i < 3;i++){
+	        	turret[i].setHP(70);
+				turret[i].reset();
+				entities.add(turret[i]);
+	        }
+	        box[0].setPositionToMap(9, 1);
+	        box[1].setPositionToMap(11, 1);
+			box[2].setPositionToMap(10, 7);
+			for(int i = 0;i < 3;i++){
+			box[i].setHP(15);
+			box[i].reset();
+			entities.add(box[1]);
+			}
+	        numEnemy = 11;
+	        break;
 		case 7:
 			map.createMap(7);
 			player.setHP(player.maxHP);
-	        player.setPositionToMap(2,2);
+	        player.setPositionToMap(9,12);
 	        player.reset();
 	        player.setGun(TankEntity.GunType.MINIGUN);
 	        player.rocketReleased = false;
 	        entities.add(player);
-	        brick[0].setPositionToMap(6, 1);
-	        brick[1].setPositionToMap(6, 2);
-	        brick[2].setPositionToMap(6, 3);
-	        brick[3].setPositionToMap(6, 4);
-	        brick[4].setPositionToMap(4, 8);
-	        brick[5].setPositionToMap(5, 8);
-	        brick[6].setPositionToMap(6, 8);
-	        for(int i = 0;i < 7;i++){
+	        brick[0].setPositionToMap(7, 2);
+	        brick[1].setPositionToMap(8, 2);
+	        brick[2].setPositionToMap(14, 3);
+	        brick[3].setPositionToMap(16, 9);
+	        brick[4].setPositionToMap(3, 14);
+	        brick[5].setPositionToMap(4, 14);
+	        brick[6].setPositionToMap(7, 15);			
+	        brick[7].setPositionToMap(4, 15);
+	        brick[8].setPositionToMap(11, 15);
+	        brick[9].setPositionToMap(14, 15);
+	        brick[10].setPositionToMap(15, 15);			
+	        brick[11].setPositionToMap(7, 16);
+	        brick[12].setPositionToMap(11, 16);
+	        brick[13].setPositionToMap(14, 16);
+	        brick[14].setPositionToMap(7, 17);
+	        brick[15].setPositionToMap(11, 17);			
+	        brick[16].setPositionToMap(7, 18);
+	        brick[17].setPositionToMap(11, 18);
+	        for(int i = 0;i < 18;i++){
 	        	brick[i].setHP(30);
 	        	brick[i].reset();
 	        	entities.add(brick[i]);
 	        }
-			bmWall[0].setPositionToMap(4, 2);
-	        bmWall[1].setPositionToMap(4, 3);
-	        bmWall[2].setPositionToMap(4, 1);
+			brick_2[0].setPositionToMap(9, 16);
+			brick_2[0].setHP(25);
+			brick_2[0].reset();
+			entities.add(brick_2[0]);
+			
+			bmWall[0].setPositionToMap(8, 14);
+	        bmWall[1].setPositionToMap(9, 14);
+	        bmWall[2].setPositionToMap(10, 14);
 	        for(int i = 0;i < 3;i++){
 	        	bmWall[i].setHP(30);
 	        	bmWall[i].reset();
 	        	entities.add(bmWall[i]);
 	        }
-	        oilTank[0].setPositionToMap(2, 6);
-	        oilTank[1].setPositionToMap(4, 6);
-	        oilTank[2].setPositionToMap(6, 6);
-	        oilTank[3].setPositionToMap(8, 6);
-	        for(int i = 0;i < 4;i++){
+	        oilTank[0].setPositionToMap(11, 4);
+	        oilTank[1].setPositionToMap(4, 7);
+			oilTank[2].setPositionToMap(17, 7);
+	        oilTank[3].setPositionToMap(1, 12);
+	        oilTank[4].setPositionToMap(16, 14);
+	        for(int i = 0;i < 5;i++){
 	        	oilTank[i].setHP(15);
 	        	oilTank[i].reset();
 	        	entities.add(oilTank[i]);
 	        }
 	        for (int i = 0; i < 5; i++) {
 				enemyMinigun[i].setHP(50);
-				enemyMinigun[i].setPositionToMap(i+5, 4);
+				enemyMinigun[i].setPositionToMap(6, i+1);
 				enemyMinigun[i].setBodyAngle(39);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
 			}
-	        turret[0].setHP(50);
-			turret[0].setPositionToMap(2, 8);
-			turret[0].reset();
-			entities.add(turret[0]);
-	        numEnemy = 5 + 1;
+			enemyShotgunTurret[0].setPositionToMap(3, 5);
+	        enemyShotgunTurret[1].setPositionToMap(15, 7);
+	        for(int i = 0;i < 2;i++){
+	        	enemyShotgunTurret[i].setHP(50);
+				enemyShotgunTurret[i].reset();
+				entities.add(enemyShotgunTurret[i]);
+	        }
+	        enemyCannonTurret[0].setPositionToMap(17, 11);	        
+			enemyCannonTurret[1].setHP(50);
+			enemyCannonTurret[2].reset();
+			entities.add(enemyCannonTurret[0]);
+	        	
+			turret[0].setPositionToMap(10, 2);
+			turret[1].setPositionToMap(2, 10);
+			turret[2].setPositionToMap(3, 13);
+			turret[3].setPositionToMap(15, 14);
+			for (int i = 0; i < 4; i++) {
+	        turret[i].setHP(50);			
+			turret[i].reset();
+			entities.add(turret[i]);
+			}
+	        box[0].setPositionToMap(14, 8);
+			box[1].setPositionToMap(6, 17);
+			for(int i = 0;i < 2;i++){
+			box[i].setHP(15);
+			box[i].reset();
+			entities.add(box[1]);
+			}
+	        numEnemy = 5 + 7;
 			break;
 		case 8:
 			map.createMap(8);
 			player.setHP(player.maxHP);
-	        player.setPositionToMap(2,2);
+	        player.setPositionToMap(1,13);
 	        player.reset();
 	        player.setGun(TankEntity.GunType.MINIGUN);
 	        player.rocketReleased = false;
 	        entities.add(player);
-	        brick[0].setPositionToMap(6, 1);
-	        brick[1].setPositionToMap(6, 2);
-	        brick[2].setPositionToMap(6, 3);
-	        brick[3].setPositionToMap(6, 4);
-	        brick[4].setPositionToMap(4, 8);
-	        brick[5].setPositionToMap(5, 8);
-	        brick[6].setPositionToMap(6, 8);
-	        for(int i = 0;i < 7;i++){
+			
+	        brick[0].setPositionToMap(14, 2);
+	        brick[1].setPositionToMap(15, 3);
+	        brick[2].setPositionToMap(16, 3);
+	        brick[3].setPositionToMap(17, 3);
+	        brick[4].setPositionToMap(16, 6);
+	        brick[5].setPositionToMap(17, 9);
+	        brick[6].setPositionToMap(16, 9);
+			brick[7].setPositionToMap(16, 10);
+	        brick[8].setPositionToMap(17, 11);
+	        brick[9].setPositionToMap(5, 11);
+	        brick[10].setPositionToMap(6, 11);
+	        brick[11].setPositionToMap(5, 12);
+	        brick[12].setPositionToMap(6, 12);
+	        brick[13].setPositionToMap(5, 13);
+			brick[14].setPositionToMap(6, 13);
+	        for(int i = 0;i < 15;i++){
 	        	brick[i].setHP(30);
 	        	brick[i].reset();
 	        	entities.add(brick[i]);
 	        }
-			bmWall[0].setPositionToMap(4, 2);
-	        bmWall[1].setPositionToMap(4, 3);
-	        bmWall[2].setPositionToMap(4, 1);
-	        for(int i = 0;i < 3;i++){
+			bmWall[0].setPositionToMap(7, 3);
+	        bmWall[1].setPositionToMap(7, 4);
+	        bmWall[2].setPositionToMap(7, 5);
+			bmWall[3].setPositionToMap(3, 7);
+	        bmWall[4].setPositionToMap(4, 7);
+	        bmWall[5].setPositionToMap(5, 7);
+			bmWall[6].setPositionToMap(9, 7);
+	        bmWall[7].setPositionToMap(10, 7);
+	        bmWall[8].setPositionToMap(11, 7);
+			bmWall[9].setPositionToMap(15, 7);
+	        bmWall[10].setPositionToMap(16, 7);
+	        bmWall[11].setPositionToMap(17, 7);
+			bmWall[12].setPositionToMap(13, 10);
+	        bmWall[13].setPositionToMap(13, 11);
+	        bmWall[14].setPositionToMap(13, 12);
+	        for(int i = 0;i < 15;i++){
 	        	bmWall[i].setHP(30);
 	        	bmWall[i].reset();
 	        	entities.add(bmWall[i]);
 	        }
-	        oilTank[0].setPositionToMap(2, 6);
-	        oilTank[1].setPositionToMap(4, 6);
-	        oilTank[2].setPositionToMap(6, 6);
-	        oilTank[3].setPositionToMap(8, 6);
-	        for(int i = 0;i < 4;i++){
+	        oilTank[0].setPositionToMap(4, 4);			
+			oilTank[1].setPositionToMap(10, 2);
+	        oilTank[2].setPositionToMap(8, 6);
+			oilTank[3].setPositionToMap(14, 8);
+	        oilTank[4].setPositionToMap(12, 12);
+			
+	        for(int i = 0;i < 5;i++){
 	        	oilTank[i].setHP(15);
 	        	oilTank[i].reset();
 	        	entities.add(oilTank[i]);
 	        }
-	        for (int i = 0; i < 5; i++) {
+			enemyMinigun[0].setPositionToMap(2, 5);
+			enemyMinigun[1].setPositionToMap(4, 5);
+			enemyMinigun[2].setPositionToMap(4, 5);
+			enemyMinigun[3].setPositionToMap(5, 5);
+			enemyMinigun[4].setPositionToMap(9, 5);
+			enemyMinigun[5].setPositionToMap(10, 5);
+			enemyMinigun[6].setPositionToMap(11, 5);
+			enemyMinigun[7].setPositionToMap(12, 5);			
+			enemyMinigun[8].setPositionToMap(14, 5);
+			enemyMinigun[9].setPositionToMap(15, 5);
+			enemyMinigun[10].setPositionToMap(16, 5);
+			enemyMinigun[11].setPositionToMap(17, 5);			
+			enemyMinigun[12].setPositionToMap(18, 5);
+			enemyMinigun[13].setPositionToMap(8, 13);
+			enemyMinigun[14].setPositionToMap(9, 13);
+			enemyMinigun[15].setPositionToMap(14, 10);			
+			enemyMinigun[16].setPositionToMap(11, 13);
+			enemyMinigun[17].setPositionToMap(14, 13);
+			enemyMinigun[18].setPositionToMap(15, 13);
+			enemyMinigun[19].setPositionToMap(16, 13);
+			enemyMinigun[20].setPositionToMap(17, 13);
+	        for (int i = 0; i < 21; i++) {
 				enemyMinigun[i].setHP(50);
-				enemyMinigun[i].setPositionToMap(i+5, 4);
 				enemyMinigun[i].setBodyAngle(39);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
 			}
-	        turret[0].setHP(50);
-			turret[0].setPositionToMap(2, 8);
-			turret[0].reset();
-			entities.add(turret[0]);
-	        numEnemy = 5 + 1;
+			enemyCannonTurret[0].setPositionToMap(17, 4);
+	        enemyCannonTurret[1].setPositionToMap(16, 12);
+	        for(int i = 0;i < 2;i++){
+	        	enemyCannonTurret[i].setHP(50);
+				enemyCannonTurret[i].reset();
+				entities.add(enemyCannonTurret[i]);
+	        }
+			enemyShotgunTurret[0].setPositionToMap(8, 8);	        
+			enemyShotgunTurret[0].setHP(50);
+			enemyShotgunTurret[0].reset();
+			entities.add(enemyShotgunTurret[0]);
+			
+			turret[0].setPositionToMap(2, 2);
+			turret[1].setPositionToMap(11, 2);
+			turret[2].setPositionToMap(15, 2);
+			turret[3].setPositionToMap(9, 12);
+			for (int i = 0; i < 4; i++) {
+	        turret[i].setHP(50);
+			turret[i].reset();
+			entities.add(turret[i]);
+			}
+			box[0].setPositionToMap(12, 9);
+			box[1].setPositionToMap(12, 10);
+			box[2].setPositionToMap(17, 10);
+			for(int i = 0;i < 3;i++){
+			box[i].setHP(15);
+			box[i].reset();
+			entities.add(box[i]);
+			}
+	        numEnemy = 21 +2+1+ 4;
 			break;
 		case 9:
 			map.createMap(9);
 			player.setHP(player.maxHP);
-	        player.setPositionToMap(2,2);
+	        player.setPositionToMap(7,1);
 	        player.reset();
 	        player.setGun(TankEntity.GunType.MINIGUN);
 	        player.rocketReleased = false;
 	        entities.add(player);
-	        brick[0].setPositionToMap(6, 1);
-	        brick[1].setPositionToMap(6, 2);
-	        brick[2].setPositionToMap(6, 3);
-	        brick[3].setPositionToMap(6, 4);
-	        brick[4].setPositionToMap(4, 8);
-	        brick[5].setPositionToMap(5, 8);
-	        brick[6].setPositionToMap(6, 8);
-	        for(int i = 0;i < 7;i++){
+	        brick[0].setPositionToMap(4, 9);
+	        brick[1].setPositionToMap(5, 9);
+	        brick[2].setPositionToMap(10, 9);
+	        brick[3].setPositionToMap(4, 10);
+	        brick[4].setPositionToMap(5, 10);
+	        brick[5].setPositionToMap(9, 10);
+	        brick[6].setPositionToMap(10, 10);
+	        brick[7].setPositionToMap(4, 11);
+	        brick[8].setPositionToMap(9, 11);
+	        brick[9].setPositionToMap(10, 11);
+	        brick[10].setPositionToMap(5, 16);
+	        brick[11].setPositionToMap(6, 16);
+	        brick[12].setPositionToMap(8, 16);
+	        brick[13].setPositionToMap(9, 16);
+	        brick[14].setPositionToMap(6, 17);
+	        brick[15].setPositionToMap(4, 18);
+	        brick[16].setPositionToMap(6, 18);
+	        brick[17].setPositionToMap(10, 18);
+	        brick[18].setPositionToMap(4, 19);
+	        brick[19].setPositionToMap(8, 19);
+	        brick[20].setPositionToMap(9, 19);
+	        brick[21].setPositionToMap(10, 19);
+	        brick[22].setPositionToMap(4, 20);
+	        brick[23].setPositionToMap(5, 20);
+	        brick[24].setPositionToMap(6, 20);
+	        brick[25].setPositionToMap(10, 20);
+	        brick[26].setPositionToMap(8, 22);
+	        for(int i = 0;i < 27;i++){
 	        	brick[i].setHP(30);
 	        	brick[i].reset();
 	        	entities.add(brick[i]);
 	        }
-			bmWall[0].setPositionToMap(4, 2);
-	        bmWall[1].setPositionToMap(4, 3);
-	        bmWall[2].setPositionToMap(4, 1);
-	        for(int i = 0;i < 3;i++){
+			bmWall[0].setPositionToMap(6, 5);
+	        bmWall[1].setPositionToMap(7, 5);
+	        bmWall[2].setPositionToMap(8, 5);
+			bmWall[3].setPositionToMap(6, 14);
+	        bmWall[4].setPositionToMap(7, 14);
+	        bmWall[5].setPositionToMap(8, 14);
+	        for(int i = 0;i < 6;i++){
 	        	bmWall[i].setHP(30);
 	        	bmWall[i].reset();
 	        	entities.add(bmWall[i]);
 	        }
-	        oilTank[0].setPositionToMap(2, 6);
-	        oilTank[1].setPositionToMap(4, 6);
-	        oilTank[2].setPositionToMap(6, 6);
-	        oilTank[3].setPositionToMap(8, 6);
-	        for(int i = 0;i < 4;i++){
+	        oilTank[0].setPositionToMap(3, 12);
+	        oilTank[1].setPositionToMap(10, 12);			
+	        oilTank[2].setPositionToMap(4, 16);
+	        oilTank[3].setPositionToMap(10, 16);
+	        oilTank[4].setPositionToMap(9, 22);
+			
+	        for(int i = 0;i < 5;i++){
 	        	oilTank[i].setHP(15);
 	        	oilTank[i].reset();
 	        	entities.add(oilTank[i]);
 	        }
-	        for (int i = 0; i < 5; i++) {
+			enemyMinigun[0].setPositionToMap(2, 7);
+			enemyMinigun[1].setPositionToMap(3, 7);
+			enemyMinigun[2].setPositionToMap(4, 7);
+			enemyMinigun[3].setPositionToMap(10, 7);
+			enemyMinigun[4].setPositionToMap(11, 7);
+			enemyMinigun[5].setPositionToMap(12, 7);
+			enemyMinigun[6].setPositionToMap(3, 22);
+			enemyMinigun[7].setPositionToMap(4, 22);
+			enemyMinigun[8].setPositionToMap(5, 22);
+			enemyMinigun[9].setPositionToMap(6, 23);
+			enemyMinigun[10].setPositionToMap(8, 23);
+			enemyMinigun[11].setPositionToMap(9, 23);			
+			enemyMinigun[12].setPositionToMap(10, 23);
+	        for (int i = 0; i < 13; i++) {
 				enemyMinigun[i].setHP(50);
-				enemyMinigun[i].setPositionToMap(i+5, 4);
 				enemyMinigun[i].setBodyAngle(39);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
 			}
-	        turret[0].setHP(50);
-			turret[0].setPositionToMap(2, 8);
-			turret[0].reset();
-			entities.add(turret[0]);
-	        numEnemy = 5 + 1;
+			
+			turret[0].setPositionToMap(2, 5);
+			turret[1].setPositionToMap(12, 5);
+			turret[2].setPositionToMap(7, 11);
+			turret[3].setPositionToMap(8, 21);
+			for (int i = 0; i < 4; i++) {
+	        turret[i].setHP(50);
+			turret[i].reset();
+			entities.add(turret[i]);
+			}
+			box[0].setPositionToMap(9, 7);
+			box[1].setPositionToMap(13, 9);
+			box[2].setPositionToMap(4, 21);
+			box[3].setPositionToMap(5, 21);
+			for(int i = 0;i < 4;i++){
+			box[i].setHP(15);
+			box[i].reset();
+			entities.add(box[i]);
+			}
+			enemyCannonTurret[0].setPositionToMap(2, 8);
+	        enemyCannonTurret[1].setPositionToMap(12, 8);
+			enemyCannonTurret[2].setPositionToMap(6, 22);
+	        for(int i = 0;i < 3;i++){
+	        	enemyCannonTurret[i].setHP(50);
+				enemyCannonTurret[i].reset();
+				entities.add(enemyCannonTurret[i]);
+	        }
+	        numEnemy = 20;
 			break;
 		case 10:
 			map.createMap(10);
 			player.setHP(player.maxHP);
-	        player.setPositionToMap(2,2);
+	        player.setPositionToMap(5,5);
 	        player.reset();
 	        player.setGun(TankEntity.GunType.MINIGUN);
 	        player.rocketReleased = false;
 	        entities.add(player);
-	        brick[0].setPositionToMap(6, 1);
-	        brick[1].setPositionToMap(6, 2);
-	        brick[2].setPositionToMap(6, 3);
-	        brick[3].setPositionToMap(6, 4);
-	        brick[4].setPositionToMap(4, 8);
-	        brick[5].setPositionToMap(5, 8);
-	        brick[6].setPositionToMap(6, 8);
-	        for(int i = 0;i < 7;i++){
-	        	brick[i].setHP(30);
-	        	brick[i].reset();
-	        	entities.add(brick[i]);
+	        brick[0].setPositionToMap(1, 1);
+	        brick[1].setPositionToMap(2, 1);
+	        brick[2].setPositionToMap(3, 1);
+	        brick[3].setPositionToMap(4, 1);
+	        brick[4].setPositionToMap(5, 1);
+	        brick[5].setPositionToMap(6, 1);
+	        brick[6].setPositionToMap(7, 1);
+	        brick[7].setPositionToMap(8, 1);
+	        brick[8].setPositionToMap(9, 1);
+	        brick[9].setPositionToMap(10, 1);
+	        brick[10].setPositionToMap(11, 1);
+	        brick[11].setPositionToMap(12, 1);
+	        brick[12].setPositionToMap(13, 1);
+	        brick[13].setPositionToMap(14, 1);
+	        brick[14].setPositionToMap(15, 1);		
+			
+	        brick[15].setPositionToMap(1, 2);
+	        brick[16].setPositionToMap(3, 2);
+	        brick[17].setPositionToMap(5, 2);
+	        brick[18].setPositionToMap(6, 2);
+	        brick[19].setPositionToMap(7, 2);
+	        brick[20].setPositionToMap(8, 2);
+	        brick[21].setPositionToMap(9, 2);
+	        brick[22].setPositionToMap(11, 2);
+	        brick[23].setPositionToMap(12, 2);
+	        brick[24].setPositionToMap(13, 2);
+	        brick[25].setPositionToMap(14, 2);
+	        brick[26].setPositionToMap(15, 2);	
+	
+	        brick[27].setPositionToMap(1, 3);
+	        brick[28].setPositionToMap(2, 3);
+	        brick[29].setPositionToMap(4, 3);
+	        brick[30].setPositionToMap(5, 3);
+	        brick[31].setPositionToMap(6, 3);
+	        brick[33].setPositionToMap(8, 3);
+	        brick[34].setPositionToMap(9, 3);
+	        brick[35].setPositionToMap(10, 3);
+	        brick[36].setPositionToMap(11, 3);
+	        brick[37].setPositionToMap(12, 3);
+	        brick[38].setPositionToMap(13, 3);
+	        brick[39].setPositionToMap(14, 3);
+			
+	        brick[40].setPositionToMap(4, 4);
+	        brick[41].setPositionToMap(5, 4);
+	        brick[42].setPositionToMap(6, 4);
+	        brick[43].setPositionToMap(7, 4);
+	        brick[44].setPositionToMap(8, 4);
+	        brick[45].setPositionToMap(9, 4);
+	        brick[46].setPositionToMap(10, 4);
+	        brick[47].setPositionToMap(11, 4);
+	        brick[48].setPositionToMap(12, 4);
+	        brick[49].setPositionToMap(13, 4);
+	        brick[50].setPositionToMap(14, 4);
+	        brick[51].setPositionToMap(15, 4);
+			
+	        brick[52].setPositionToMap(4, 5);
+	        brick[53].setPositionToMap(6, 5);
+	        brick[54].setPositionToMap(7, 5);
+	        brick[55].setPositionToMap(8, 5);
+	        brick[56].setPositionToMap(9, 5);
+	        brick[57].setPositionToMap(10, 5);
+	        brick[58].setPositionToMap(11, 5);
+	        brick[59].setPositionToMap(12, 5);
+	        brick[60].setPositionToMap(13, 5);
+	        brick[61].setPositionToMap(14, 5);
+	        brick[62].setPositionToMap(15, 5);
+			
+	        brick[63].setPositionToMap(4, 6);
+	        brick[64].setPositionToMap(5, 6);
+	        brick[65].setPositionToMap(6, 6);
+	        brick[66].setPositionToMap(10, 6);
+	        brick[67].setPositionToMap(11, 6);
+	        brick[68].setPositionToMap(12, 6);
+			
+	        brick[69].setPositionToMap(1, 7);
+	        brick[70].setPositionToMap(2, 7);
+	        brick[71].setPositionToMap(3, 7);
+	        brick[72].setPositionToMap(4, 7);
+	        brick[73].setPositionToMap(5, 7);
+	        brick[74].setPositionToMap(6, 7);
+	        brick[75].setPositionToMap(10, 7);
+	        brick[76].setPositionToMap(11, 7);
+	        brick[77].setPositionToMap(12, 7);
+			
+	        brick[78].setPositionToMap(1, 8);
+	        brick[79].setPositionToMap(3, 8);
+	        brick[80].setPositionToMap(4, 8);
+	        brick[81].setPositionToMap(5, 8);
+	        brick[82].setPositionToMap(6, 8);
+	        brick[83].setPositionToMap(10, 8);
+	        brick[84].setPositionToMap(11, 8);
+	        brick[85].setPositionToMap(12, 8);
+			
+	        brick[86].setPositionToMap(1, 9);
+	        brick[87].setPositionToMap(2, 9);
+	        brick[88].setPositionToMap(3, 9);
+	        brick[89].setPositionToMap(4, 9);
+	        brick[90].setPositionToMap(5, 9);
+	        brick[91].setPositionToMap(6, 9);
+	        brick[92].setPositionToMap(7, 9);
+	        brick[93].setPositionToMap(8, 9);
+	        brick[94].setPositionToMap(9, 9);
+	        brick[95].setPositionToMap(13, 9);
+	        brick[96].setPositionToMap(14, 9);
+	        brick[97].setPositionToMap(15, 9);
+			
+	        brick[98].setPositionToMap(4, 10);
+	        brick[99].setPositionToMap(5, 10);
+	        brick[100].setPositionToMap(7, 10);
+	        brick[101].setPositionToMap(8, 10);
+	        brick[102].setPositionToMap(9, 10);
+	        brick[103].setPositionToMap(13, 10);
+	        brick[104].setPositionToMap(14, 10);
+	        brick[105].setPositionToMap(15, 10);	
+			
+	        brick[106].setPositionToMap(4, 11);
+	        brick[107].setPositionToMap(5, 11);
+	        brick[108].setPositionToMap(6, 11);
+	        brick[109].setPositionToMap(7, 11);
+	        brick[110].setPositionToMap(8, 11);
+	        brick[111].setPositionToMap(9, 11);
+	        brick[112].setPositionToMap(13, 11);
+			
+	        brick[113].setPositionToMap(4, 12);
+	        brick[114].setPositionToMap(5, 12);
+	        brick[115].setPositionToMap(6, 12);
+	        brick[116].setPositionToMap(7, 12);
+	        brick[117].setPositionToMap(8, 12);
+	        brick[118].setPositionToMap(9, 12);
+	        brick[119].setPositionToMap(10, 12);
+	        brick[121].setPositionToMap(12, 12);
+	        brick[122].setPositionToMap(13, 12);
+	        brick[123].setPositionToMap(14, 12);
+	        brick[124].setPositionToMap(15, 12);
+			
+	        brick[125].setPositionToMap(1, 13);
+	        brick[126].setPositionToMap(2, 13);
+	        brick[127].setPositionToMap(3, 13);
+	        brick[128].setPositionToMap(4, 13);
+	        brick[129].setPositionToMap(6, 13);
+	        brick[130].setPositionToMap(7, 13);
+	        brick[131].setPositionToMap(8, 13);
+	        brick[132].setPositionToMap(9, 13);
+	        brick[133].setPositionToMap(10, 13);
+	        brick[134].setPositionToMap(11, 13);
+	        brick[135].setPositionToMap(12, 13);
+	        brick[136].setPositionToMap(13, 13);
+	        brick[137].setPositionToMap(14, 13);
+	        brick[138].setPositionToMap(15, 13);
+			
+	        brick[139].setPositionToMap(1, 14);
+	        brick[140].setPositionToMap(2, 14);
+	        brick[141].setPositionToMap(3, 14);
+	        brick[142].setPositionToMap(4, 14);
+	        brick[143].setPositionToMap(5, 14);
+	        brick[144].setPositionToMap(6, 14);
+	        brick[145].setPositionToMap(7, 14);
+	        brick[146].setPositionToMap(8, 14);
+	        brick[147].setPositionToMap(9, 14);
+	        brick[148].setPositionToMap(11, 14);
+	        brick[149].setPositionToMap(12, 14);
+	        brick[150].setPositionToMap(14, 14);
+	        brick[151].setPositionToMap(15, 14);
+			
+	        brick[152].setPositionToMap(1, 15);
+	        brick[153].setPositionToMap(2, 15);
+	        brick[154].setPositionToMap(3, 15);
+	        brick[155].setPositionToMap(4, 15);
+	        brick[156].setPositionToMap(5, 15);
+	        brick[157].setPositionToMap(6, 15);
+	        brick[158].setPositionToMap(7, 15);
+	        brick[159].setPositionToMap(11, 15);
+	        brick[160].setPositionToMap(12, 15);
+	        brick[161].setPositionToMap(13, 15);
+	        brick[162].setPositionToMap(14, 15);
+	        brick[163].setPositionToMap(15, 15);
+			
+	        brick[167].setPositionToMap(1, 16);
+	        brick[168].setPositionToMap(7, 16);
+	        brick[169].setPositionToMap(13, 16);
+	        brick[170].setPositionToMap(14, 16);
+	        brick[171].setPositionToMap(15, 16);	
+			
+	        brick[172].setPositionToMap(1, 17);
+	        brick[173].setPositionToMap(2, 17);
+	        brick[174].setPositionToMap(6, 17);
+	        brick[175].setPositionToMap(7, 17);
+	        brick[176].setPositionToMap(8, 17);
+	        brick[177].setPositionToMap(9, 17);
+	        brick[178].setPositionToMap(13, 17);
+	        brick[179].setPositionToMap(14, 17);
+	        brick[180].setPositionToMap(15, 17);
+			
+	        brick[181].setPositionToMap(1, 18);
+	        brick[182].setPositionToMap(2, 18);
+	        brick[183].setPositionToMap(6, 18);
+	        brick[184].setPositionToMap(7, 18);
+	        brick[185].setPositionToMap(8, 18);
+	        brick[186].setPositionToMap(9, 18);
+	        brick[187].setPositionToMap(13, 18);
+	        brick[188].setPositionToMap(14, 18);
+	        brick[189].setPositionToMap(15, 18);
+			
+	        for(int i = 0;i < 190;i++){
+	        	if(brick[i].x != 0) {
+	        		brick[i].setHP(30);
+		        	brick[i].reset();
+		        	entities.add(brick[i]);
+	        	}
 	        }
-			bmWall[0].setPositionToMap(4, 2);
-	        bmWall[1].setPositionToMap(4, 3);
-	        bmWall[2].setPositionToMap(4, 1);
-	        for(int i = 0;i < 3;i++){
-	        	bmWall[i].setHP(30);
-	        	bmWall[i].reset();
-	        	entities.add(bmWall[i]);
-	        }
-	        oilTank[0].setPositionToMap(2, 6);
-	        oilTank[1].setPositionToMap(4, 6);
-	        oilTank[2].setPositionToMap(6, 6);
-	        oilTank[3].setPositionToMap(8, 6);
+	        oilTank[0].setPositionToMap(8, 7);
+	        oilTank[1].setPositionToMap(14, 7);
+	        oilTank[2].setPositionToMap(2, 11);
+	        oilTank[3].setPositionToMap(9, 16);
 	        for(int i = 0;i < 4;i++){
 	        	oilTank[i].setHP(15);
 	        	oilTank[i].reset();
 	        	entities.add(oilTank[i]);
 	        }
-	        for (int i = 0; i < 5; i++) {
+	        box[0].setPositionToMap(2, 2);
+			box[1].setPositionToMap(10, 2);
+			box[2].setPositionToMap(7, 3);
+			box[3].setPositionToMap(2, 8);			
+			box[4].setPositionToMap(6, 10);
+			box[5].setPositionToMap(13, 14);
+			box[6].setPositionToMap(2, 16);
+			box[7].setPositionToMap(6, 16);
+			box[8].setPositionToMap(11, 18);
+			for(int i = 0;i < 9;i++){
+				box[i].setHP(15);
+				box[i].reset();
+				entities.add(box[i]);
+			}
+			enemyMinigun[0].setPositionToMap(2, 4);
+			enemyMinigun[1].setPositionToMap(1, 5);
+			enemyMinigun[2].setPositionToMap(3, 5);
+			enemyMinigun[3].setPositionToMap(2, 6);
+			enemyMinigun[4].setPositionToMap(11, 9);
+			enemyMinigun[5].setPositionToMap(10, 10);
+			enemyMinigun[6].setPositionToMap(12, 10);
+			enemyMinigun[7].setPositionToMap(11, 12);
+			enemyMinigun[8].setPositionToMap(4, 16);
+			enemyMinigun[9].setPositionToMap(11, 16);
+			enemyMinigun[10].setPositionToMap(3, 17);
+			enemyMinigun[11].setPositionToMap(5, 17);
+			enemyMinigun[12].setPositionToMap(10, 17);
+			enemyMinigun[13].setPositionToMap(12, 17);
+			enemyMinigun[14].setPositionToMap(4, 18);
+			enemyMinigun[15].setPositionToMap(12, 18);
+	        for (int i = 0; i < 16; i++) {
 				enemyMinigun[i].setHP(50);
-				enemyMinigun[i].setPositionToMap(i+5, 4);
 				enemyMinigun[i].setBodyAngle(39);
 				enemyMinigun[i].reset();
 				entities.add(enemyMinigun[i]);
 			}
-	        turret[0].setHP(50);
-			turret[0].setPositionToMap(2, 8);
-			turret[0].reset();
-			entities.add(turret[0]);
-	        numEnemy = 5 + 1;
+				enemyCannonTurret[0].setPositionToMap(4, 2);
+				enemyCannonTurret[1].setPositionToMap(5, 13);
+			 for(int i = 0;i < 2;i++){
+	        	enemyCannonTurret[i].setHP(50);
+				enemyCannonTurret[i].reset();
+				entities.add(enemyCannonTurret[i]);
+	        }
+			/*enemyRocketTurret[0].setPositionToMap(5, 13);	
+	        enemyRocketTurret[0].setHP(50);
+			enemyRocketTurret[0].reset();
+			entities.add(enemyRocketTurret[0]);*/
+			turret[0].setPositionToMap(2, 5);
+			turret[1].setPositionToMap(11, 10);
+			turret[2].setPositionToMap(4, 17);
+			turret[3].setPositionToMap(11, 17);
+			for (int i = 0; i < 4; i++) {
+				turret[i].setHP(50);
+				turret[i].reset();
+				entities.add(turret[i]);
+			}
+	        numEnemy = 22;
 			break;
 		}
     }

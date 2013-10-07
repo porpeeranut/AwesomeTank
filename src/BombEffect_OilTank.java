@@ -51,7 +51,6 @@ public class BombEffect_OilTank extends Effect{
 			other.damage(attack);
 		}
 		if (frameNumber >= bombEffect.length) {
-			System.out.println("asd");
 			other.touchedBombEffect = false;
 		}
 		if(other.getHP() <= 0){

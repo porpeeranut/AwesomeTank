@@ -77,6 +77,16 @@ public abstract class Entity {
     	shoted = false;
     	touchedBombEffect = false;
     	died = false;
+    	if(this instanceof EnemyTank)
+    		((EnemyTank)this).numPathToActive = 4;
+    	if(this instanceof EnemyMinigun || this instanceof EnemyMinigunTurret)
+    		((EnemyTank)this).gunType = TankEntity.GunType.MINIGUN;
+    	if(this instanceof EnemyShotgun || this instanceof EnemyShotgunTurret)
+    		((EnemyTank)this).gunType = TankEntity.GunType.SHOTGUN;
+    	if(this instanceof EnemyCannon || this instanceof EnemyCannonTurret)
+    		((EnemyTank)this).gunType = TankEntity.GunType.CANNON;
+    	if(this instanceof EnemyRocket || this instanceof EnemyRocketBullet)
+    		((EnemyTank)this).gunType = TankEntity.GunType.ROCKET;
 	}
 	
 	public void setHP(int HP) {
@@ -209,27 +219,6 @@ public abstract class Entity {
 	}
 	
 	public boolean collidesWith(Entity other) {
-		/*Polygon rect1 = new Polygon(new float[]{(x - width/2), (y - height/2),
-												(x + width/2), (y - height/2),
-												(x + width/2), (y + height/2),
-												(x - width/2), (y + height/2)});
-		Polygon rect2 = new Polygon(new float[]{other.x - other.width/2,other.y - other.height/2,
-												other.x + other.width/2,other.y - other.height/2,
-												other.x + other.width/2,other.y + other.height/2,
-												other.x - other.width/2,other.y + other.height/2,});
-		if(rect1.intersects(rect2)){
-			if(this instanceof TankEntity){
-				rect1 = (Polygon) rect1.transform(Transform.createRotateTransform(
-		                (float) Math.toRadians(((TankEntity)this).bodyAngle), x,y));
-				System.out.println(String.valueOf(((TankEntity)this).bodyAngle)+"\n");
-			}
-			if(other instanceof TankEntity){
-				rect2 = (Polygon) rect2.transform(Transform.createRotateTransform(
-		                (float) Math.toRadians(((TankEntity)other).bodyAngle), other.x,other.y));
-			}
-		}
-		return rect1.intersects(rect2);*/
-		
 		Rectangle  me  = new Rectangle();
 		Rectangle  him  = new Rectangle();
 		me.setBounds((int) x - width/2, (int) y - height/2, width, height);

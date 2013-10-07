@@ -28,7 +28,6 @@ public class Gold extends Entity {
 	@Override
 	public void collidedWith(Entity other) {
 		if(other instanceof MyTank){
-			System.out.print(Game.currentLevel);
 			((MyTank) other).gotGold(Game.currentLevel * (new Random().nextInt(5) +10));	// random 10-15
 			Game.soundManager.playEffect(Game.SOUND_GOT_GOLD);
 			Game.removeEntity(this);
